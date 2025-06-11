@@ -1,0 +1,13 @@
+{
+  "gui.rotp_t.first": "First",
+  "gui.rotp_t.second": "Second",
+  "gui.rotp_t.third": "Third",
+  "gui.rotp_t.fourth": "Fourth",
+  "action.rotp_t.random": "Select Act",
+  "action.tusk_nail_shot": "Nail Shoot",
+  "action.tusk_nail_scratch": "Nail Shoot",
+  "action.wormhole": "Create the Wormhole",
+  "action.wormhole_with_arm": "Push arm through the Wormhole",
+  "action.tusk_charged_nail_shot": "Charged Nail Shoot",
+  "action.tusk_select_act": "Select Act"
+}

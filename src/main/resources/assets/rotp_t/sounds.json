@@ -1,0 +1,42 @@
+{
+  "chimimi": {
+    "subtitle": "rotp_t.chimimi",
+    "sounds": [
+      "rotp_t:stand/chimimi"
+    ]
+  },
+  "scratch": {
+    "subtitle": "rotp_t.scratch",
+    "sounds": [
+      "rotp_t:stand/scratch1",
+      "rotp_t:stand/scratch2"
+    ]
+  },
+  "johnny_act_1_summon": {
+    "subtitle": "rotp_t.johnny_act_1_summon",
+    "sounds": [
+      "rotp_t:user/johnny_act_1_summon"
+    ]
+  },
+  "johnny_act_2_summon": {
+    "subtitle": "rotp_t.johnny_act_1_summon",
+    "sounds": [
+      "rotp_t:user/johnny_act_2_summon",
+      "rotp_t:user/johnny_act_2_summon_2"
+    ]
+  },
+  "johnny_act_3_summon": {
+    "subtitle": "rotp_t.johnny_act_3_summon",
+    "sounds": [
+      "rotp_t:user/johnny_act_3_summon",
+      "rotp_t:user/johnny_act_3_summon_2"
+    ]
+  },
+  "johnny_act_4_summon": {
+    "subtitle": "rotp_t.johnny_act_4_summon",
+    "sounds": [
+      "rotp_t:user/johnny_act_4_summon",
+      "rotp_t:user/johnny_act_4_summon_2"
+    ]
+  }
+}
