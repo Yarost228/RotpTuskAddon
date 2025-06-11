@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "com.rotpaddon.exampleaddon.mixin",
+  "refmap": "mixins.myrotpaddon.refmap.json",
+  "minVersion": "0.8",
+  "mixins": [
+
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

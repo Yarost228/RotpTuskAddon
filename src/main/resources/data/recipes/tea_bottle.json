@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:oxeye_daisy"
+    },
+    {
+      "item": "minecraft:allium"
+    },
+    {
+      "item": "minecraft:lily_of_the_valley"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "minecraft:potion",
+      "count": 1,
+      "nbt": "{Potion:\"minecraft:water\"}"
+    }
+  ],
+  "result": {
+    "item": "myrotpaddon:tea_bottle",
+    "count": 1
+  }
+}
