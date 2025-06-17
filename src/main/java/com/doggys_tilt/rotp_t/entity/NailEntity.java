@@ -66,6 +66,8 @@ public class NailEntity extends ModdedProjectileEntity {
         }
     }
 
+
+
     @Override
     protected double getGravityAcceleration() {
         return 1.5;
@@ -111,9 +113,12 @@ public class NailEntity extends ModdedProjectileEntity {
 
     @Override
     protected void breakProjectile(ActionTarget.TargetType targetType, RayTraceResult hitTarget) {
-        if (!(targetType == ActionTarget.TargetType.BLOCK && blockDestroyed)) {
-            super.breakProjectile(targetType, hitTarget);
+        if (this.spinCharge > 0 && this.getOwner() != null){
+            WormholeEntity wormhole = new WormholeEntity(this.getOwner(), this.level, spinCharge);
+            wormhole.moveTo(this.position());
+            this.level.addFreshEntity(wormhole);
         }
+        super.breakProjectile(targetType, hitTarget);
     }
 
     @Override

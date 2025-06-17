@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 public class WormholeTeleporterEntity extends Entity {
-    private WormholeTeleporterEntity connectedTeleport;
+
     public WormholeTeleporterEntity(EntityType<? extends WormholeTeleporterEntity> type, World world) {
         super(type, world);
     }

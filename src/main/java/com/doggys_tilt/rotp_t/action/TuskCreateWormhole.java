@@ -15,9 +15,6 @@ public class TuskCreateWormhole extends StandAction {
     protected void perform(World world, LivingEntity user, IStandPower power, ActionTarget target) {
         user.swinging = false;
         user.swing(Hand.MAIN_HAND);
-        if (!world.isClientSide()) {
 
-
-        }
     }
 }

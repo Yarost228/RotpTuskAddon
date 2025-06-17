@@ -1,12 +1,10 @@
 package com.doggys_tilt.rotp_t.item;
 
 import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.github.standobyte.jojo.item.StandDiscItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.UseAction;
+import net.minecraft.item.*;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
@@ -58,9 +56,7 @@ public class TeaItem extends Item {
 
     @Override
     public ActionResult<ItemStack> use(World pLevel, PlayerEntity pPlayer, Hand pHand) {
-        if (!pLevel.isClientSide()){
-            pPlayer.setItemInHand(pHand, new ItemStack(Items.GLASS_BOTTLE));
-        }
+
         return DrinkHelper.useDrink(pLevel, pPlayer, pHand);
     }
 }

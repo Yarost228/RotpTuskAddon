@@ -2,6 +2,7 @@ package com.doggys_tilt.rotp_t.network;
 
 import com.github.standobyte.jojo.network.packets.IModPacketHandler;
 import com.doggys_tilt.rotp_t.AddonMain;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.FakePlayer;
@@ -43,6 +44,11 @@ public class AddonPackets {
     public static void sendToServer(Object msg) {
         clientChannel.sendToServer(msg);
     }
+
+    public static void sendToClientsTracking(Object msg, Entity entity) {
+        serverChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), msg);
+    }
+
     public static void sendToClient(Object msg, ServerPlayerEntity player) {
         if (!(player instanceof FakePlayer)) {
             serverChannel.send(PacketDistributor.PLAYER.with(() -> player), msg);

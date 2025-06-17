@@ -26,6 +26,7 @@ public class WormholeWithArmRenderer extends SimpleEntityRenderer<WormholeArmEnt
 
     protected void rotateModel(WormholeWithArmModel model, WormholeArmEntity entity, float partialTick, float yRotation, float xRotation, MatrixStack matrixStack) {
         model.setupAnim(entity, 0, 0, entity.tickCount + partialTick, yRotation, xRotation);
+
     }
 
     @Override

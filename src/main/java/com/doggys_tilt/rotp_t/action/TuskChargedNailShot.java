@@ -50,7 +50,7 @@ public class TuskChargedNailShot extends StandAction {
                     user.swing(Hand.OFF_HAND);
                 }
                     NailEntity nail = new NailEntity(user, world, ticksHeld/5);
-                    float velocity = 2.0F + (float)user.getDeltaMovement().length() + ticksHeld/5F;
+                    float velocity = 2.0F + (float)user.getDeltaMovement().length();
                     nail.shootFromRotation(user, velocity, 1.0F);
                     world.addFreshEntity(nail);
                     nailCapability.useNail();

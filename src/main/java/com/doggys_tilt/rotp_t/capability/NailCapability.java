@@ -2,12 +2,18 @@ package com.doggys_tilt.rotp_t.capability;
 
 import com.doggys_tilt.rotp_t.network.AddonPackets;
 import com.doggys_tilt.rotp_t.network.NailDataPacket;
+import com.github.standobyte.jojo.network.PacketManager;
+import com.github.standobyte.jojo.network.packets.fromserver.TrDoubleShiftPacket;
+import com.github.standobyte.jojo.util.mc.MCUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 
 public class NailCapability {
     private final LivingEntity entity;
-    private int act = 3;
+    private int act = 0;
     private int prevAct = 0;
     private int nailCount = 999;
     private boolean hasWormhole = false;
@@ -26,12 +32,12 @@ public class NailCapability {
     }
     public void setNailCount(int nailCount){
         this.nailCount = nailCount;
-        if (entity instanceof ServerPlayerEntity){
-            syncWithEntityOnly((ServerPlayerEntity) entity);
+        if (!entity.level.isClientSide()) {
+            AddonPackets.sendToClientsTracking(new NailDataPacket(entity.getId(), nailCount, hasWormhole, chargedShot, act), entity);
         }
     }
     public void syncWithEntityOnly(ServerPlayerEntity player) {
-        AddonPackets.sendToClient(new NailDataPacket(entity.getId(), nailCount, hasWormhole, chargedShot), player);
+        AddonPackets.sendToClient(new NailDataPacket(player.getId(), nailCount, hasWormhole, chargedShot, act), player);
     }
     public boolean hasWormhole() {
         return hasWormhole;
@@ -42,8 +48,8 @@ public class NailCapability {
     }
     public void setWormhole(boolean hasWormhole) {
         this.hasWormhole = hasWormhole;
-        if (entity instanceof ServerPlayerEntity){
-            syncWithEntityOnly((ServerPlayerEntity) entity);
+        if (!entity.level.isClientSide()) {
+            AddonPackets.sendToClientsTracking(new NailDataPacket(entity.getId(), nailCount, hasWormhole, chargedShot, act), entity);
         }
     }
     public boolean chargedShot() {
@@ -51,8 +57,8 @@ public class NailCapability {
     }
     public void setChargedShot(boolean chargedShot) {
         this.chargedShot = chargedShot;
-        if (entity instanceof ServerPlayerEntity){
-            syncWithEntityOnly((ServerPlayerEntity) entity);
+        if (!entity.level.isClientSide()) {
+            AddonPackets.sendToClientsTracking(new NailDataPacket(entity.getId(), nailCount, hasWormhole, chargedShot, act), entity);
         }
     }
 
@@ -62,6 +68,25 @@ public class NailCapability {
 
     public void setAct(int act) {
         this.act = act;
+        if (!entity.level.isClientSide()) {
+            AddonPackets.sendToClientsTracking(new NailDataPacket(entity.getId(), nailCount, hasWormhole, chargedShot, act), entity);
+        }
+    }
+
+    public CompoundNBT toNBT() {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.putInt("Act", getAct());
+        nbt.putInt("PrevAct", getPrevAct());
+        nbt.putInt("NailCount", nailCount);
+        return nbt;
+    }
+
+
+
+    public void fromNBT(CompoundNBT nbt) {
+        this.setAct(nbt.getInt("Act"));
+        prevAct =(nbt.getInt("PrevAct"));
+        this.setNailCount(nbt.getInt("NailCount"));
     }
 }
 

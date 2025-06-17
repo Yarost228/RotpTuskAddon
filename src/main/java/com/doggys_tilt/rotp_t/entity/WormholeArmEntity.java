@@ -1,5 +1,6 @@
 package com.doggys_tilt.rotp_t.entity;
 
+import com.doggys_tilt.rotp_t.util.TuskUtil;
 import com.github.standobyte.jojo.action.Action;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mod.JojoModUtil;
@@ -11,6 +12,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.ai.brain.task.LookAtEntityTask;
+import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -18,7 +21,9 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
@@ -40,7 +45,7 @@ public class WormholeArmEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (getOwner() == null || tickCount >= 2000){
+        if (getOwner() == null || tickCount >= 2000 || !getOwner().isAlive()){
             this.remove();
             return;
         }
@@ -49,6 +54,7 @@ public class WormholeArmEntity extends Entity {
         this.setNoGravity(false);
         RayTraceResult result = JojoModUtil.rayTrace(getOwner(), 100, entity -> !(entity instanceof ProjectileEntity));
         this.lookAt(EntityAnchorArgument.Type.EYES, result.getLocation());
+
         if (!world.isClientSide()){
             getOwner().getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                 if (nailCapability.getNailCount() == 0){
@@ -69,6 +75,16 @@ public class WormholeArmEntity extends Entity {
                         nail.moveTo(this.position().add(0, 0.5F, 0));
                         world.addFreshEntity(nail);
                         this.nailsShot ++;
+                    }
+                    if (heldAction == InitStands.MOVE_WORMHOLE_WITH_ARM.get()){
+                        RayTraceResult result2 = TuskUtil.rayTrace(user, 12, entity -> false, 1);
+                        Vector3d movement = this.position().vectorTo(result2.getLocation());
+                        BlockPos pos = new BlockPos(result2.getLocation());
+                        boolean isInAir = world.getBlockState(pos).isAir();
+                        this.setDeltaMovement(movement.multiply(0.25, 1, 0.25).add(0, isInAir ? 0 : 0.7F, 0));
+                    }
+                    else {
+                        this.setDeltaMovement(this.getDeltaMovement().multiply(0, 1, 0));
                     }
 
                     if (nailCapability.chargedShot()){

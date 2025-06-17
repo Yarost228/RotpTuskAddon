@@ -2,9 +2,10 @@ package com.doggys_tilt.rotp_t.client;
 
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeRenderer;
+import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeTinyRenderer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeWithArmRenderer;
+import com.doggys_tilt.rotp_t.client.render.tusk.TuskRenderer;
 import com.doggys_tilt.rotp_t.AddonMain;
-import com.doggys_tilt.rotp_t.client.render.TuskRenderer;
 import com.doggys_tilt.rotp_t.client.render.nail.NailRenderer;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import com.doggys_tilt.rotp_t.init.InitStands;
@@ -36,6 +37,9 @@ public class ClientInit {
 
         RenderingRegistry.registerEntityRenderingHandler(
                 InitEntities.WORMHOLE.get(), WormholeRenderer::new);
+
+        RenderingRegistry.registerEntityRenderingHandler(
+                InitEntities.DAMAGING_WORMHOLE.get(), WormholeTinyRenderer::new);
 
         RenderingRegistry.registerEntityRenderingHandler(
                 InitEntities.WORMHOLE_WITH_ARM.get(), WormholeWithArmRenderer::new);

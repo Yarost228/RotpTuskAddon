@@ -15,12 +15,14 @@ public class NailDataPacket {
     private final int nailCount;
     private final boolean hasWormhole;
     private final boolean chargedShot;
+    private final int act;
 
-    public NailDataPacket(int entityId, int nailCount, boolean hasWormhole, boolean chargedShot){
+    public NailDataPacket(int entityId, int nailCount, boolean hasWormhole, boolean chargedShot, int act){
         this.entityId = entityId;
         this.nailCount = nailCount;
         this.hasWormhole = hasWormhole;
         this.chargedShot = chargedShot;
+        this.act = act;
     }
 
     public static class Handler implements IModPacketHandler<NailDataPacket> {
@@ -29,10 +31,11 @@ public class NailDataPacket {
             buf.writeInt(msg.nailCount);
             buf.writeBoolean(msg.hasWormhole);
             buf.writeBoolean(msg.chargedShot);
+            buf.writeInt(msg.act);
         }
         @Override
         public NailDataPacket decode(PacketBuffer buf) {
-            return new NailDataPacket(buf.readInt(), buf.readInt(), buf.readBoolean(), buf.readBoolean());
+            return new NailDataPacket(buf.readInt(), buf.readInt(), buf.readBoolean(), buf.readBoolean(), buf.readInt());
         }
         @Override
         public void handle(NailDataPacket msg, Supplier<NetworkEvent.Context> ctx) {
@@ -42,6 +45,7 @@ public class NailDataPacket {
                     nailCapability.setNailCount(msg.nailCount);
                     nailCapability.setWormhole(msg.hasWormhole);
                     nailCapability.setChargedShot(msg.chargedShot);
+                    nailCapability.setAct(msg.act);
                 });
             }
         }

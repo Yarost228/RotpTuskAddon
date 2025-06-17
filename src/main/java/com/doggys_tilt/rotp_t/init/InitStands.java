@@ -63,11 +63,16 @@ public class InitStands {
     public static final RegistryObject<StandAction> WORMHOLE_WITH_ARM = ACTIONS.register("wormhole_with_arm",
             () -> new TuskCreateWormholeWithArm(new StandAction.Builder()));
 
+    public static final RegistryObject<StandAction> MOVE_WORMHOLE_WITH_ARM = ACTIONS.register("move_wormhole_with_arm",
+            () -> new TuskMoveWormholeWithArm(new StandAction.Builder()));
+
     public static final RegistryObject<StandAction> CHARGED_NAIL_SHOT = ACTIONS.register("tusk_charged_nail_shot",
             () -> new TuskChargedNailShot(new StandAction.Builder().shiftVariationOf(NAIL_SHOT)));
+    
 
     public static final RegistryObject<StandAction> TUSK_SELECT_ACT = ACTIONS.register("tusk_select_act",
             () -> new TuskSelectAct(new StandAction.Builder()));
+
     
 
     // ...then create the Stand type instance. Moves, stats, entity sizes, and a few other things are determined here.

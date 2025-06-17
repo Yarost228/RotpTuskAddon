@@ -9,11 +9,11 @@ public class NailCapabilityStorage implements Capability.IStorage<NailCapability
 
     @Override
     public INBT writeNBT(Capability<NailCapability> capability, NailCapability instance, Direction side) {
-        CompoundNBT nbt = new CompoundNBT();
-        return nbt;
+        return instance.toNBT();
     }
 
     @Override
     public void readNBT(Capability<NailCapability> capability, NailCapability instance, Direction side, INBT nbt) {
+        instance.fromNBT((CompoundNBT) nbt);
     }
 }

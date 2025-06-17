@@ -23,7 +23,6 @@ public class WormholeWithArmModel extends EntityModel<WormholeArmEntity> {
 
         leftArm = new ModelRenderer(this);
         leftArm.setPos(0.0F, -1F, 0.0F);
-        setRotationAngle(leftArm, 3.1416F, 0.0F, 0.0F);
         leftArm.texOffs(32, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
         leftArm.texOffs(48, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.25F, false);
     }
@@ -31,14 +30,14 @@ public class WormholeWithArmModel extends EntityModel<WormholeArmEntity> {
     @Override
     public void setupAnim(WormholeArmEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         wormhole.yRot = ageInTicks / 4;
-        leftArm.xRot = (entity.getViewXRot(1) * ((float)Math.PI / 180F) + 67.5F);
-        if (leftArm.xRot > 180){
-            leftArm.xRot = 180;
-        }
-        else if (leftArm.xRot < -180){
-            leftArm.xRot = -180;
-        }
-        leftArm.yRot = entity.getViewYRot(1) * ((float)Math.PI / 180F);
+        leftArm.xRot = (headPitch - 90) * ((float)Math.PI / 180F) ;
+//        if (leftArm.xRot > (float)Math.PI){
+//            leftArm.xRot = (float)Math.PI;
+//        }
+//        else if (leftArm.xRot < -(float)Math.PI){
+//            leftArm.xRot = -(float)Math.PI;
+//        }
+        leftArm.yRot = netHeadYaw * ((float)Math.PI / 180F);
     }
 
     @Override

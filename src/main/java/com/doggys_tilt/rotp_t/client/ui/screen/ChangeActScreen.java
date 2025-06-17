@@ -25,7 +25,7 @@ public class ChangeActScreen extends Screen {
     private int firstMouseY;
     private boolean setFirstMousePos;
     private final List<SelectorActWidget> slots = Lists.newArrayList();
-    private static final ITextComponent SELECT_FORMATION = new TranslationTextComponent("action.rotp_t.random", (new TranslationTextComponent("action.rotp_7su.random")).withStyle(TextFormatting.WHITE));
+    private static final ITextComponent SELECT_FORMATION = new TranslationTextComponent("action.rotp_t.random", (new TranslationTextComponent("action.rotp_t.random")).withStyle(TextFormatting.WHITE));
     public static final ResourceLocation UNIT_CHANGE_MENU = new ResourceLocation(AddonMain.MOD_ID, "textures/gui/act_gui.png");
     public ChangeActScreen(){
         super(NarratorChatListener.NO_TITLE);
