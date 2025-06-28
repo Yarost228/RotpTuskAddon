@@ -1,11 +1,11 @@
 package com.doggys_tilt.rotp_t.client;
 
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeRenderer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeTinyRenderer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeWithArmRenderer;
 import com.doggys_tilt.rotp_t.client.render.tusk.TuskRenderer;
-import com.doggys_tilt.rotp_t.AddonMain;
 import com.doggys_tilt.rotp_t.client.render.nail.NailRenderer;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import com.doggys_tilt.rotp_t.init.InitStands;
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.Map;
 
-@EventBusSubscriber(modid = AddonMain.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = RotpTuskAddon.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientInit {
     private static Minecraft mc = Minecraft.getInstance();
     @SubscribeEvent

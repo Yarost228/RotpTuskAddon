@@ -1,11 +1,12 @@
 {
   "required": true,
   "compatibilityLevel": "JAVA_8",
-  "package": "com.rotpaddon.exampleaddon.mixin",
+  "package": "com.doggys_tilt.rotp_t.mixin",
   "refmap": "mixins.myrotpaddon.refmap.json",
   "minVersion": "0.8",
   "mixins": [
-
+    "StandPowerMixin",
+    "TimeStopHandlerMixin"
   ],
   "client": [],
   "injectors": {

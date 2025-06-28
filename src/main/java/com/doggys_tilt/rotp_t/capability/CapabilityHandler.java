@@ -1,6 +1,6 @@
 package com.doggys_tilt.rotp_t.capability;
 
-import com.doggys_tilt.rotp_t.AddonMain;
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,9 +12,9 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = AddonMain.MOD_ID)
+@Mod.EventBusSubscriber(modid = RotpTuskAddon.MOD_ID)
 public class CapabilityHandler {
-    private static final ResourceLocation CAPABILITY_ID = new ResourceLocation(AddonMain.MOD_ID, "nail_data");
+    private static final ResourceLocation CAPABILITY_ID = new ResourceLocation(RotpTuskAddon.MOD_ID, "nail_data");
 
     public static void commonSetupRegister() {
         CapabilityManager.INSTANCE.register(NailCapability.class, new NailCapabilityStorage(), () -> new NailCapability(null));
@@ -46,7 +46,7 @@ public class CapabilityHandler {
     private static void syncAttachedData(PlayerEntity player) {
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
         player.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(data -> {
-            data.syncWithEntityOnly(serverPlayer);
+            data.syncWithClient(serverPlayer);
         });
     }
 }

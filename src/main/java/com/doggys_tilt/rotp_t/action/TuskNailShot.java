@@ -9,6 +9,7 @@ import com.github.standobyte.jojo.action.stand.StandAction;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mc.MCUtil;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
@@ -21,7 +22,7 @@ public class TuskNailShot extends StandAction {
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
         Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
-        if (cap.isPresent() && cap.get().getNailCount() > 0){
+        if (cap.isPresent() && cap.get().getNailCount() > 0 || (user instanceof PlayerEntity && ((PlayerEntity)user).abilities.instabuild)){
             return ActionConditionResult.POSITIVE;
         }
         return ActionConditionResult.NEGATIVE;
@@ -47,13 +48,13 @@ public class TuskNailShot extends StandAction {
                         } else {
                             user.swing(Hand.OFF_HAND);
                         }
-                        if (!nailCapability.hasWormhole()){
+                        if (!nailCapability.hasWormholeWithArm()){
                             NailEntity nail = new NailEntity(user, world, 0);
                             float velocity = 2.0F + (float)user.getDeltaMovement().length();
                             nail.shootFromRotation(user, velocity, 1.0F);
                             world.addFreshEntity(nail);
-                            nailCapability.useNail();
                         }
+                            nailCapability.useNail();
                     }
                 }
                 else {

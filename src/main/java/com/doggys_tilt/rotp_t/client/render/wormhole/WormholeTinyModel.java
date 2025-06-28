@@ -15,7 +15,7 @@ public class WormholeTinyModel extends EntityModel<WormholeEntity> {
         texHeight = 64;
 
         hole = new ModelRenderer(this);
-        hole.texOffs(-16, 0).addBox(-8.0F, -0.1F, -8.0F, 16.0F, 0.0F, 16.0F, 0.0F, false);
+        hole.texOffs(-16, 0).addBox(-8.5F, -0.1F, -7.5F, 16.0F, 0.0F, 16.0F, 0.0F, false);
 
     }
     @Override

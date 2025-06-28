@@ -10,6 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -114,7 +115,8 @@ public class NailEntity extends ModdedProjectileEntity {
     @Override
     protected void breakProjectile(ActionTarget.TargetType targetType, RayTraceResult hitTarget) {
         if (this.spinCharge > 0 && this.getOwner() != null){
-            WormholeEntity wormhole = new WormholeEntity(this.getOwner(), this.level, spinCharge);
+            WormholeEntity wormhole = new WormholeEntity(this.getOwner(), this.level, spinCharge*10, hitTarget instanceof EntityRayTraceResult ?
+                    ((EntityRayTraceResult) hitTarget).getEntity() instanceof LivingEntity ? (LivingEntity) ((EntityRayTraceResult) hitTarget).getEntity() : null : null);
             wormhole.moveTo(this.position());
             this.level.addFreshEntity(wormhole);
         }

@@ -1,7 +1,7 @@
 package com.doggys_tilt.rotp_t.network;
 
 import com.github.standobyte.jojo.network.packets.IModPacketHandler;
-import com.doggys_tilt.rotp_t.AddonMain;
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -21,19 +21,20 @@ public class AddonPackets {
 
     public static void init(){
         clientChannel = NetworkRegistry.ChannelBuilder
-                .named(new ResourceLocation(AddonMain.MOD_ID, "client_channel"))
+                .named(new ResourceLocation(RotpTuskAddon.MOD_ID, "client_channel"))
                 .clientAcceptedVersions(PROTOCOL_VERSION::equals)
                 .serverAcceptedVersions(PROTOCOL_VERSION::equals)
                 .networkProtocolVersion(() -> PROTOCOL_VERSION)
                 .simpleChannel();
         serverChannel = NetworkRegistry.ChannelBuilder
-                .named(new ResourceLocation(AddonMain.MOD_ID, "server_channel"))
+                .named(new ResourceLocation(RotpTuskAddon.MOD_ID, "server_channel"))
                 .clientAcceptedVersions(PROTOCOL_VERSION::equals)
                 .serverAcceptedVersions(PROTOCOL_VERSION::equals)
                 .networkProtocolVersion(() -> PROTOCOL_VERSION)
                 .simpleChannel();
         packetIndex = 0;
         registerMessage(serverChannel, new NailDataPacket.Handler(), Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        registerMessage(clientChannel, new SActSyncPacket.Handler(), Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
     private static <MSG> void registerMessage(SimpleChannel channel, IModPacketHandler<MSG> handler, Optional<NetworkDirection> networkDirection) {
         if (packetIndex > 127) {
@@ -45,9 +46,10 @@ public class AddonPackets {
         clientChannel.sendToServer(msg);
     }
 
-    public static void sendToClientsTracking(Object msg, Entity entity) {
-        serverChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), msg);
+    public static void sendToClientsTrackingAndSelf(Object msg, Entity entity) {
+        serverChannel.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), msg);
     }
+
 
     public static void sendToClient(Object msg, ServerPlayerEntity player) {
         if (!(player instanceof FakePlayer)) {

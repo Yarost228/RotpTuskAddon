@@ -1,10 +1,12 @@
 package com.doggys_tilt.rotp_t.client.ui.screen;
 
+import com.doggys_tilt.rotp_t.network.AddonPackets;
+import com.doggys_tilt.rotp_t.network.SActSyncPacket;
 import com.github.standobyte.jojo.client.InputHandler;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.doggys_tilt.rotp_t.AddonMain;
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.chat.NarratorChatListener;
@@ -26,7 +28,7 @@ public class ChangeActScreen extends Screen {
     private boolean setFirstMousePos;
     private final List<SelectorActWidget> slots = Lists.newArrayList();
     private static final ITextComponent SELECT_FORMATION = new TranslationTextComponent("action.rotp_t.random", (new TranslationTextComponent("action.rotp_t.random")).withStyle(TextFormatting.WHITE));
-    public static final ResourceLocation UNIT_CHANGE_MENU = new ResourceLocation(AddonMain.MOD_ID, "textures/gui/act_gui.png");
+    public static final ResourceLocation UNIT_CHANGE_MENU = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/gui/act_gui.png");
     public ChangeActScreen(){
         super(NarratorChatListener.NO_TITLE);
         this.previousHovered = getPreviousHovered();
@@ -125,6 +127,7 @@ public class ChangeActScreen extends Screen {
     private void switchToHoveredFormationTypeAndClose(Minecraft minecraft, Optional<ActType> hovered){
             minecraft.player.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(capability -> {
                 capability.setAct(hovered.get().formationType);
+                AddonPackets.sendToServer(new SActSyncPacket(minecraft.player.getId(), hovered.get().formationType));
             });
         minecraft.setScreen(null);
     }

@@ -5,7 +5,7 @@ import com.github.standobyte.jojo.client.ClientUtil;
 import com.github.standobyte.jojo.util.general.MathUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.doggys_tilt.rotp_t.AddonMain;
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -35,7 +35,7 @@ public class NailRenderer extends EntityRenderer<NailEntity> {
         super(renderManager);
     }
 
-    private static final ResourceLocation TRAIL_TEX = new ResourceLocation(AddonMain.MOD_ID, "textures/entity/nail_trace.png");
+    private static final ResourceLocation TRAIL_TEX = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/entity/nail_trace.png");
     @Override
     public ResourceLocation getTextureLocation(NailEntity entity) {
         return TRAIL_TEX;

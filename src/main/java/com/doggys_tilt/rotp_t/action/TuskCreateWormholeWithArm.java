@@ -25,14 +25,14 @@ public class TuskCreateWormholeWithArm extends StandAction {
     public Action<IStandPower> getVisibleAction(IStandPower power, ActionTarget target) {
         LivingEntity user = power.getUser();
         Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
-        return (cap.isPresent() && cap.get().hasWormhole()) ? InitStands.MOVE_WORMHOLE_WITH_ARM.get() : super.replaceAction(power, target);
+        return (cap.isPresent() && cap.get().hasWormholeWithArm()) ? InitStands.MOVE_WORMHOLE_WITH_ARM.get() : super.replaceAction(power, target);
     }
 
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
         Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent()){
-            if (cap.get().getNailCount() > 0 && !cap.get().hasWormhole()){
+            if (cap.get().getNailCount() > 0 && !cap.get().hasWormholeWithArm() && !cap.get().hasWormhole() && cap.get().getNailWormhole() != null){
                 return ActionConditionResult.POSITIVE;
             }
         }
@@ -41,9 +41,12 @@ public class TuskCreateWormholeWithArm extends StandAction {
 
     @Override
     protected void perform(World world, LivingEntity user, IStandPower power, ActionTarget target) {
-        user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> nailCapability.setWormhole(true));
-        WormholeArmEntity wormholeArm = new WormholeArmEntity(user, world);
-        wormholeArm.moveTo(user.position());
-        world.addFreshEntity(wormholeArm);
+        user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+            nailCapability.hasWormholeWithArm(true);
+            WormholeArmEntity wormholeArm = new WormholeArmEntity(user, world);
+            wormholeArm.moveTo(nailCapability.getNailWormhole().position());
+            world.addFreshEntity(wormholeArm);
+            nailCapability.getNailWormhole().remove();
+        });
     }
 }

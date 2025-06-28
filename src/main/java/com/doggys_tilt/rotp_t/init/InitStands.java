@@ -1,6 +1,6 @@
 package com.doggys_tilt.rotp_t.init;
 
-import com.doggys_tilt.rotp_t.AddonMain;
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.action.*;
 import com.doggys_tilt.rotp_t.entity.TuskEntity;
 import com.github.standobyte.jojo.action.Action;
@@ -19,36 +19,36 @@ import net.minecraftforge.registries.DeferredRegister;
 public class InitStands {
     @SuppressWarnings("unchecked")
     public static final DeferredRegister<Action<?>> ACTIONS = DeferredRegister.create(
-            (Class<Action<?>>) ((Class<?>) Action.class), AddonMain.MOD_ID);
+            (Class<Action<?>>) ((Class<?>) Action.class), RotpTuskAddon.MOD_ID);
     @SuppressWarnings("unchecked")
     public static final DeferredRegister<StandType<?>> STANDS = DeferredRegister.create(
-            (Class<StandType<?>>) ((Class<?>) StandType.class), AddonMain.MOD_ID);
+            (Class<StandType<?>>) ((Class<?>) StandType.class), RotpTuskAddon.MOD_ID);
     
  // ======================================== Example Stand ========================================
     
     
     // Create all the abilities here...
-    public static final RegistryObject<StandEntityAction> EXAMPLE_STAND_PUNCH = ACTIONS.register("example_stand_punch", 
+    public static final RegistryObject<StandEntityAction> TUSK_PUNCH = ACTIONS.register("tusk_punch", 
             () -> new StandEntityLightAttack(new StandEntityLightAttack.Builder()
-                    .punchSound(InitSounds.EXAMPLE_STAND_PUNCH_LIGHT)));
+                    .punchSound(InitSounds.TUSK_PUNCH_LIGHT)));
     
-    public static final RegistryObject<StandEntityAction> EXAMPLE_STAND_BARRAGE = ACTIONS.register("example_stand_barrage", 
+    public static final RegistryObject<StandEntityAction> TUSK_BARRAGE = ACTIONS.register("tusk_barrage", 
             () -> new StandEntityMeleeBarrage(new StandEntityMeleeBarrage.Builder()
-                    .barrageHitSound(InitSounds.EXAMPLE_STAND_PUNCH_BARRAGE)));
+                    .barrageHitSound(InitSounds.TUSK_PUNCH_BARRAGE)));
 
-    public static final RegistryObject<StandEntityHeavyAttack> EXAMPLE_STAND_FINISHER_PUNCH = ACTIONS.register("example_stand_finisher_punch", 
+    public static final RegistryObject<StandEntityHeavyAttack> TUSK_FINISHER_PUNCH = ACTIONS.register("tusk_finisher_punch",
             () -> new StandEntityHeavyAttack(new StandEntityHeavyAttack.Builder() // TODO finisher ability
-                    .punchSound(InitSounds.EXAMPLE_STAND_PUNCH_HEAVY)
+                    .punchSound(InitSounds.TUSK_PUNCH_HEAVY)
                     .partsRequired(StandPart.ARMS)));
 
-    public static final RegistryObject<StandEntityHeavyAttack> EXAMPLE_STAND_HEAVY_PUNCH = ACTIONS.register("example_stand_heavy_punch", 
+    public static final RegistryObject<StandEntityHeavyAttack> TUSK_HEAVY_PUNCH = ACTIONS.register("tusk_heavy_punch",
             () -> new StandEntityHeavyAttack(new StandEntityHeavyAttack.Builder()
-                    .shiftVariationOf(EXAMPLE_STAND_PUNCH).shiftVariationOf(EXAMPLE_STAND_BARRAGE)
-                    .setFinisherVariation(EXAMPLE_STAND_FINISHER_PUNCH)
-                    .punchSound(InitSounds.EXAMPLE_STAND_PUNCH_HEAVY)
+                    .shiftVariationOf(TUSK_PUNCH).shiftVariationOf(TUSK_BARRAGE)
+                    .setFinisherVariation(TUSK_FINISHER_PUNCH)
+                    .punchSound(InitSounds.TUSK_PUNCH_HEAVY)
                     .partsRequired(StandPart.ARMS)));
     
-    public static final RegistryObject<StandEntityAction> EXAMPLE_STAND_BLOCK = ACTIONS.register("example_stand_block", 
+    public static final RegistryObject<StandEntityAction> TUSK_BLOCK = ACTIONS.register("tusk_block",
             () -> new StandEntityBlock());
 
     public static final RegistryObject<StandAction> NAIL_SHOT = ACTIONS.register("tusk_nail_shot",
@@ -83,12 +83,14 @@ public class InitStands {
                     .color(0xff719a)
                     .storyPartName(ModStandsInit.PART_7_NAME)
                     .leftClickHotbar(
+                            TUSK_PUNCH.get(),
+                            TUSK_BARRAGE.get(),
                             NAIL_SCRATCH.get(),
                             NAIL_SHOT.get()
 
                             )
                     .rightClickHotbar(
-                            EXAMPLE_STAND_BLOCK.get(),
+                            TUSK_BLOCK.get(),
                             TUSK_SELECT_ACT.get(),
                             WORMHOLE.get(),
                             WORMHOLE_WITH_ARM.get()
@@ -107,8 +109,8 @@ public class InitStands {
                     
                     InitEntities.ENTITIES,
                     () -> new StandEntityType<TuskEntity>(TuskEntity::new, 0.7F, 2.1F)
-                    .summonSound(InitSounds.EXAMPLE_STAND_SUMMON_SOUND)
-                    .unsummonSound(InitSounds.EXAMPLE_STAND_UNSUMMON_SOUND))
+                    .summonSound(InitSounds.TUSK_SUMMON_SOUND)
+                    .unsummonSound(InitSounds.TUSK_UNSUMMON_SOUND))
             .withDefaultStandAttributes();
     
 

@@ -18,7 +18,7 @@ public class ArmWormholeLayerModel<T extends LivingEntity> extends BipedModel<T>
         wormhole = new ModelRenderer(this);
         wormhole.setPos(4.1F, 2.0F, 0.0F);
         rightArm.addChild(wormhole);
-        wormhole.texOffs(0, -16).addBox(0.0F, -8.0F, -7.5F, -0.5F, 16.0F, 16.0F, 0.0F, false);
+        wormhole.texOffs(0, -16).addBox(0.0F, -8.5F, -7.5F, -0.5F, 16.0F, 16.0F, 0.0F, false);
 
         wormhole2 = new ModelRenderer(this);
         wormhole2.setPos(-4.1F, 2.0F, 0.0F);

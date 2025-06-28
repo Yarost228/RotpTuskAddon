@@ -18,22 +18,16 @@ public class TeaItem extends Item {
     public ItemStack finishUsingItem(ItemStack pStack, World pLevel, LivingEntity pEntityLiving) {
         super.finishUsingItem(pStack, pLevel, pEntityLiving);
         PlayerEntity playerentity = pEntityLiving instanceof PlayerEntity ? (PlayerEntity)pEntityLiving : null;
-
-        if (!pLevel.isClientSide) {
-            playerentity.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
-                if (nailCapability.getNailCount() <= 10){
-                    nailCapability.setNailCount(nailCapability.getNailCount() + 1);
-                }
-            });
-        }
-
-        if (playerentity == null || !playerentity.abilities.instabuild) {
+        playerentity.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+            if (nailCapability.getNailCount() <= 10){
+                nailCapability.setNailCount(nailCapability.getNailCount() + 1);
+            }
+        });
+        if (!playerentity.abilities.instabuild) {
             if (pStack.isEmpty()) {
                 return new ItemStack(Items.GLASS_BOTTLE);
             }
-            if (playerentity != null) {
-                playerentity.inventory.add(new ItemStack(Items.GLASS_BOTTLE));
-            }
+            playerentity.inventory.add(new ItemStack(Items.GLASS_BOTTLE));
             pStack.shrink(1);
         }
         return pStack;

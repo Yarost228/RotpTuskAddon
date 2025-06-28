@@ -13,13 +13,15 @@ import java.util.function.Supplier;
 public class NailDataPacket {
     private final int entityId;
     private final int nailCount;
+    private final boolean hasWormholeWithArm;
     private final boolean hasWormhole;
     private final boolean chargedShot;
     private final int act;
 
-    public NailDataPacket(int entityId, int nailCount, boolean hasWormhole, boolean chargedShot, int act){
+    public NailDataPacket(int entityId, int nailCount, boolean hasWormholeWithArm, boolean hasWormhole, boolean chargedShot, int act){
         this.entityId = entityId;
         this.nailCount = nailCount;
+        this.hasWormholeWithArm = hasWormholeWithArm;
         this.hasWormhole = hasWormhole;
         this.chargedShot = chargedShot;
         this.act = act;
@@ -29,13 +31,14 @@ public class NailDataPacket {
         public void encode(NailDataPacket msg, PacketBuffer buf) {
             buf.writeInt(msg.entityId);
             buf.writeInt(msg.nailCount);
+            buf.writeBoolean(msg.hasWormholeWithArm);
             buf.writeBoolean(msg.hasWormhole);
             buf.writeBoolean(msg.chargedShot);
             buf.writeInt(msg.act);
         }
         @Override
         public NailDataPacket decode(PacketBuffer buf) {
-            return new NailDataPacket(buf.readInt(), buf.readInt(), buf.readBoolean(), buf.readBoolean(), buf.readInt());
+            return new NailDataPacket(buf.readInt(), buf.readInt(), buf.readBoolean(), buf.readBoolean(), buf.readBoolean(), buf.readInt());
         }
         @Override
         public void handle(NailDataPacket msg, Supplier<NetworkEvent.Context> ctx) {
@@ -43,7 +46,8 @@ public class NailDataPacket {
             if (entity instanceof LivingEntity) {
                 entity.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                     nailCapability.setNailCount(msg.nailCount);
-                    nailCapability.setWormhole(msg.hasWormhole);
+                    nailCapability.hasWormholeWithArm(msg.hasWormholeWithArm);
+                    nailCapability.setHasWormhole(msg.hasWormhole);
                     nailCapability.setChargedShot(msg.chargedShot);
                     nailCapability.setAct(msg.act);
                 });

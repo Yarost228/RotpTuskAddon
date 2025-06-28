@@ -36,7 +36,6 @@ public enum ActType {
     public static ActType getByFormationType(int FormationType){
         List<ActType> types = Arrays.stream(values()).filter(type -> type.getFormationType() == FormationType).collect(Collectors.toList());
         Optional<ActType> matchType = types.stream().findFirst();
-        System.out.println(types.stream().count());
         return matchType.orElse(null);
     }
 

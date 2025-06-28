@@ -1,8 +1,8 @@
 package com.doggys_tilt.rotp_t.client.render.wormhole;
 
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.github.standobyte.jojo.client.render.entity.renderer.SimpleEntityRenderer;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.doggys_tilt.rotp_t.AddonMain;
 import com.doggys_tilt.rotp_t.entity.WormholeEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 public class WormholeTinyRenderer extends SimpleEntityRenderer<WormholeEntity, WormholeTinyModel> {
 
     public WormholeTinyRenderer(EntityRendererManager rendererManager) {
-        super(rendererManager, new WormholeTinyModel(), new ResourceLocation(AddonMain.MOD_ID, "textures/entity/tiny_wormhole.png"));
+        super(rendererManager, new WormholeTinyModel(), new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/entity/tiny_wormhole.png"));
     }
 
     protected void doRender(WormholeEntity entity, WormholeTinyModel model, float partialTick, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight) {

@@ -2,7 +2,7 @@ package com.doggys_tilt.rotp_t.client.render.layers;
 
 import com.github.standobyte.jojo.client.render.entity.layerrenderer.IFirstPersonHandLayer;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.doggys_tilt.rotp_t.AddonMain;
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.NailCapability;
 import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -30,7 +30,7 @@ public class ArmWormholeLayer<T extends LivingEntity, M extends BipedModel<T> & 
 
     public boolean shouldRender(T entity){
         Optional<NailCapability> cap = entity.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
-        return cap.map(NailCapability::hasWormhole).orElse(false);
+        return cap.map(NailCapability::hasWormholeWithArm).orElse(false);
     }
 
     private ArmWormholeLayerModel wmodel = new ArmWormholeLayerModel(1F);
@@ -46,7 +46,7 @@ public class ArmWormholeLayer<T extends LivingEntity, M extends BipedModel<T> & 
             M model = getParentModel();
             model.copyPropertiesTo(wmodel);
             wmodel.setupAnim(entity, limbSwing, limbSwingAmount, ticks, yRot, xRot);
-            wmodel.renderToBuffer(matrixStack, buffer.getBuffer(RenderType.entityTranslucent(new ResourceLocation(AddonMain.MOD_ID, "textures/entity/tiny_wormhole.png"))), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            wmodel.renderToBuffer(matrixStack, buffer.getBuffer(RenderType.entityTranslucent(new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/entity/tiny_wormhole.png"))), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStack.popPose();
         }
     }

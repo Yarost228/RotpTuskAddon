@@ -3,12 +3,17 @@ package com.doggys_tilt.rotp_t.client;
 import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayer;
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayerModel;
+import com.doggys_tilt.rotp_t.init.InitEffects;
+import com.github.standobyte.jojo.client.render.entity.layerrenderer.TornadoOverdriveEffectLayer;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ClientEvents {
@@ -55,6 +60,16 @@ public class ClientEvents {
                     }
                 });
             }
+        }
+    }
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void infiniteRotation(RenderLivingEvent.Pre event) {
+        if (event.getEntity().hasEffect(InitEffects.INFINITE_ROTATION.get())){
+            for (int i = 0; i < 3; ++i) {
+                float f = event.getPartialRenderTick() * (float)(-(45 + i * 5));
+                event.getMatrixStack().mulPose(Vector3f.YP.rotationDegrees(f));
+            }
+            event.getMatrixStack().translate((event.getEntity().level.random.nextFloat() - event.getEntity().level.random.nextFloat())*0.1, 0, (event.getEntity().level.random.nextFloat() - event.getEntity().level.random.nextFloat())*0.1);
         }
     }
 }

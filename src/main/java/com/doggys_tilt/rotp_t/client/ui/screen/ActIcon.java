@@ -4,17 +4,17 @@ import com.github.standobyte.jojo.client.standskin.StandSkinsManager;
 import com.github.standobyte.jojo.client.ui.BlitFloat;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.doggys_tilt.rotp_t.AddonMain;
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ActIcon {
-    private static ResourceLocation FIRST = new ResourceLocation(AddonMain.MOD_ID, "textures/gui/first.png");
-    private static ResourceLocation SECOND = new ResourceLocation(AddonMain.MOD_ID, "textures/gui/second.png");
-    private static ResourceLocation THIRD = new ResourceLocation(AddonMain.MOD_ID, "textures/gui/third.png");
-    private static ResourceLocation FOURTH = new ResourceLocation(AddonMain.MOD_ID, "textures/gui/fourth.png");
+    private static ResourceLocation FIRST = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/gui/first.png");
+    private static ResourceLocation SECOND = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/gui/second.png");
+    private static ResourceLocation THIRD = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/gui/third.png");
+    private static ResourceLocation FOURTH = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/gui/fourth.png");
 
 
     public static ResourceLocation getIconByType(ActType type){
