@@ -73,6 +73,9 @@ public class InitStands {
     public static final RegistryObject<StandAction> TUSK_SELECT_ACT = ACTIONS.register("tusk_select_act",
             () -> new TuskSelectAct(new StandAction.Builder()));
 
+    public static final RegistryObject<StandAction> TUSK_OPEN_SPACE = ACTIONS.register("tusk_open_space",
+            () -> new TuskOpenSpace(new StandEntityAction.Builder()));
+
     
 
     // ...then create the Stand type instance. Moves, stats, entity sizes, and a few other things are determined here.
@@ -93,10 +96,10 @@ public class InitStands {
                             TUSK_BLOCK.get(),
                             TUSK_SELECT_ACT.get(),
                             WORMHOLE.get(),
-                            WORMHOLE_WITH_ARM.get()
+                            WORMHOLE_WITH_ARM.get(),
+                            TUSK_OPEN_SPACE.get()
                             )
                     .defaultStats(StandStats.class, new StandStats.Builder()
-                            .tier(6)
                             .power(20)
                             .speed(20)
                             .range(50, 100)

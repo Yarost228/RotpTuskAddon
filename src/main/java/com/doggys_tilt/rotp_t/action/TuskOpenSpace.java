@@ -1,0 +1,39 @@
+package com.doggys_tilt.rotp_t.action;
+
+import com.doggys_tilt.rotp_t.entity.block_replacer.EntityBlockSwapper;
+import com.doggys_tilt.rotp_t.init.InitEntities;
+import com.github.standobyte.jojo.action.ActionTarget;
+import com.github.standobyte.jojo.action.stand.StandEntityAction;
+import com.github.standobyte.jojo.entity.stand.StandEntity;
+import com.github.standobyte.jojo.entity.stand.StandEntityTask;
+import com.github.standobyte.jojo.power.impl.stand.IStandPower;
+import net.minecraft.block.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
+
+public class TuskOpenSpace extends StandEntityAction {
+    public TuskOpenSpace(StandEntityAction.Builder builder) {
+        super(builder);
+    }
+    @Override
+    public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
+        if (!world.isClientSide()){
+            ActionTarget result = standEntity.aimWithThisOrUser(6, task.getTarget(), false);
+            if (result.getType() == ActionTarget.TargetType.BLOCK){
+                for (int i = 0; i < 12; i++) {
+                    BlockPos pos = result.getBlockPos().relative(result.getFace().getOpposite(), i);
+                    EntityBlockSwapper swapper = new EntityBlockSwapper(InitEntities.BLOCK_SWAPPER.get(),
+                            world, pos, Blocks.AIR.defaultBlockState(), 200, false, false);
+                    swapper.moveTo(Vector3d.atCenterOf(pos));
+                    world.addFreshEntity(swapper);
+                    if (!world.getBlockState(pos.relative(result.getFace().getOpposite())).getMaterial().isSolid()){
+                        System.out.println(result.getFace().getOpposite());
+                        System.out.println("break");
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}

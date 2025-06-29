@@ -16,7 +16,7 @@ public class TuskEntity extends StandEntity {
         super(type, world);
     }
 
-    private final StandRelativeOffset offsetAct4 = StandRelativeOffset.withYOffset(0, .5, -.75);
+    private final StandRelativeOffset offsetAct4 = StandRelativeOffset.withYOffset(0, .5, -1.5);
 
     public StandRelativeOffset getDefaultOffsetFromUser() {
         NailCapability capability = this.getUser().getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);

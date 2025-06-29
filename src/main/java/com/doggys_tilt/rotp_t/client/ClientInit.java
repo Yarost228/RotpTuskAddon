@@ -1,6 +1,7 @@
 package com.doggys_tilt.rotp_t.client;
 
 import com.doggys_tilt.rotp_t.RotpTuskAddon;
+import com.doggys_tilt.rotp_t.client.render.RenderNothing;
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeRenderer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeTinyRenderer;
@@ -43,6 +44,9 @@ public class ClientInit {
 
         RenderingRegistry.registerEntityRenderingHandler(
                 InitEntities.WORMHOLE_WITH_ARM.get(), WormholeWithArmRenderer::new);
+
+        RenderingRegistry.registerEntityRenderingHandler(
+                InitEntities.BLOCK_SWAPPER.get(), RenderNothing::new);
 
         mc.getEntityRenderDispatcher().renderers.values().forEach(ClientInit::addLayersToEntities);
         Map<String, PlayerRenderer> skinMap = mc.getEntityRenderDispatcher().getSkinMap();

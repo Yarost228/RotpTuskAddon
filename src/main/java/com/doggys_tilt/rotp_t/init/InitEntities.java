@@ -6,6 +6,7 @@ import com.doggys_tilt.rotp_t.entity.WormholeArmEntity;
 import com.doggys_tilt.rotp_t.entity.WormholeEntity;
 import com.doggys_tilt.rotp_t.entity.WormholeTeleporterEntity;
 
+import com.doggys_tilt.rotp_t.entity.block_replacer.EntityBlockSwapper;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
@@ -37,5 +38,12 @@ public class InitEntities {
             () -> EntityType.Builder.<WormholeArmEntity>of(WormholeArmEntity::new, EntityClassification.MISC)
                     .sized(1.0F, 0.1F)
                     .build(new ResourceLocation(RotpTuskAddon.MOD_ID, "wormhole").toString()));
+
+    public static final RegistryObject<EntityType<EntityBlockSwapper>> BLOCK_SWAPPER = ENTITIES.register("block_swapper",
+            () -> EntityType.Builder.<EntityBlockSwapper>of(EntityBlockSwapper::new, EntityClassification.MISC)
+                    .noSummon()
+                    .sized(1, 1)
+                    .setUpdateInterval(Integer.MAX_VALUE)
+                    .build(new ResourceLocation(RotpTuskAddon.MOD_ID, "block_swapper").toString()));
 
 };
