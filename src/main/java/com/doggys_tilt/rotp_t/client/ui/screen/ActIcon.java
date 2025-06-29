@@ -11,10 +11,10 @@ import net.minecraft.util.ResourceLocation;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ActIcon {
-    private static ResourceLocation FIRST = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/gui/first.png");
-    private static ResourceLocation SECOND = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/gui/second.png");
-    private static ResourceLocation THIRD = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/gui/third.png");
-    private static ResourceLocation FOURTH = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/gui/fourth.png");
+    private static ResourceLocation FIRST = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/power/act1.png");
+    private static ResourceLocation SECOND = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/power/act2.png");
+    private static ResourceLocation THIRD = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/power/act3.png");
+    private static ResourceLocation FOURTH = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/power/act4.png");
 
 
     public static ResourceLocation getIconByType(ActType type){

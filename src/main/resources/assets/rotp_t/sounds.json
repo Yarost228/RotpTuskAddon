@@ -38,5 +38,56 @@
       "rotp_t:user/johnny_act_4_summon",
       "rotp_t:user/johnny_act_4_summon_2"
     ]
+  },
+  "tusk_summon": {
+    "subtitle": "rotp_t.tusk_summon",
+    "sounds": [
+      "rotp_t:stand/tusk_summon"
+    ]
+  },
+  "tusk_unsummon": {
+    "subtitle": "rotp_t.tusk_unsummon",
+    "sounds": [
+      "rotp_t:stand/tusk_unsummon"
+    ]
+  },
+  "johnny_ora": {
+    "subtitle": "rotp_t.johnny_ora",
+    "sounds": [
+      "rotp_t:user/johnny_ora"
+    ]
+  },
+  "johnny_light_attack": {
+    "subtitle": "rotp_t.johnny_light_attack",
+    "sounds": [
+      "rotp_t:user/johnny_light_attack",
+      "rotp_t:user/johnny_light_attack2",
+      "rotp_t:user/johnny_light_attack3",
+      "rotp_t:user/johnny_light_attack4",
+      "rotp_t:user/johnny_light_attack5",
+      "rotp_t:user/johnny_light_attack6"
+    ]
+  },
+  "johnny_heavy_attack": {
+    "subtitle": "rotp_t.johnny_heavy_attack",
+    "sounds": [
+      "rotp_t:user/johnny_heavy_attack",
+      "rotp_t:user/johnny_heavy_attack2",
+      "rotp_t:user/johnny_heavy_attack3",
+      "rotp_t:user/johnny_heavy_attack4",
+      "rotp_t:user/johnny_heavy_attack5"
+    ]
+  },
+  "tusk_light_punch" : {
+    "subtitle": "rotp_t.tusk_light_punch",
+    "sounds": [
+      "rotp_t:stand/tusk_light_punch"
+    ]
+  },
+  "tusk_heavy_punch" : {
+    "subtitle": "rotp_t.tusk_heavy_punch",
+    "sounds": [
+      "rotp_t:stand/tusk_heavy_punch"
+    ]
   }
 }
