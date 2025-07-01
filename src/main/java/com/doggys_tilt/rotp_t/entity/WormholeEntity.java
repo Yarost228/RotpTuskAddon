@@ -40,6 +40,9 @@ public class WormholeEntity extends AbstractWormholeEntity {
                 }
             }
         }
+        else {
+            remove();
+        }
     }
     @Override
     public void remove(){

@@ -3,6 +3,7 @@ package com.doggys_tilt.rotp_t.client.ui.screen;
 import com.doggys_tilt.rotp_t.network.AddonPackets;
 import com.doggys_tilt.rotp_t.network.SActSyncPacket;
 import com.github.standobyte.jojo.client.InputHandler;
+import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -11,6 +12,7 @@ import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -125,9 +127,10 @@ public class ChangeActScreen extends Screen {
         return false;
     }
     private void switchToHoveredFormationTypeAndClose(Minecraft minecraft, Optional<ActType> hovered){
-            minecraft.player.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(capability -> {
+        PlayerEntity player = minecraft.player;
+            player.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(capability -> {
                 capability.setAct(hovered.get().formationType);
-                AddonPackets.sendToServer(new SActSyncPacket(minecraft.player.getId(), hovered.get().formationType));
+                AddonPackets.sendToServer(new SActSyncPacket(player.getId(), hovered.get().formationType));
             });
         minecraft.setScreen(null);
     }

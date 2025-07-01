@@ -1,5 +1,6 @@
 package com.doggys_tilt.rotp_t.util;
 
+import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mod.JojoModUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.RayTraceContext;
@@ -28,4 +29,5 @@ public class TuskUtil {
                 entityFilter, RayTraceContext.BlockMode.COLLIDER,
                 rayTraceInflate, standPrecision);
     }
+
 }

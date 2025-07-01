@@ -10,7 +10,7 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class NailCapability {
     private final LivingEntity entity;
-    private WormholeEntity nailWormhole;
+    private WormholeEntity wormhole = null;
     private int act = 0;
     private int prevAct = 0;
     private int nailCount = 10;
@@ -42,10 +42,9 @@ public class NailCapability {
     }
 
     public void addToNailWormholes(WormholeEntity entity){
-        this.nailWormhole = entity;
+        this.wormhole = entity;
     }
-
-
+    
 
     public void syncWithClient(ServerPlayerEntity entityAsPlayer) {
         AddonPackets.sendToClient(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act), entityAsPlayer);
@@ -56,6 +55,9 @@ public class NailCapability {
 
     public int getPrevAct(){
         return this.prevAct;
+    }
+    public void setPrevAct(int prevAct) {
+        this.prevAct = prevAct;
     }
     public void hasWormholeWithArm(boolean hasWormholeWithArm) {
         this.hasWormholeWithArm = hasWormholeWithArm;
@@ -81,6 +83,7 @@ public class NailCapability {
     }
 
     public void setAct(int act) {
+        this.setPrevAct(this.act);
         this.act = act;
         if (!entity.level.isClientSide()) {
             AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act), entity);
@@ -92,7 +95,7 @@ public class NailCapability {
         nbt.putInt("Act", getAct());
         nbt.putInt("PrevAct", getPrevAct());
         nbt.putInt("NailCount", nailCount);
-        nbt.putInt("NailWormholeId", nailWormhole != null ? nailWormhole.getId() : -1);
+        nbt.putInt("NailWormholeId", wormhole != null ? wormhole.getId() : -1);
         return nbt;
     }
 
@@ -100,12 +103,15 @@ public class NailCapability {
 
     public void fromNBT(CompoundNBT nbt) {
         this.setAct(nbt.getInt("Act"));
-        prevAct =(nbt.getInt("PrevAct"));
+        prevAct = (nbt.getInt("PrevAct"));
         this.setNailCount(nbt.getInt("NailCount"));
-        nailWormhole = (WormholeEntity)entity.level.getEntity(nbt.getInt("NailWormholeId"));
+        wormhole = (WormholeEntity) entity.level.getEntity(nbt.getInt("NailWormholeId"));
     }
-    public WormholeEntity getNailWormhole() {
-        return nailWormhole;
+    public WormholeEntity getWormhole() {
+        return wormhole;
+    }
+    public void setWormhole(WormholeEntity wormhole){
+        this.wormhole = wormhole;
     }
     public boolean hasWormhole() {
         return hasWormhole;

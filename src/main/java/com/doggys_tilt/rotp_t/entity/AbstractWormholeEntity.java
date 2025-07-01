@@ -60,6 +60,7 @@ public class AbstractWormholeEntity extends Entity {
         if (getOwner() != null){
             getOwner().getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                 nailCapability.hasWormholeWithArm(false);
+                nailCapability.setHasWormhole(false);
             });
         }
         super.remove();

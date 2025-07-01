@@ -9,7 +9,9 @@
     "StandTypeMixin",
     "TimeStopHandlerMixin"
   ],
-  "client": [],
+  "client": [
+    "StandStatsMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

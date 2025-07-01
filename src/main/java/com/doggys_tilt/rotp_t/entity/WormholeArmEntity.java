@@ -34,15 +34,15 @@ public class WormholeArmEntity extends AbstractWormholeEntity {
             RayTraceResult result = JojoModUtil.rayTrace(getOwner(), 100, entity -> !(entity instanceof ProjectileEntity));
             this.lookAt(EntityAnchorArgument.Type.EYES, result.getLocation());
             if (!world.isClientSide()){
-                getOwner().getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
-                    if (nailCapability.getNailCount() == 0){
+                IStandPower.getStandPowerOptional(getOwner()).ifPresent(stand ->
+                    getOwner().getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+                    Action heldAction = stand.getHeldAction();
+                    if (nailCapability.getNailCount() == 0 || heldAction == InitStands.REMOVE_WORMHOLE_WITH_ARM.get()){
                         this.remove();
                     }
                     else if (nailCapability.getNailCount() - nailsShot == 0 && nailsShot > 0){
                         this.remove();
                     }
-                    IStandPower.getStandPowerOptional(getOwner()).ifPresent(stand -> {
-                        Action heldAction = stand.getHeldAction();
                         LivingEntity user = getOwner();
                         int ticksHeld = stand.getHeldActionTicks();
 
@@ -74,8 +74,8 @@ public class WormholeArmEntity extends AbstractWormholeEntity {
                             this.nailsShot ++;
                             nailCapability.setChargedShot(false);
                         }
-                    });
-                });
+                    })
+                );
             }
         }
     }

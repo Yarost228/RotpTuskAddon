@@ -32,7 +32,7 @@ public class TuskCreateWormholeWithArm extends StandAction {
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
         Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent()){
-            if (cap.get().getNailCount() > 0 && !cap.get().hasWormholeWithArm() && !cap.get().hasWormhole() && cap.get().getNailWormhole() != null){
+            if (cap.get().getNailCount() > 0 && !cap.get().hasWormholeWithArm() && !cap.get().hasWormhole() && cap.get().getWormhole() != null){
                 return ActionConditionResult.POSITIVE;
             }
         }
@@ -44,9 +44,10 @@ public class TuskCreateWormholeWithArm extends StandAction {
         user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
             nailCapability.hasWormholeWithArm(true);
             WormholeArmEntity wormholeArm = new WormholeArmEntity(user, world);
-            wormholeArm.moveTo(nailCapability.getNailWormhole().position());
+            wormholeArm.moveTo(nailCapability.getWormhole().position());
             world.addFreshEntity(wormholeArm);
-            nailCapability.getNailWormhole().remove();
+            nailCapability.getWormhole().remove();
+            nailCapability.setWormhole(null);
         });
     }
 }
