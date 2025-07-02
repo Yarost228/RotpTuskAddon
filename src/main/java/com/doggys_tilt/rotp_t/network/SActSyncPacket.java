@@ -3,6 +3,7 @@ package com.doggys_tilt.rotp_t.network;
 import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import com.github.standobyte.jojo.client.ClientUtil;
 import com.github.standobyte.jojo.network.packets.IModPacketHandler;
+import com.github.standobyte.jojo.network.packets.fromserver.StandStatsDataPacket;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

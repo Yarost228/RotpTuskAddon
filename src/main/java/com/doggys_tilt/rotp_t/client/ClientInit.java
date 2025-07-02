@@ -1,6 +1,8 @@
 package com.doggys_tilt.rotp_t.client;
 
 import com.doggys_tilt.rotp_t.RotpTuskAddon;
+import com.doggys_tilt.rotp_t.capability.NailCapability;
+import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import com.doggys_tilt.rotp_t.client.render.RenderNothing;
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeRenderer;
@@ -11,6 +13,10 @@ import com.doggys_tilt.rotp_t.client.render.nail.NailRenderer;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import com.doggys_tilt.rotp_t.init.InitStands;
 
+import com.doggys_tilt.rotp_t.util.TuskStandStats;
+import com.github.standobyte.jojo.client.ui.standstats.StandStatsRenderer;
+import com.github.standobyte.jojo.power.impl.stand.IStandPower;
+import com.github.standobyte.jojo.power.impl.stand.stats.StandStats;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -24,6 +30,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.Map;
+
+import static net.minecraft.util.math.MathHelper.log2;
 
 @EventBusSubscriber(modid = RotpTuskAddon.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientInit {
@@ -53,6 +61,38 @@ public class ClientInit {
         addLayersToEntities(skinMap.get("default"));
         addLayersToEntities(skinMap.get("slim"));
         ClientEvents.init(mc);
+
+        StandStatsRenderer.overrideCosmeticStats(
+                InitStands.STAND_TUSK.getStandType().getRegistryName(),
+                new StandStatsRenderer.ICosmeticStandStats() {
+                    public double statConvertedValue(StandStatsRenderer.StandStat stat, IStandPower standData, StandStats stats, float statLeveling) {
+                        TuskStandStats actStats = (TuskStandStats) standData.getType().getStats();
+                        if (standData.getUser() != null){
+                            NailCapability actCap = standData.getUser().getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);
+                            if (actCap != null){
+                                if (stat == StandStatsRenderer.StandStat.STRENGTH) {
+                                    return (actStats.getActPower(actCap.getAct())+ 1) / 3;
+                                }
+                                if (stat == StandStatsRenderer.StandStat.SPEED) {
+                                    return (actStats.getActAttackSpeed(actCap.getAct())+ 1) / 3;
+                                }
+                                if (stat == StandStatsRenderer.StandStat.DURABILITY) {
+                                    return (actStats.getActDurability(actCap.getAct())+ 1) / 3;
+                                }
+                                if (stat == StandStatsRenderer.StandStat.PRECISION) {
+                                    return (actStats.getActPrecision(actCap.getAct())+ 1) / 3;
+                                }
+                                if (stat == StandStatsRenderer.StandStat.RANGE) {
+                                    double value = (actStats.getActRange(actCap.getAct()) + (actStats.getActRangeMax(actCap.getAct()) - actStats.getActRange(actCap.getAct())) * 0.5);
+                                    value = Math.log(value / 1.5) + 1;
+                                    return value;
+                                }
+                            }
+                        }
+
+                        return StandStatsRenderer.ICosmeticStandStats.super.statConvertedValue(stat, standData, stats, statLeveling);
+                    }
+                });
     }
 
     private static <T extends LivingEntity, M extends BipedModel<T>> void addLayersToEntities(EntityRenderer<?> renderer) {

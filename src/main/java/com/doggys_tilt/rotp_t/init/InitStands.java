@@ -3,6 +3,7 @@ package com.doggys_tilt.rotp_t.init;
 import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.action.*;
 import com.doggys_tilt.rotp_t.entity.TuskEntity;
+import com.doggys_tilt.rotp_t.util.TuskStandStats;
 import com.github.standobyte.jojo.action.Action;
 import com.github.standobyte.jojo.action.stand.*;
 import com.github.standobyte.jojo.entity.stand.StandEntityType;
@@ -96,10 +97,10 @@ public class InitStands {
     
 
     // ...then create the Stand type instance. Moves, stats, entity sizes, and a few other things are determined here.
-    public static final EntityStandRegistryObject<EntityStandType<StandStats>, StandEntityType<TuskEntity>> STAND_TUSK =
+    public static final EntityStandRegistryObject<EntityStandType<TuskStandStats>, StandEntityType<TuskEntity>> STAND_TUSK =
             new EntityStandRegistryObject<>("tusk",
                     STANDS, 
-                    () -> new EntityStandType.Builder<StandStats>()
+                    () -> new EntityStandType.Builder<TuskStandStats>()
                     .color(0xff719a)
                     .storyPartName(ModStandsInit.PART_7_NAME)
                     .leftClickHotbar(
@@ -113,12 +114,29 @@ public class InitStands {
                             WORMHOLE.get(),
                             WORMHOLE_WITH_ARM.get(),
                             TUSK_OPEN_SPACE.get())
-                    .defaultStats(StandStats.class, new StandStats.Builder()
+                    .defaultStats(TuskStandStats.class, new TuskStandStats.Builder()
+
+                            /*
+                             * "A" - 14+
+                             * "B" - 11-14
+                             * "C" - 8-11
+                             * "D" - 5-8
+                             * "E" - 0-5
+                             * "∅" - 0
+                             */
+
                             .power(3)
+                            .powerForActs(5, 7, 16)
                             .speed(3)
+                            .speedForActs(5, 7, 14)
                             .range(2, 2)
-                            .durability(14)
+                            .rangeForActs(5, 7,
+                                    5, 7,
+                                    8, 11)
+                            .durability(12)
+                            .durabilityForActs(10, 7, 16)
                             .precision(3)
+                            .precisionForActs(8, 10, 13)
                             .build())
                     .addSummonShout(InitSounds.JOHNNY_SUMMON_ACT_1)
                     .addOst(InitSounds.TUSK_OST)

@@ -1,5 +1,8 @@
 package com.doggys_tilt.rotp_t.util;
 
+import com.github.standobyte.jojo.client.ui.standstats.StandStatsRenderer;
+import com.github.standobyte.jojo.entity.stand.StandStatFormulas;
+import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.power.impl.stand.stats.StandStats;
 import com.github.standobyte.jojo.power.impl.stand.stats.TimeStopperStandStats;
 import net.minecraft.network.PacketBuffer;
@@ -7,6 +10,7 @@ import net.minecraft.network.PacketBuffer;
 public class TuskStandStats extends StandStats {
     private final TuskActStats statsAct2;
     private final TuskActStats statsAct3;
+    private final TuskActStats statsAct4;
     private final double rangeEffectiveAct2;
     private final double rangeMaxAct2;
     private final double rangeEffectiveAct3;
@@ -18,6 +22,7 @@ public class TuskStandStats extends StandStats {
         super(builder);
         this.statsAct2 = new TuskActStats(builder.powerAct2, builder.speedAct2, builder.durabilityAct2, builder.precisionAct2);
         this.statsAct3 = new TuskActStats(builder.powerAct3, builder.speedAct3, builder.durabilityAct3, builder.precisionAct3);
+        this.statsAct4 = new TuskActStats(builder.powerAct4, builder.speedAct4, builder.durabilityAct4, builder.precisionAct4);
         this.rangeEffectiveAct2 = builder.rangeAct2;
         this.rangeMaxAct2 = builder.rangeMaxAct2;
         this.rangeEffectiveAct3 = builder.rangeAct3;
@@ -30,6 +35,7 @@ public class TuskStandStats extends StandStats {
         super(buf);
         this.statsAct2 = new TuskActStats(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
         this.statsAct3 = new TuskActStats(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
+        this.statsAct4 = new TuskActStats(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
         this.rangeEffectiveAct2 = buf.readDouble();
         this.rangeMaxAct2 = buf.readDouble();
         this.rangeEffectiveAct3 = buf.readDouble();
@@ -39,6 +45,7 @@ public class TuskStandStats extends StandStats {
     }
 
     public void write(PacketBuffer buf) {
+        super.write(buf);
         buf.writeDouble(statsAct2.power);
         buf.writeDouble(statsAct2.speed);
         buf.writeDouble(statsAct2.durability);
@@ -48,6 +55,11 @@ public class TuskStandStats extends StandStats {
         buf.writeDouble(statsAct3.speed);
         buf.writeDouble(statsAct3.durability);
         buf.writeDouble(statsAct3.precision);
+
+        buf.writeDouble(statsAct4.power);
+        buf.writeDouble(statsAct4.speed);
+        buf.writeDouble(statsAct4.durability);
+        buf.writeDouble(statsAct4.precision);
 
         buf.writeDouble(rangeEffectiveAct2);
         buf.writeDouble(rangeMaxAct2);
@@ -62,71 +74,149 @@ public class TuskStandStats extends StandStats {
         registerFactory(TuskStandStats.class, TuskStandStats::new);
     }
 
+    public double getActPower(int act) {
+        switch (act){
+            case 1:
+                return statsAct2.power;
+            case 2:
+                return statsAct3.power;
+            case 3:
+                return statsAct4.power;
+            default:
+                return getBasePower();
+        }
+    }
+
+    public double getActAttackSpeed(int act) {
+        switch (act){
+            case 1:
+                return statsAct2.speed;
+            case 2:
+                return statsAct3.speed;
+            case 3:
+                return statsAct4.speed;
+            default:
+                return getBaseAttackSpeed();
+        }
+    }
+
+    public double getActMovementSpeed(int act) {
+        switch (act){
+            case 1:
+                return StandStatFormulas.getMovementSpeed(statsAct2.speed);
+            case 2:
+                return StandStatFormulas.getMovementSpeed(statsAct3.speed);
+            case 3:
+                return StandStatFormulas.getMovementSpeed(statsAct4.speed);
+            default:
+                return StandStatFormulas.getMovementSpeed(getBaseAttackSpeed());
+        }
+    }
+
+    public double getActDurability(int act) {
+        switch (act){
+            case 1:
+                return statsAct2.power;
+            case 2:
+                return statsAct3.power;
+            case 3:
+                return statsAct4.power;
+            default:
+                return getBaseDurability();
+        }
+    }
+
+    public double getActPrecision(int act) {
+        switch (act){
+            case 1:
+                return statsAct2.precision;
+            case 2:
+                return statsAct3.precision;
+            case 3:
+                return statsAct4.precision;
+            default:
+                return getBasePrecision();
+        }
+    }
+
+    public double getActRange(int act) {
+        switch (act){
+            case 1:
+                return rangeEffectiveAct2;
+            case 2:
+                return rangeEffectiveAct3;
+            case 3:
+                return rangeEffectiveAct4;
+            default:
+                return getEffectiveRange();
+        }
+    }
+
+    public double getActRangeMax(int act) {
+        switch (act){
+            case 1:
+                return rangeMaxAct2;
+            case 2:
+                return rangeMaxAct3;
+            case 3:
+                return rangeMaxAct4;
+            default:
+                return getMaxRange();
+        }
+    }
+
     public static class Builder extends AbstractBuilder<TuskStandStats.Builder, TuskStandStats> {
-        private double powerBase;
         private double powerAct2;
         private double powerAct3;
-        private double powerMax;
+        private double powerAct4;
 
-        private double speedBase;
         private double speedAct2;
         private double speedAct3;
-        private double speedMax;
+        private double speedAct4;
 
-        private double rangeEffective;
         private double rangeAct2;
         private double rangeAct3;
         private double rangeAct4;
 
-        private double rangeMax;
         private double rangeMaxAct2;
         private double rangeMaxAct3;
         private double rangeMaxAct4;
 
-        private double durabilityBase;
         private double durabilityAct2;
         private double durabilityAct3;
-        private double durabilityMax;
+        private double durabilityAct4;
 
-        private double precisionBase;
         private double precisionAct2;
         private double precisionAct3;
-        private double precisionMax;
+        private double precisionAct4;
 
-        public Builder power(double powerAct1, double powerAct2, double powerAct3, double powerAct4) {
-            this.powerBase = Math.max(powerAct1, 0);
+        public Builder powerForActs(double powerAct2, double powerAct3, double powerAct4) {
             this.powerAct2 = Math.max(powerAct2, 0);
             this.powerAct3 = Math.max(powerAct3, 0);
-            this.powerMax = Math.max(powerAct4, 0);
+            this.powerAct4 = Math.max(powerAct4, 0);
             return getThis();
         }
-        public Builder speed(double speedAct1, double speedAct2, double speedAct3, double speedAct4) {
-            this.speedBase = Math.max(speedAct1, 0);
+        public Builder speedForActs(double speedAct2, double speedAct3, double speedAct4) {
             this.speedAct2 = Math.max(speedAct2, 0);
             this.speedAct3 = Math.max(speedAct3, 0);
-            this.speedMax = Math.max(speedAct4, 0);
+            this.speedAct4 = Math.max(speedAct4, 0);
             return getThis();
         }
-        public Builder durability(double durabilityAct1, double durabilityAct2, double durabilityAct3, double durabilityAct4) {
-            this.durabilityBase = Math.max(durabilityAct1, 0);
+        public Builder durabilityForActs(double durabilityAct2, double durabilityAct3, double durabilityAct4) {
             this.durabilityAct2 = Math.max(durabilityAct2, 0);
             this.durabilityAct3 = Math.max(durabilityAct3, 0);
-            this.durabilityMax = Math.max(durabilityAct4, 0);
+            this.durabilityAct4 = Math.max(durabilityAct4, 0);
             return getThis();
         }
-        public Builder precision(double precisionAct1, double precisionAct2, double precisionAct3, double precisionAct4) {
-            this.precisionBase = Math.max(precisionAct1, 0);
+        public Builder precisionForActs(double precisionAct2, double precisionAct3, double precisionAct4) {
             this.precisionAct2 = Math.max(precisionAct2, 0);
             this.precisionAct3 = Math.max(precisionAct3, 0);
-            this.precisionMax = Math.max(precisionAct4, 0);
+            this.precisionAct4 = Math.max(precisionAct4, 0);
             return getThis();
         }
-        public Builder range(double rangeAct1, double rangeMaxAct1,
-                             double rangeAct2, double rangeMaxAct2,
+        public Builder rangeForActs(double rangeAct2, double rangeMaxAct2,
                              double rangeAct3, double rangeMaxAct3,
                              double rangeAct4, double rangeMaxAct4) {
-            this.rangeEffective = Math.max(rangeAct1, 1.0);
-            this.rangeMax = Math.max(rangeMaxAct1, rangeAct1);
             this.rangeAct2 = Math.max(rangeAct2, 1.0);
             this.rangeMaxAct2 = Math.max(rangeMaxAct2, rangeAct2);
             this.rangeAct3 = Math.max(rangeAct3, 1.0);

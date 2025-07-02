@@ -5,12 +5,12 @@
   "refmap": "mixins.myrotpaddon.refmap.json",
   "minVersion": "0.8",
   "mixins": [
+    "StandEntityMixin",
     "StandPowerMixin",
     "StandTypeMixin",
     "TimeStopHandlerMixin"
   ],
   "client": [
-    "StandStatsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
