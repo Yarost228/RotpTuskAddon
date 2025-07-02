@@ -28,7 +28,7 @@ public class TuskCreateWormhole extends StandAction {
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
         Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent()){
-            if (cap.get().getNailCount() > 0 && !cap.get().hasWormholeWithArm() && !cap.get().hasWormhole() && cap.get().getWormhole() != null){
+            if ((cap.get().getNailCount() > 0 && !cap.get().hasWormholeWithArm() && !cap.get().hasWormhole() && cap.get().getWormhole() != null) && cap.get().getAct() >= 2) {
                 return ActionConditionResult.POSITIVE;
             }
         }

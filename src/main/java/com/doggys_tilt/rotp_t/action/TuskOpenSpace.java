@@ -1,21 +1,38 @@
 package com.doggys_tilt.rotp_t.action;
 
+import com.doggys_tilt.rotp_t.capability.NailCapability;
+import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.block_replacer.EntityBlockSwapper;
 import com.doggys_tilt.rotp_t.init.InitEntities;
+import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
 import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+
+import java.util.Optional;
 
 public class TuskOpenSpace extends StandEntityAction {
     public TuskOpenSpace(StandEntityAction.Builder builder) {
         super(builder);
     }
+    @Override
+    public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
+        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        if (cap.isPresent()){
+            if (cap.get().getAct() >= 3) {
+                return ActionConditionResult.POSITIVE;
+            }
+        }
+        return ActionConditionResult.NEGATIVE;
+    }
+
     @Override
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (!world.isClientSide()){
