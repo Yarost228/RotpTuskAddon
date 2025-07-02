@@ -32,11 +32,13 @@ public class InitStands {
     public static final RegistryObject<StandEntityAction> TUSK_PUNCH = ACTIONS.register("tusk_punch",
             () -> new StandEntityLightAttack(new StandEntityLightAttack.Builder()
                     .shout(InitSounds.JOHNNY_LIGHT_ATTACK)
+                    .resolveLevelToUnlock(3)
                     .punchSound(InitSounds.TUSK_PUNCH_LIGHT)));
 
     public static final RegistryObject<StandEntityAction> TUSK_BARRAGE = ACTIONS.register("tusk_barrage",
             () -> new StandEntityMeleeBarrage(new StandEntityMeleeBarrage.Builder()
                     .standSound(StandEntityAction.Phase.PERFORM, false, InitSounds.JOHNNY_BARRAGE)
+                    .resolveLevelToUnlock(3)
                     .barrageHitSound(InitSounds.TUSK_PUNCH_BARRAGE)));
 
     public static final RegistryObject<StandEntityHeavyAttack> TUSK_FINISHER_PUNCH = ACTIONS.register("tusk_finisher_punch",
@@ -47,6 +49,7 @@ public class InitStands {
 
     public static final RegistryObject<StandEntityHeavyAttack> TUSK_HEAVY_PUNCH = ACTIONS.register("tusk_heavy_punch",
             () -> new StandEntityHeavyAttack(new StandEntityHeavyAttack.Builder()
+                    .resolveLevelToUnlock(3)
                     .shiftVariationOf(TUSK_PUNCH).shiftVariationOf(TUSK_BARRAGE)
                     .shout(InitSounds.JOHNNY_HEAVY_ATTACK)
                     .setFinisherVariation(TUSK_FINISHER_PUNCH)
@@ -57,44 +60,53 @@ public class InitStands {
             () -> new StandEntityBlock());
 
     public static final RegistryObject<StandAction> NAIL_SHOT = ACTIONS.register("tusk_nail_shot",
-            () -> new TuskNailShot(new StandAction.Builder()));
+            () -> new TuskNailShot(new StandAction.Builder()
+                    .resolveLevelToUnlock(0)));
 
     public static final RegistryObject<StandAction> NAIL_SCRATCH = ACTIONS.register("tusk_nail_scratch",
-            () -> new TuskNailScratch(new StandAction.Builder()));
+            () -> new TuskNailScratch(new StandAction.Builder()
+                    .resolveLevelToUnlock(0)));
 
     public static final RegistryObject<StandAction> WORMHOLE = ACTIONS.register("wormhole",
-            () -> new TuskCreateWormhole(new StandAction.Builder()));
+            () -> new TuskCreateWormhole(new StandAction.Builder()
+                    .resolveLevelToUnlock(2)));
 
     public static final RegistryObject<StandAction> MOVE_WORMHOLE = ACTIONS.register("move_wormhole",
-            () -> new TuskMoveWormhole(new StandAction.Builder()));
+            () -> new TuskMoveWormhole(new StandAction.Builder()
+                    .resolveLevelToUnlock(2)));
 
     public static final RegistryObject<StandAction> REMOVE_WORMHOLE = ACTIONS.register("remove_wormhole",
             () -> new TuskRemoveWormhole(new StandAction.Builder()
+                    .resolveLevelToUnlock(2)
                     .holdType(1)
                     .shiftVariationOf(MOVE_WORMHOLE)));
 
     public static final RegistryObject<StandAction> WORMHOLE_WITH_ARM = ACTIONS.register("wormhole_with_arm",
-            () -> new TuskCreateWormholeWithArm(new StandAction.Builder()));
+            () -> new TuskCreateWormholeWithArm(new StandAction.Builder()
+                    .resolveLevelToUnlock(2)));
 
     public static final RegistryObject<StandAction> MOVE_WORMHOLE_WITH_ARM = ACTIONS.register("move_wormhole_with_arm",
-            () -> new TuskMoveWormholeWithArm(new StandAction.Builder()));
+            () -> new TuskMoveWormholeWithArm(new StandAction.Builder()
+                    .resolveLevelToUnlock(2)));
 
     public static final RegistryObject<StandAction> REMOVE_WORMHOLE_WITH_ARM = ACTIONS.register("remove_wormhole_with_arm",
             () -> new TuskRemoveWormholeWithArm(new StandAction.Builder()
+                    .resolveLevelToUnlock(2)
                     .holdType(1)
                     .shiftVariationOf(MOVE_WORMHOLE_WITH_ARM)));
 
     public static final RegistryObject<StandAction> CHARGED_NAIL_SHOT = ACTIONS.register("tusk_charged_nail_shot",
-            () -> new TuskChargedNailShot(new StandAction.Builder().shiftVariationOf(NAIL_SHOT)));
+            () -> new TuskChargedNailShot(new StandAction.Builder().shiftVariationOf(NAIL_SHOT)
+                    .resolveLevelToUnlock(1)));
     
 
     public static final RegistryObject<StandAction> TUSK_SELECT_ACT = ACTIONS.register("tusk_select_act",
-            () -> new TuskSelectAct(new StandAction.Builder()));
+            () -> new TuskSelectAct(new StandAction.Builder().resolveLevelToUnlock(1)));
 
     public static final RegistryObject<StandAction> TUSK_OPEN_SPACE = ACTIONS.register("tusk_open_space",
-            () -> new TuskOpenSpace(new StandEntityAction.Builder()));
+            () -> new TuskOpenSpace(new StandEntityAction.Builder().resolveLevelToUnlock(3)));
 
-    
+
 
     // ...then create the Stand type instance. Moves, stats, entity sizes, and a few other things are determined here.
     public static final EntityStandRegistryObject<EntityStandType<TuskStandStats>, StandEntityType<TuskEntity>> STAND_TUSK =
