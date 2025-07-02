@@ -5,12 +5,14 @@ import com.doggys_tilt.rotp_t.capability.NailCapability;
 import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import com.doggys_tilt.rotp_t.client.render.RenderNothing;
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayer;
+import com.doggys_tilt.rotp_t.client.render.particle.NailSwipeParticle;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeRenderer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeTinyRenderer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeWithArmRenderer;
 import com.doggys_tilt.rotp_t.client.render.tusk.TuskRenderer;
 import com.doggys_tilt.rotp_t.client.render.nail.NailRenderer;
 import com.doggys_tilt.rotp_t.init.InitEntities;
+import com.doggys_tilt.rotp_t.init.InitParticles;
 import com.doggys_tilt.rotp_t.init.InitStands;
 
 import com.doggys_tilt.rotp_t.util.TuskStandStats;
@@ -24,6 +26,7 @@ import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -63,36 +66,43 @@ public class ClientInit {
         ClientEvents.init(mc);
 
         StandStatsRenderer.overrideCosmeticStats(
-                InitStands.STAND_TUSK.getStandType().getRegistryName(),
-                new StandStatsRenderer.ICosmeticStandStats() {
-                    public double statConvertedValue(StandStatsRenderer.StandStat stat, IStandPower standData, StandStats stats, float statLeveling) {
-                        TuskStandStats actStats = (TuskStandStats) standData.getType().getStats();
-                        if (standData.getUser() != null){
-                            NailCapability actCap = standData.getUser().getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);
-                            if (actCap != null){
-                                if (stat == StandStatsRenderer.StandStat.STRENGTH) {
-                                    return (actStats.getActPower(actCap.getAct())+ 1) / 3;
-                                }
-                                if (stat == StandStatsRenderer.StandStat.SPEED) {
-                                    return (actStats.getActAttackSpeed(actCap.getAct())+ 1) / 3;
-                                }
-                                if (stat == StandStatsRenderer.StandStat.DURABILITY) {
-                                    return (actStats.getActDurability(actCap.getAct())+ 1) / 3;
-                                }
-                                if (stat == StandStatsRenderer.StandStat.PRECISION) {
-                                    return (actStats.getActPrecision(actCap.getAct())+ 1) / 3;
-                                }
-                                if (stat == StandStatsRenderer.StandStat.RANGE) {
-                                    double value = (actStats.getActRange(actCap.getAct()) + (actStats.getActRangeMax(actCap.getAct()) - actStats.getActRange(actCap.getAct())) * 0.5);
-                                    value = Math.log(value / 1.5) + 1;
-                                    return value;
-                                }
+            InitStands.STAND_TUSK.getStandType().getRegistryName(),
+            new StandStatsRenderer.ICosmeticStandStats() {
+                public double statConvertedValue(StandStatsRenderer.StandStat stat, IStandPower standData, StandStats stats, float statLeveling) {
+                    TuskStandStats actStats = (TuskStandStats) standData.getType().getStats();
+                    if (standData.getUser() != null){
+                        NailCapability actCap = standData.getUser().getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);
+                        if (actCap != null){
+                            if (stat == StandStatsRenderer.StandStat.STRENGTH) {
+                                return (actStats.getActPower(actCap.getAct())+ 1) / 3;
+                            }
+                            if (stat == StandStatsRenderer.StandStat.SPEED) {
+                                return (actStats.getActAttackSpeed(actCap.getAct())+ 1) / 3;
+                            }
+                            if (stat == StandStatsRenderer.StandStat.DURABILITY) {
+                                return (actStats.getActDurability(actCap.getAct())+ 1) / 3;
+                            }
+                            if (stat == StandStatsRenderer.StandStat.PRECISION) {
+                                return (actStats.getActPrecision(actCap.getAct())+ 1) / 3;
+                            }
+                            if (stat == StandStatsRenderer.StandStat.RANGE) {
+                                double value = (actStats.getActRange(actCap.getAct()) + (actStats.getActRangeMax(actCap.getAct()) - actStats.getActRange(actCap.getAct())) * 0.5);
+                                value = Math.log(value / 1.5) + 1;
+                                return value;
                             }
                         }
-
-                        return StandStatsRenderer.ICosmeticStandStats.super.statConvertedValue(stat, standData, stats, statLeveling);
                     }
-                });
+
+                    return StandStatsRenderer.ICosmeticStandStats.super.statConvertedValue(stat, standData, stats, statLeveling);
+                }
+            }
+        );
+    }
+
+    @SubscribeEvent
+    public static void onMcConstructor(ParticleFactoryRegisterEvent event) {
+        Minecraft mc = Minecraft.getInstance();
+        mc.particleEngine.register(InitParticles.NAIL_SWIPE.get(), NailSwipeParticle.Factory::new);
     }
 
     private static <T extends LivingEntity, M extends BipedModel<T>> void addLayersToEntities(EntityRenderer<?> renderer) {

@@ -28,6 +28,7 @@ public class RotpTuskAddon {
         // (see ForgeRegistries or JojoCustomRegistries)
         InitEntities.ENTITIES.register(modEventBus);
         InitEffects.EFFECTS.register(modEventBus);
+        InitParticles.PARTICLES.register(modEventBus);
         InitSounds.SOUNDS.register(modEventBus);
         InitStands.ACTIONS.register(modEventBus);
         InitStands.STANDS.register(modEventBus);
