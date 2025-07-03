@@ -25,9 +25,9 @@ public class InitStands {
     public static final DeferredRegister<StandType<?>> STANDS = DeferredRegister.create(
             (Class<StandType<?>>) ((Class<?>) StandType.class), RotpTuskAddon.MOD_ID);
     
- // ======================================== Example Stand ========================================
+ // ======================================== Tusk ========================================
     
-    
+
     // Create all the abilities here...
     public static final RegistryObject<StandEntityAction> TUSK_PUNCH = ACTIONS.register("tusk_punch",
             () -> new TuskLightPunch(new TuskLightPunch.Builder()
@@ -43,6 +43,7 @@ public class InitStands {
 
     public static final RegistryObject<TuskInfiniteRotation> TUSK_INFINITE_ROTATION = ACTIONS.register("tusk_infinite_rotation",
             () -> new TuskInfiniteRotation(new TuskInfiniteRotation.Builder()
+                    .staminaCost(425)
                     .shout(InitSounds.JOHNNY_HEAVY_ATTACK)
                     .standPose(TuskInfiniteRotation.INFINITE_ROTATION_ANIM)
                     .punchSound(InitSounds.TUSK_PUNCH_HEAVY).standOffsetFromUser(0, 1, 0.5)
@@ -71,14 +72,17 @@ public class InitStands {
 
     public static final RegistryObject<StandAction> NAIL_SHOT = ACTIONS.register("tusk_nail_shot",
             () -> new TuskNailShot(new StandAction.Builder()
+                    .staminaCostTick(2f)
                     .resolveLevelToUnlock(0)));
 
     public static final RegistryObject<StandAction> NAIL_SCRATCH = ACTIONS.register("tusk_nail_scratch",
             () -> new TuskNailScratch(new StandAction.Builder()
+                    .staminaCost(100)
                     .resolveLevelToUnlock(0)));
 
     public static final RegistryObject<StandAction> WORMHOLE = ACTIONS.register("wormhole",
             () -> new TuskCreateWormhole(new StandAction.Builder()
+                    .staminaCost(150)
                     .resolveLevelToUnlock(2)));
 
     public static final RegistryObject<StandAction> MOVE_WORMHOLE = ACTIONS.register("move_wormhole",
@@ -107,6 +111,7 @@ public class InitStands {
 
     public static final RegistryObject<StandAction> CHARGED_NAIL_SHOT = ACTIONS.register("tusk_charged_nail_shot",
             () -> new TuskChargedNailShot(new StandAction.Builder().shiftVariationOf(NAIL_SHOT)
+                    .staminaCost(175)
                     .resolveLevelToUnlock(1)));
     
 
@@ -114,7 +119,7 @@ public class InitStands {
             () -> new TuskSelectAct(new StandAction.Builder().resolveLevelToUnlock(1)));
 
     public static final RegistryObject<StandAction> TUSK_OPEN_SPACE = ACTIONS.register("tusk_open_space",
-            () -> new TuskOpenSpace(new StandEntityAction.Builder().resolveLevelToUnlock(3)));
+            () -> new TuskOpenSpace(new StandEntityAction.Builder().resolveLevelToUnlock(3).staminaCost(225)));
 
 
 
