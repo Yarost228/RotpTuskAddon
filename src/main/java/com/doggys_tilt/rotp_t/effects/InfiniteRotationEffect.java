@@ -50,11 +50,12 @@ public class InfiniteRotationEffect extends UncurableEffect {
             else {
                 livingEntity.setInvulnerable(false);
             }
-            livingEntity.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(tuskCapability ->
-                    livingEntity.setDeltaMovement((livingEntity.position().vectorTo(tuskCapability.getInfiniteRotationPos())).scale(0.25)));
-            if (IStandPower.getStandPowerOptional(livingEntity).isPresent()) {
-                IStandPower power = IStandPower.getStandPowerOptional(livingEntity).resolve().get();
-            }
+
+//            if (IStandPower.getStandPowerOptional(livingEntity).isPresent()) {
+//                IStandPower power = IStandPower.getStandPowerOptional(livingEntity).resolve().get();
+//            }
         }
+        livingEntity.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(tuskCapability ->
+                livingEntity.setDeltaMovement((livingEntity.position().vectorTo(tuskCapability.getInfiniteRotationPos())).scale(0.25)));
     }
 }

@@ -4,23 +4,32 @@ import com.doggys_tilt.rotp_t.entity.WormholeArmEntity;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tags.Tag;
+import net.minecraft.tileentity.ChestTileEntity;
+import net.minecraft.tileentity.LockableLootTileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +41,7 @@ public class EntityBlockSwapper extends Entity {
     private static final DataParameter<Optional<BlockState>> ORIG_BLOCK_STATE = EntityDataManager.defineId(EntityBlockSwapper.class, DataSerializers.BLOCK_STATE);
     private static final DataParameter<Integer> RESTORE_TIME = EntityDataManager.defineId(EntityBlockSwapper.class, DataSerializers.INT);
     private static final DataParameter<BlockPos> POS = EntityDataManager.defineId(EntityBlockSwapper.class, DataSerializers.BLOCK_POS);
+    private NonNullList<ItemStack> items = NonNullList.withSize(0, ItemStack.EMPTY);
     protected int duration;
     protected boolean breakParticlesEnd;
     private BlockPos pos;
@@ -49,6 +59,14 @@ public class EntityBlockSwapper extends Entity {
         setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         if (!world.isClientSide) {
             setOrigBlock(world.getBlockState(pos));
+            if (world.getBlockEntity(pos) instanceof LockableLootTileEntity){
+                LockableLootTileEntity tileEntity = (LockableLootTileEntity) world.getBlockEntity(pos);
+                items = NonNullList.withSize(tileEntity.getContainerSize(), ItemStack.EMPTY);
+                for (int i = 0; i < tileEntity.getContainerSize(); i++) {
+                    items.set(i, tileEntity.getItem(i));
+                }
+                tileEntity.clearContent();
+            }
             if (breakParticlesStart) world.destroyBlock(pos, false);
             world.setBlock(pos, newBlock, 19);
         }
@@ -125,8 +143,15 @@ public class EntityBlockSwapper extends Entity {
                 }
             }
             if (canReplace) {
+                level.getBlockState(pos);
                 if (breakParticlesEnd) level.destroyBlock(pos, false);
                 level.setBlock(pos, getOrigBlock(), 19);
+                if (this.level.getBlockEntity(pos) instanceof LockableLootTileEntity){
+                    LockableLootTileEntity tileEntity = (LockableLootTileEntity) this.level.getBlockEntity(pos);
+                    for (ItemStack itemStack : items) {
+                        tileEntity.setItem(items.indexOf(itemStack), itemStack);
+                    }
+                }
             }
             remove();
         }
@@ -145,6 +170,7 @@ public class EntityBlockSwapper extends Entity {
     @Override
     public void addAdditionalSaveData(CompoundNBT compound) {
         Optional<BlockState> blockState = getEntityData().get(ORIG_BLOCK_STATE);
+        ItemStackHelper.saveAllItems(compound, this.items);
         compound.put("block", NBTUtil.writeBlockState(blockState.get()));
         compound.putInt("restoreTime", getRestoreTime());
         compound.putInt("storePosX", getStorePos().getX());
@@ -163,6 +189,7 @@ public class EntityBlockSwapper extends Entity {
             BlockState blockState = NBTUtil.readBlockState((CompoundNBT) blockNBT);
             setOrigBlock(blockState);
         }
+        ItemStackHelper.loadAllItems(compound, this.items);
         setRestoreTime(compound.getInt("restoreTime"));
         setStorePos(new BlockPos(
                 compound.getInt("storePosX"),
