@@ -29,9 +29,9 @@ displayName="Tusk RotP Stand Addon" #mandatory
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="icon.png" #optional
 # A text field displayed in the mod UI
-credits="StandoByte, " #optional
+credits="StandoByte, Tilto, DoGGyS" #optional
 # A text field displayed in the mod UI
-authors="You" #optional
+authors="Tilto, DoGGyS" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 An addon that adds Tusk with all its acts to RotP!
