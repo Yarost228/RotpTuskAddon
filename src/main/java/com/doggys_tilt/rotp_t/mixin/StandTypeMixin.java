@@ -1,8 +1,8 @@
 package com.doggys_tilt.rotp_t.mixin;
 
 import com.doggys_tilt.rotp_t.RotpTuskAddon;
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.TuskEntity;
 import com.doggys_tilt.rotp_t.init.InitSounds;
 import com.doggys_tilt.rotp_t.init.InitStands;
@@ -21,7 +21,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
@@ -47,7 +46,7 @@ public abstract class StandTypeMixin {
             if (stand instanceof TuskEntity) {
                 LivingEntity user = power.getUser();
                 if (user != null) {
-                    user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
+                    user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
                         int act = nailCap.getAct();
                         if (act >= 0 && act < rotpTuskAddon_main$tuskActTextures.length) {
                             cir.setReturnValue(rotpTuskAddon_main$tuskActTextures[act]);
@@ -60,7 +59,7 @@ public abstract class StandTypeMixin {
     @Redirect(method = "summon", at = @At(value = "INVOKE", target = "Lcom/github/standobyte/jojo/util/mod/JojoModUtil;sayVoiceLine(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/util/SoundEvent;)V"))
     private void changeSummonShoutByACT(LivingEntity entity, SoundEvent shout, LivingEntity user, IStandPower standPower, boolean withoutNameVoiceLine){
         if ((StandType) (Object) this == InitStands.STAND_TUSK.getStandType()){
-            NailCapability capability = user.getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);
+            TuskCapability capability = user.getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
             if (capability != null){
                 switch (capability.getAct()){
                     case 0:

@@ -8,14 +8,14 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class NailCapabilityProvider implements ICapabilitySerializable<INBT> {
-    @CapabilityInject(NailCapability.class)
+public class TuskCapabilityProvider implements ICapabilitySerializable<INBT> {
+    @CapabilityInject(TuskCapability.class)
 
-    public static Capability<NailCapability> CAPABILITY = null;
-    private LazyOptional<NailCapability> instance;
+    public static Capability<TuskCapability> CAPABILITY = null;
+    private LazyOptional<TuskCapability> instance;
 
-    public NailCapabilityProvider(LivingEntity entity) {
-        this.instance = LazyOptional.of(() -> new NailCapability(entity));
+    public TuskCapabilityProvider(LivingEntity entity) {
+        this.instance = LazyOptional.of(() -> new TuskCapability(entity));
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.doggys_tilt.rotp_t.mixin;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.TuskEntity;
-import com.doggys_tilt.rotp_t.init.InitStands;
 import com.github.standobyte.jojo.power.impl.PowerBaseImpl;
 import com.github.standobyte.jojo.power.impl.stand.IStandManifestation;
 import com.github.standobyte.jojo.power.impl.stand.StandPower;
@@ -26,7 +24,7 @@ public abstract class StandPowerMixin extends PowerBaseImpl {
 
     @Inject(method = "canLeap", at = @At(value = "RETURN"), cancellable = true)
     private void makeTuskLeapOnAct4(CallbackInfoReturnable<Boolean> cir){
-        user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+        user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
             if (this.getStandManifestation() instanceof TuskEntity){
                 cir.setReturnValue(nailCapability.getAct() == 3);
             }

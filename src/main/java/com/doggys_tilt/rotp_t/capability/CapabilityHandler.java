@@ -17,13 +17,13 @@ public class CapabilityHandler {
     private static final ResourceLocation CAPABILITY_ID = new ResourceLocation(RotpTuskAddon.MOD_ID, "nail_data");
 
     public static void commonSetupRegister() {
-        CapabilityManager.INSTANCE.register(NailCapability.class, new NailCapabilityStorage(), () -> new NailCapability(null));
+        CapabilityManager.INSTANCE.register(TuskCapability.class, new TuskCapabilityStorage(), () -> new TuskCapability(null));
     }
     @SubscribeEvent
     public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
         if (entity instanceof LivingEntity){
-            event.addCapability(CAPABILITY_ID, new NailCapabilityProvider((LivingEntity)entity));
+            event.addCapability(CAPABILITY_ID, new TuskCapabilityProvider((LivingEntity)entity));
         }
 
     }
@@ -45,7 +45,7 @@ public class CapabilityHandler {
 
     private static void syncAttachedData(PlayerEntity player) {
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-        player.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(data -> {
+        player.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(data -> {
             data.syncWithClient(serverPlayer);
         });
     }

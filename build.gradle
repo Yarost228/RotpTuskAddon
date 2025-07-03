@@ -58,6 +58,30 @@ minecraft {
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
+            args '--username', 'Dev'
+
+
+            mods {
+                examplemod {
+                    source sourceSets.main
+                }
+            }
+        }
+        client2 {
+            workingDirectory project.file('run2')
+
+            // Recommended logging data for a userdev environment
+            // The markers can be changed as needed.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            property 'forge.logging.markers', 'REGISTRIES'
+            args '--username', 'Dev2'
+
+            // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            property 'forge.logging.console.level', 'debug'
 
             mods {
                 examplemod {

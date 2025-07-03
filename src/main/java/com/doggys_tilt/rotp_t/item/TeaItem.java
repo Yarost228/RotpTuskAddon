@@ -1,7 +1,6 @@
 package com.doggys_tilt.rotp_t.item;
 
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
-import com.github.standobyte.jojo.item.StandDiscItem;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -18,7 +17,7 @@ public class TeaItem extends Item {
     public ItemStack finishUsingItem(ItemStack pStack, World pLevel, LivingEntity pEntityLiving) {
         super.finishUsingItem(pStack, pLevel, pEntityLiving);
         PlayerEntity playerentity = pEntityLiving instanceof PlayerEntity ? (PlayerEntity)pEntityLiving : null;
-        playerentity.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+        playerentity.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
             if (nailCapability.getNailCount() <= 10){
                 nailCapability.setNailCount(nailCapability.getNailCount() + 1);
             }

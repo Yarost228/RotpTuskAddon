@@ -1,6 +1,6 @@
 package com.doggys_tilt.rotp_t.entity;
 
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -58,7 +58,7 @@ public class AbstractWormholeEntity extends Entity {
     @Override
     public void remove(){
         if (getOwner() != null){
-            getOwner().getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+            getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                 nailCapability.hasWormholeWithArm(false);
                 nailCapability.setHasWormhole(false);
             });

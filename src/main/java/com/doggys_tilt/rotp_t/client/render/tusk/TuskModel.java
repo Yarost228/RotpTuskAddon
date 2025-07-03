@@ -1,13 +1,10 @@
 package com.doggys_tilt.rotp_t.client.render.tusk;
 
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.TuskEntity;
 import com.github.standobyte.jojo.client.render.entity.model.stand.HumanoidStandModel;
-import com.github.standobyte.jojo.entity.stand.StandEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.HandSide;
-import net.minecraft.util.math.MathHelper;
 
 public class TuskModel extends HumanoidStandModel<TuskEntity> {
     private ModelRenderer tusk_act_1;
@@ -102,7 +99,7 @@ public class TuskModel extends HumanoidStandModel<TuskEntity> {
         Tusk_act_4_Head.yRot = Math.max(Math.min(head.yRot, 22.5F*f), -22.5F*f);
         Tusk_act_4_Head.zRot = head.zRot;
         if (user != null && entity.overlayTickCount <= 10.0F){
-            user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
+            user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
                 switch (nailCap.getAct()){
                     case 0:
                         tusk_act_1.visible = true;
@@ -188,7 +185,7 @@ public class TuskModel extends HumanoidStandModel<TuskEntity> {
     public void setVisibility(TuskEntity entity, VisibilityMode mode, boolean obstructsView) {
         LivingEntity user = entity.getUser();
         if (user != null) {
-            user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
+            user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
                 if (obstructsView){
                     switch (nailCap.getAct()){
                         case 0:

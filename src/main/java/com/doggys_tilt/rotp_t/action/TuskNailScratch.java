@@ -1,15 +1,14 @@
 package com.doggys_tilt.rotp_t.action;
 
 import com.doggys_tilt.rotp_t.RotpTuskAddon;
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitParticles;
 import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
 import com.github.standobyte.jojo.action.non_stand.VampirismClawLacerate;
 import com.github.standobyte.jojo.action.stand.StandAction;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
-import com.github.standobyte.jojo.util.general.MathUtil;
 import com.github.standobyte.jojo.util.mc.MCUtil;
 import com.github.standobyte.jojo.util.mc.damage.DamageUtil;
 import com.github.standobyte.jojo.util.mc.damage.KnockbackCollisionImpact;
@@ -19,7 +18,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
@@ -31,7 +29,7 @@ public class TuskNailScratch extends StandAction {
     }
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
-        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent()){
             if (cap.get().getNailCount() > 0){
                 return ActionConditionResult.POSITIVE;

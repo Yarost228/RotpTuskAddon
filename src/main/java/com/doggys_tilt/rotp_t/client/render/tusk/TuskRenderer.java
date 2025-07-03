@@ -14,7 +14,7 @@ import net.minecraft.util.math.MathHelper;
 public class TuskRenderer extends StandEntityRenderer<TuskEntity, StandEntityModel<TuskEntity>> {
     public TuskRenderer(EntityRendererManager renderManager) {
         super(renderManager,
-                StandModelRegistry.registerModel(new ResourceLocation(RotpTuskAddon.MOD_ID, "example_stand"), TuskModel::new),
+                StandModelRegistry.registerModel(new ResourceLocation(RotpTuskAddon.MOD_ID, "tusk"), TuskModel::new),
                 new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/entity/stand/tusk.png"), 0);
     }
     private static final float OVERLAY_TICKS = 10.0F;

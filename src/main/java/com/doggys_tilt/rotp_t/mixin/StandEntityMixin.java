@@ -1,7 +1,7 @@
 package com.doggys_tilt.rotp_t.mixin;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.util.TuskStandStats;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
@@ -24,8 +24,8 @@ public abstract class StandEntityMixin {
     private double changeTuskEffectiveRangeInStrengthMultiplier(double rangeEffective){
         LivingEntity user = getUser();
         if (user != null) {
-            NailCapability actCap = user.getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);
-            if (actCap != null && getUserPower().getType().getStats() instanceof TuskStandStats) {
+            TuskCapability actCap = user.getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
+            if (actCap != null && this.getUserPower().getType() != null && this.getUserPower().getType().getStats() instanceof TuskStandStats) {
                 TuskStandStats stats = (TuskStandStats) getUserPower().getType().getStats();
                 return stats.getActRange(actCap.getAct());
             }

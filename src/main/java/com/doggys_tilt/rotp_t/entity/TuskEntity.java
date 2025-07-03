@@ -1,34 +1,19 @@
 package com.doggys_tilt.rotp_t.entity;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.util.TuskStandStats;
-import com.github.standobyte.jojo.capability.entity.PlayerUtilCap;
-import com.github.standobyte.jojo.capability.entity.PlayerUtilCapProvider;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityType;
 
 import com.github.standobyte.jojo.entity.stand.StandRelativeOffset;
 import com.github.standobyte.jojo.init.ModEntityAttributes;
-import com.github.standobyte.jojo.power.impl.stand.stats.StandStats;
-import com.github.standobyte.jojo.power.impl.stand.type.EntityStandType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ForgeMod;
 
 import java.util.UUID;
 
@@ -44,9 +29,11 @@ public class TuskEntity extends StandEntity {
             updateStatsFromAct(user);
         }
     }
+    @Override
+    public void modifiersFromResolveLevel(float ratio) {}
 
     private void updateStatsFromAct(LivingEntity user){
-        user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
+        user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
             TuskStandStats stats = (TuskStandStats) this.getUserPower().getType().getStats();
             applyAttributeModifier(Attributes.ATTACK_DAMAGE, UUID.fromString("532a6cb6-0df0-44ea-a769-dba2db506545"),
                     "Stand attack damage from experience", stats.getActPower(nailCap.getAct()) - stats.getBasePower(), AttributeModifier.Operation.ADDITION);
@@ -69,8 +56,8 @@ public class TuskEntity extends StandEntity {
     public double getMaxRange() {
         LivingEntity user = getUser();
         if (user != null) {
-            NailCapability actCap = user.getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);
-            if (actCap != null){
+            TuskCapability actCap = user.getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
+            if (actCap != null && this.getUserPower().getType() != null && this.getUserPower().getType().getStats() instanceof TuskStandStats){
                 TuskStandStats stats = (TuskStandStats) this.getUserPower().getType().getStats();
                 return stats.getActRangeMax(actCap.getAct());
             }
@@ -82,8 +69,8 @@ public class TuskEntity extends StandEntity {
     public double getMaxEffectiveRange() {
         LivingEntity user = getUser();
         if (user != null) {
-            NailCapability actCap = user.getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);
-            if (actCap != null){
+            TuskCapability actCap = user.getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
+            if (actCap != null && this.getUserPower().getType() != null && this.getUserPower().getType().getStats() instanceof TuskStandStats){
                 TuskStandStats stats = (TuskStandStats) this.getUserPower().getType().getStats();
                 return stats.getActRange(actCap.getAct());
             }
@@ -102,7 +89,7 @@ public class TuskEntity extends StandEntity {
     private final StandRelativeOffset offsetAct4 = StandRelativeOffset.withYOffset(0, .5, -1.5);
 
     public StandRelativeOffset getDefaultOffsetFromUser() {
-        NailCapability capability = this.getUser().getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);
+        TuskCapability capability = this.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
         if (capability != null && capability.getAct() == 3){
             return offsetAct4;
         }

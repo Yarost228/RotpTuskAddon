@@ -1,6 +1,6 @@
 package com.doggys_tilt.rotp_t.mixin;
 
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.TuskEntity;
 import com.doggys_tilt.rotp_t.init.InitStands;
 import com.github.standobyte.jojo.capability.world.TimeStopHandler;
@@ -19,21 +19,21 @@ public class TimeStopHandlerMixin {
         if (entity instanceof TuskEntity) {
             TuskEntity tusk = (TuskEntity) entity;
             if (tusk.getUser() != null){
-                tusk.getUser().getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+                tusk.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                     if (nailCapability.getAct() == 3){
                         ci.cancel();
                     }
                 });
             }
         }
-        else if (entity instanceof LivingEntity
-            && IStandPower.getStandPowerOptional((LivingEntity) entity).isPresent()
-            && IStandPower.getStandPowerOptional((LivingEntity) entity).resolve().get().getType() == InitStands.STAND_TUSK.getStandType()) {
-            entity.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
-                if (nailCapability.getAct() == 3){
-                    ci.cancel();
-                }
-            });
-        }
+//        else if (entity instanceof LivingEntity
+//            && IStandPower.getStandPowerOptional((LivingEntity) entity).isPresent()
+//            && IStandPower.getStandPowerOptional((LivingEntity) entity).resolve().get().getType() == InitStands.STAND_TUSK.getStandType()) {
+//            entity.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+//                if (nailCapability.getAct() == 3){
+//                    ci.cancel();
+//                }
+//            });
+//        }
     }
 }

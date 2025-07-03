@@ -1,7 +1,7 @@
 package com.doggys_tilt.rotp_t.action;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitStands;
 import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
@@ -18,9 +18,9 @@ public class TuskMoveWormhole extends StandAction {
 
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
-        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent()){
-            if (cap.get().getWormhole() != null && cap.get().getAct() >= 2) {
+            if (cap.get().hasWormhole() && cap.get().getAct() >= 2) {
                 return ActionConditionResult.POSITIVE;
             }
         }

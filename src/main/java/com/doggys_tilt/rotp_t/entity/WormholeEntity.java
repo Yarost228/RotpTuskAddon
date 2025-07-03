@@ -1,6 +1,6 @@
 package com.doggys_tilt.rotp_t.entity;
 
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -9,9 +9,6 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-
-import java.util.Comparator;
-import java.util.List;
 
 public class WormholeEntity extends AbstractWormholeEntity {
     public WormholeEntity(EntityType<? extends WormholeEntity> type, World world) {
@@ -28,7 +25,7 @@ public class WormholeEntity extends AbstractWormholeEntity {
     public void tick() {
         super.tick();
         if (getOwner() != null){
-            getOwner().getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+            getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                 nailCapability.addToNailWormholes(this);
             });
             Entity closestEntity = target;

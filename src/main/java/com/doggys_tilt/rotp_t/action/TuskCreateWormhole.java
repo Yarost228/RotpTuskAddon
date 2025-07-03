@@ -1,7 +1,7 @@
 package com.doggys_tilt.rotp_t.action;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.WormholeEntity;
 import com.doggys_tilt.rotp_t.entity.WormholeTeleporterEntity;
 import com.doggys_tilt.rotp_t.init.InitStands;
@@ -26,7 +26,7 @@ public class TuskCreateWormhole extends StandAction {
     }
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
-        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent()){
             if ((cap.get().getNailCount() > 0 && !cap.get().hasWormholeWithArm() && !cap.get().hasWormhole() && cap.get().getWormhole() != null) && cap.get().getAct() >= 2) {
                 return ActionConditionResult.POSITIVE;
@@ -39,7 +39,7 @@ public class TuskCreateWormhole extends StandAction {
     @Override
     public Action<IStandPower> getVisibleAction(IStandPower power, ActionTarget target) {
         LivingEntity user = power.getUser();
-        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
         return (cap.isPresent() && cap.get().hasWormhole()) ? InitStands.MOVE_WORMHOLE.get() : super.replaceAction(power, target);
     }
 
@@ -55,7 +55,7 @@ public class TuskCreateWormhole extends StandAction {
         enter.setConnectedTeleporter(exit);
         enter.moveTo(Vector3d.atCenterOf(user.blockPosition().above()));
         world.addFreshEntity(enter);
-        user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+        user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
             nailCapability.setHasWormhole(true);
             WormholeEntity wormholeToReplace = nailCapability.getWormhole();
             BlockPos endBlockPos = new BlockPos(wormholeToReplace.position());

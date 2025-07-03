@@ -1,19 +1,25 @@
 package com.doggys_tilt.rotp_t.entity;
 
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import com.doggys_tilt.rotp_t.init.InitStands;
 import com.doggys_tilt.rotp_t.util.TuskUtil;
 import com.github.standobyte.jojo.action.Action;
+import com.github.standobyte.jojo.capability.entity.EntityUtilCap;
+import com.github.standobyte.jojo.capability.entity.PlayerUtilCap;
+import com.github.standobyte.jojo.capability.entity.PlayerUtilCapProvider;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -42,7 +48,7 @@ public class WormholeTeleporterEntity extends AbstractWormholeEntity {
         super.tick();
         LivingEntity user = getOwner();
         if (user != null){
-            user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability ->
+            user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability ->
                     IStandPower.getStandPowerOptional(user).ifPresent(stand -> {
                     Action heldAction = stand.getHeldAction();
                     if (heldAction == InitStands.REMOVE_WORMHOLE.get()){
@@ -65,11 +71,22 @@ public class WormholeTeleporterEntity extends AbstractWormholeEntity {
         }
         else ticksUntilTeleport = 60;
         entities.forEach(entity -> {
-            if (ticksUntilTeleport <= 0 && !entities.isEmpty() && entity != null && connectedTeleporter != null){
+            boolean doubleShift = entity.getCapability(PlayerUtilCapProvider.CAPABILITY).map(
+                    PlayerUtilCap::getDoubleShiftPress).orElse(false);
+            if (doubleShift){
+                ticksUntilTeleport = 2;
+            }
+            if ((ticksUntilTeleport <= 0) && !entities.isEmpty() && entity != null && connectedTeleporter != null){
                 entity.teleportToWithTicket(
                                 connectedTeleporter.position().x,
                                 connectedTeleporter.position().y,
                                 connectedTeleporter.position().z);
+                if (entity instanceof LivingEntity){
+                    IStandPower power = IStandPower.getStandPowerOptional((LivingEntity)entity).orElse(null);
+                    if (power != null && power.getType() != InitStands.STAND_TUSK.getStandType()){
+                        entity.hurt(DamageSource.OUT_OF_WORLD, 15.0F);
+                    }
+                }
                 ticksUntilTeleport = 60;
             }
         });

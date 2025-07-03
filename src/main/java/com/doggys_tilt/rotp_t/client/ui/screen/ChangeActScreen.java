@@ -1,5 +1,7 @@
 package com.doggys_tilt.rotp_t.client.ui.screen;
 
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.network.AddonPackets;
 import com.doggys_tilt.rotp_t.network.SActSyncPacket;
 import com.github.standobyte.jojo.client.InputHandler;
@@ -8,7 +10,6 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.doggys_tilt.rotp_t.RotpTuskAddon;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
@@ -44,9 +45,9 @@ public class ChangeActScreen extends Screen {
     }
     public Optional<ActType> getPreviousHovered(){
         Minecraft mc = Minecraft.getInstance();
-        if (mc.player.getCapability(NailCapabilityProvider.CAPABILITY).resolve().isPresent()){
+        if (mc.player.getCapability(TuskCapabilityProvider.CAPABILITY).resolve().isPresent()){
             int prevType = mc.player
-                    .getCapability(NailCapabilityProvider.CAPABILITY)
+                    .getCapability(TuskCapabilityProvider.CAPABILITY)
                     .resolve()
                     .get()
                     .getPrevAct();
@@ -75,13 +76,14 @@ public class ChangeActScreen extends Screen {
                         .isPresent()
                         ? this.previousHovered
                         : ActType.getFromFormationType(ActType.getByFormationType(minecraft.player
-                        .getCapability(NailCapabilityProvider.CAPABILITY)
+                        .getCapability(TuskCapabilityProvider.CAPABILITY)
                         .resolve()
                         .get()
                         .getAct()));
 
         this.slots.clear();
-        for (int i = 0; i < ActType.VALUES.length; ++i) {
+        IStandPower standPower = IStandPower.getPlayerStandPower(minecraft.player);
+        for (int i = 0; i < Math.min(standPower.getResolveLevel()+1, 4); ++i) {
             ActType type = ActType.VALUES[i];
             this.slots.add(new SelectorActWidget(type, this.width / 2 - ALL_SLOTS_WIDTH / 2 + i * 30, this.height / 2 - 30));
         }
@@ -128,7 +130,7 @@ public class ChangeActScreen extends Screen {
     }
     private void switchToHoveredFormationTypeAndClose(Minecraft minecraft, Optional<ActType> hovered){
         PlayerEntity player = minecraft.player;
-            player.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(capability -> {
+            player.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(capability -> {
                 capability.setAct(hovered.get().formationType);
                 AddonPackets.sendToServer(new SActSyncPacket(player.getId(), hovered.get().formationType));
             });

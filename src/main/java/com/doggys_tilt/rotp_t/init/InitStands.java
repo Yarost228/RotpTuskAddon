@@ -30,32 +30,42 @@ public class InitStands {
     
     // Create all the abilities here...
     public static final RegistryObject<StandEntityAction> TUSK_PUNCH = ACTIONS.register("tusk_punch",
-            () -> new StandEntityLightAttack(new StandEntityLightAttack.Builder()
+            () -> new TuskLightPunch(new TuskLightPunch.Builder()
                     .shout(InitSounds.JOHNNY_LIGHT_ATTACK)
                     .resolveLevelToUnlock(3)
                     .punchSound(InitSounds.TUSK_PUNCH_LIGHT)));
 
     public static final RegistryObject<StandEntityAction> TUSK_BARRAGE = ACTIONS.register("tusk_barrage",
-            () -> new StandEntityMeleeBarrage(new StandEntityMeleeBarrage.Builder()
+            () -> new TuskBarrage(new TuskBarrage.Builder()
                     .standSound(StandEntityAction.Phase.PERFORM, false, InitSounds.JOHNNY_BARRAGE)
                     .resolveLevelToUnlock(3)
                     .barrageHitSound(InitSounds.TUSK_PUNCH_BARRAGE)));
 
-    public static final RegistryObject<StandEntityHeavyAttack> TUSK_FINISHER_PUNCH = ACTIONS.register("tusk_finisher_punch",
-            () -> new StandEntityHeavyAttack(new StandEntityHeavyAttack.Builder() // TODO finisher ability
+    public static final RegistryObject<TuskInfiniteRotation> TUSK_INFINITE_ROTATION = ACTIONS.register("tusk_infinite_rotation",
+            () -> new TuskInfiniteRotation(new TuskInfiniteRotation.Builder()
                     .shout(InitSounds.JOHNNY_HEAVY_ATTACK)
-                    .punchSound(InitSounds.TUSK_PUNCH_HEAVY)
-                    .partsRequired(StandPart.ARMS)));
+                    .standPose(TuskInfiniteRotation.INFINITE_ROTATION_ANIM)
+                    .punchSound(InitSounds.TUSK_PUNCH_HEAVY).standOffsetFromUser(0, 1, 0.5)
+                    .partsRequired(StandPart.MAIN_BODY)));
 
-    public static final RegistryObject<StandEntityHeavyAttack> TUSK_HEAVY_PUNCH = ACTIONS.register("tusk_heavy_punch",
-            () -> new StandEntityHeavyAttack(new StandEntityHeavyAttack.Builder()
+    public static final RegistryObject<StandEntityHeavyAttack> TUSK_UPPERCUT = ACTIONS.register("tusk_uppercut",
+            () -> new TuskUppercut(new TuskUppercut.Builder() // TODO finisher ability
                     .resolveLevelToUnlock(3)
                     .shiftVariationOf(TUSK_PUNCH).shiftVariationOf(TUSK_BARRAGE)
                     .shout(InitSounds.JOHNNY_HEAVY_ATTACK)
-                    .setFinisherVariation(TUSK_FINISHER_PUNCH)
+                    .punchSound(InitSounds.TUSK_PUNCH_HEAVY)
+                    .standPose(StarPlatinumUppercut.UPPERCUT_POSE)
+                    .partsRequired(StandPart.ARMS)));
+
+    public static final RegistryObject<StandEntityHeavyAttack> TUSK_HEAVY_PUNCH = ACTIONS.register("tusk_heavy_punch",
+            () -> new TuskHeavyPunch(new TuskHeavyPunch.Builder()
+                    .resolveLevelToUnlock(3)
+                    .shiftVariationOf(TUSK_PUNCH).shiftVariationOf(TUSK_BARRAGE)
+                    .shout(InitSounds.JOHNNY_HEAVY_ATTACK)
+                    .setFinisherVariation(TUSK_UPPERCUT)
                     .punchSound(InitSounds.TUSK_PUNCH_HEAVY)
                     .partsRequired(StandPart.ARMS)));
-    
+
     public static final RegistryObject<StandEntityAction> TUSK_BLOCK = ACTIONS.register("tusk_block",
             () -> new StandEntityBlock());
 

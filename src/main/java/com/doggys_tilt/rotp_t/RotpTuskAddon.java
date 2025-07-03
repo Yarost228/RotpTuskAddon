@@ -11,6 +11,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import static com.github.standobyte.jojo.init.ModStatusEffects.setEffectAsTracked;
+
 // Your addon's main file
 
 @Mod(RotpTuskAddon.MOD_ID)

@@ -1,7 +1,7 @@
 package com.doggys_tilt.rotp_t.action;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.block_replacer.EntityBlockSwapper;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import com.github.standobyte.jojo.action.ActionConditionResult;
@@ -24,7 +24,7 @@ public class TuskOpenSpace extends StandEntityAction {
     }
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
-        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent()){
             if (cap.get().getAct() >= 3) {
                 return ActionConditionResult.POSITIVE;
@@ -45,8 +45,6 @@ public class TuskOpenSpace extends StandEntityAction {
                     swapper.moveTo(Vector3d.atCenterOf(pos));
                     world.addFreshEntity(swapper);
                     if (!world.getBlockState(pos.relative(result.getFace().getOpposite())).getMaterial().isSolid()){
-                        System.out.println(result.getFace().getOpposite());
-                        System.out.println("break");
                         break;
                     }
                 }

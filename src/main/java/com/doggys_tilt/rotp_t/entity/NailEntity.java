@@ -1,7 +1,6 @@
 package com.doggys_tilt.rotp_t.entity;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.github.standobyte.jojo.action.ActionTarget;
 import com.github.standobyte.jojo.entity.damaging.projectile.ModdedProjectileEntity;
 import com.doggys_tilt.rotp_t.init.InitEntities;
@@ -121,7 +120,7 @@ public class NailEntity extends ModdedProjectileEntity {
                     ((EntityRayTraceResult) hitTarget).getEntity() instanceof LivingEntity ? (LivingEntity) ((EntityRayTraceResult) hitTarget).getEntity() : null : null);
             wormhole.moveTo(this.position());
             this.level.addFreshEntity(wormhole);
-            this.getOwner().getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+            this.getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                 nailCapability.setWormhole(wormhole);
             });
         }

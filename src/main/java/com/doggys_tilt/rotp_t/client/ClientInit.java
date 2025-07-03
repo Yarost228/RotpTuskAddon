@@ -1,8 +1,8 @@
 package com.doggys_tilt.rotp_t.client;
 
 import com.doggys_tilt.rotp_t.RotpTuskAddon;
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.client.render.RenderNothing;
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayer;
 import com.doggys_tilt.rotp_t.client.render.particle.NailSwipeParticle;
@@ -11,6 +11,7 @@ import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeTinyRenderer;
 import com.doggys_tilt.rotp_t.client.render.wormhole.WormholeWithArmRenderer;
 import com.doggys_tilt.rotp_t.client.render.tusk.TuskRenderer;
 import com.doggys_tilt.rotp_t.client.render.nail.NailRenderer;
+import com.doggys_tilt.rotp_t.init.InitEffects;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import com.doggys_tilt.rotp_t.init.InitParticles;
 import com.doggys_tilt.rotp_t.init.InitStands;
@@ -33,8 +34,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.Map;
-
-import static net.minecraft.util.math.MathHelper.log2;
 
 @EventBusSubscriber(modid = RotpTuskAddon.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientInit {
@@ -64,6 +63,8 @@ public class ClientInit {
         addLayersToEntities(skinMap.get("default"));
         addLayersToEntities(skinMap.get("slim"));
         ClientEvents.init(mc);
+        InitEffects.afterEffectsRegister();
+
 
         StandStatsRenderer.overrideCosmeticStats(
             InitStands.STAND_TUSK.getStandType().getRegistryName(),
@@ -71,7 +72,7 @@ public class ClientInit {
                 public double statConvertedValue(StandStatsRenderer.StandStat stat, IStandPower standData, StandStats stats, float statLeveling) {
                     TuskStandStats actStats = (TuskStandStats) standData.getType().getStats();
                     if (standData.getUser() != null){
-                        NailCapability actCap = standData.getUser().getCapability(NailCapabilityProvider.CAPABILITY).orElse(null);
+                        TuskCapability actCap = standData.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
                         if (actCap != null){
                             if (stat == StandStatsRenderer.StandStat.STRENGTH) {
                                 return (actStats.getActPower(actCap.getAct())+ 1) / 3;
@@ -92,11 +93,11 @@ public class ClientInit {
                             }
                         }
                     }
-
                     return StandStatsRenderer.ICosmeticStandStats.super.statConvertedValue(stat, standData, stats, statLeveling);
                 }
             }
         );
+        InitEffects.afterEffectsRegister();
     }
 
     @SubscribeEvent

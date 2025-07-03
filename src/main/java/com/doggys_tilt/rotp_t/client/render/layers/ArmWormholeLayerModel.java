@@ -1,6 +1,6 @@
 package com.doggys_tilt.rotp_t.client.render.layers;
 
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.BipedModel;
@@ -30,7 +30,7 @@ public class ArmWormholeLayerModel<T extends LivingEntity> extends BipedModel<T>
         this.head.visible = false;
         wormhole.xRot = ageInTicks / 4;
         wormhole2.xRot = ageInTicks / 4;
-        entity.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+        entity.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
             switch (entity.getMainArm()) {
                 case LEFT:
                     if (nailCapability.getNailCount() > 5) {

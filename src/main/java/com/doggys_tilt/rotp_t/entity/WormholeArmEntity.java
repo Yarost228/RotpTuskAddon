@@ -1,10 +1,10 @@
 package com.doggys_tilt.rotp_t.entity;
 
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.util.TuskUtil;
 import com.github.standobyte.jojo.action.Action;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mod.JojoModUtil;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import com.doggys_tilt.rotp_t.init.InitStands;
 import net.minecraft.command.arguments.EntityAnchorArgument;
@@ -35,7 +35,7 @@ public class WormholeArmEntity extends AbstractWormholeEntity {
             this.lookAt(EntityAnchorArgument.Type.EYES, result.getLocation());
             if (!world.isClientSide()){
                 IStandPower.getStandPowerOptional(getOwner()).ifPresent(stand ->
-                    getOwner().getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+                    getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                     Action heldAction = stand.getHeldAction();
                     if (nailCapability.getNailCount() == 0 || heldAction == InitStands.REMOVE_WORMHOLE_WITH_ARM.get()){
                         this.remove();

@@ -1,7 +1,7 @@
 package com.doggys_tilt.rotp_t.action;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.WormholeArmEntity;
 import com.doggys_tilt.rotp_t.init.InitStands;
 import com.github.standobyte.jojo.action.Action;
@@ -24,13 +24,13 @@ public class TuskCreateWormholeWithArm extends StandAction {
     @Override
     public Action<IStandPower> getVisibleAction(IStandPower power, ActionTarget target) {
         LivingEntity user = power.getUser();
-        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
         return (cap.isPresent() && cap.get().hasWormholeWithArm()) ? InitStands.MOVE_WORMHOLE_WITH_ARM.get() : super.replaceAction(power, target);
     }
 
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
-        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent()){
             if ((cap.get().getNailCount() > 0 && !cap.get().hasWormholeWithArm() && !cap.get().hasWormhole() && cap.get().getWormhole() != null) && cap.get().getAct() >= 2) {
                 return ActionConditionResult.POSITIVE;
@@ -41,7 +41,7 @@ public class TuskCreateWormholeWithArm extends StandAction {
 
     @Override
     protected void perform(World world, LivingEntity user, IStandPower power, ActionTarget target) {
-        user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+        user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
             nailCapability.hasWormholeWithArm(true);
             WormholeArmEntity wormholeArm = new WormholeArmEntity(user, world);
             wormholeArm.moveTo(nailCapability.getWormhole().position());

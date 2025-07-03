@@ -1,7 +1,7 @@
 package com.doggys_tilt.rotp_t.action;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.NailEntity;
 import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
@@ -21,7 +21,7 @@ public class TuskNailShot extends StandAction {
     }
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
-        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent() && cap.get().getNailCount() > 0 || (user instanceof PlayerEntity && ((PlayerEntity)user).abilities.instabuild)){
             return ActionConditionResult.POSITIVE;
         }
@@ -39,7 +39,7 @@ public class TuskNailShot extends StandAction {
     @Override
     protected void holdTick(World world, LivingEntity user, IStandPower power, int ticksHeld, ActionTarget target, boolean requirementsFulfilled) {
         if (requirementsFulfilled){
-            user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+            user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                     if (nailCapability.getNailCount() > 0) {
                         if (ticksHeld % 5 == 0) {
                             user.swinging = false;

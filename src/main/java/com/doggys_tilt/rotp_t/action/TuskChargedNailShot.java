@@ -1,7 +1,7 @@
 package com.doggys_tilt.rotp_t.action;
 
-import com.doggys_tilt.rotp_t.capability.NailCapability;
-import com.doggys_tilt.rotp_t.capability.NailCapabilityProvider;
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.NailEntity;
 import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
@@ -22,7 +22,7 @@ public class TuskChargedNailShot extends StandAction {
 
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
-        Optional<NailCapability> cap = user.getCapability(NailCapabilityProvider.CAPABILITY).resolve();
+        Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
         if (cap.isPresent()){
             if ((cap.get().getNailCount() > 0 || (user instanceof PlayerEntity && ((PlayerEntity)user).abilities.instabuild)) && (cap.get().getAct() >= 1)) {
                 return ActionConditionResult.POSITIVE;
@@ -40,7 +40,7 @@ public class TuskChargedNailShot extends StandAction {
     }
 
     public void stoppedHolding(World world, LivingEntity user, IStandPower power, int ticksHeld, boolean willFire) {
-        user.getCapability(NailCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+        user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
             user.swinging = false;
             if (nailCapability.getNailCount() > 0){
                 if (!nailCapability.hasWormholeWithArm()){

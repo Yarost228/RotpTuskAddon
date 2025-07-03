@@ -7,8 +7,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.vector.Vector3d;
 
-public class NailCapability {
+public class TuskCapability {
     private final LivingEntity entity;
     private WormholeEntity wormhole = null;
     private int act = 0;
@@ -16,11 +17,14 @@ public class NailCapability {
     private int nailCount = 10;
     private boolean hasWormholeWithArm = false;
     private boolean hasWormhole = false;
+    private boolean hasInfiniteRotationCharge = false;
     private boolean chargedShot = false;
-
-    public NailCapability(LivingEntity entity) {
+    private Vector3d infiniteRotationPos;
+    public TuskCapability(LivingEntity entity) {
         this.entity = entity;
+        this.infiniteRotationPos = entity.position();
     }
+
 
     public void useNail(){
         if (entity instanceof PlayerEntity){
@@ -37,7 +41,7 @@ public class NailCapability {
     public void setNailCount(int nailCount){
         this.nailCount = nailCount;
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
         }
     }
 
@@ -47,7 +51,7 @@ public class NailCapability {
     
 
     public void syncWithClient(ServerPlayerEntity entityAsPlayer) {
-        AddonPackets.sendToClient(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act), entityAsPlayer);
+        AddonPackets.sendToClient(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entityAsPlayer);
     }
     public boolean hasWormholeWithArm() {
         return hasWormholeWithArm;
@@ -62,7 +66,7 @@ public class NailCapability {
     public void hasWormholeWithArm(boolean hasWormholeWithArm) {
         this.hasWormholeWithArm = hasWormholeWithArm;
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
         }
     }
     public boolean chargedShot() {
@@ -74,7 +78,7 @@ public class NailCapability {
             this.useNail();
         }
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
         }
     }
 
@@ -86,7 +90,7 @@ public class NailCapability {
         this.setPrevAct(this.act);
         this.act = act;
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
         }
     }
 
@@ -95,7 +99,11 @@ public class NailCapability {
         nbt.putInt("Act", getAct());
         nbt.putInt("PrevAct", getPrevAct());
         nbt.putInt("NailCount", nailCount);
+        nbt.putBoolean("hasInfiniteRotation", hasInfiniteRotationCharge);
         nbt.putInt("NailWormholeId", wormhole != null ? wormhole.getId() : -1);
+        nbt.putDouble("InfRotPosX", getInfiniteRotationPos().x());
+        nbt.putDouble("InfRotPosY", getInfiniteRotationPos().y());
+        nbt.putDouble("InfRotPosZ", getInfiniteRotationPos().z());
         return nbt;
     }
 
@@ -106,6 +114,11 @@ public class NailCapability {
         prevAct = (nbt.getInt("PrevAct"));
         this.setNailCount(nbt.getInt("NailCount"));
         wormhole = (WormholeEntity) entity.level.getEntity(nbt.getInt("NailWormholeId"));
+        this.setHasInfiniteRotationCharge(nbt.getBoolean("hasInfiniteRotation"));
+        this.setInfiniteRotationPos(new Vector3d(
+                nbt.getDouble("InfRotPosX"),
+                nbt.getDouble("InfRotPosY"),
+                nbt.getDouble("InfRotPosZ")));
     }
     public WormholeEntity getWormhole() {
         return wormhole;
@@ -113,13 +126,30 @@ public class NailCapability {
     public void setWormhole(WormholeEntity wormhole){
         this.wormhole = wormhole;
     }
+
     public boolean hasWormhole() {
         return hasWormhole;
     }
+
     public void setHasWormhole(boolean hasWormhole) {
         this.hasWormhole = hasWormhole;
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
+        }
+    }
+    public Vector3d getInfiniteRotationPos() {
+        return infiniteRotationPos;
+    }
+    public void setInfiniteRotationPos(Vector3d infiniteRotationPos) {
+        this.infiniteRotationPos = infiniteRotationPos;
+    }
+    public boolean isHasInfiniteRotationCharge() {
+        return hasInfiniteRotationCharge;
+    }
+    public void setHasInfiniteRotationCharge(boolean hasInfiniteRotationCharge) {
+        this.hasInfiniteRotationCharge = hasInfiniteRotationCharge;
+        if (!entity.level.isClientSide()) {
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
         }
     }
 }

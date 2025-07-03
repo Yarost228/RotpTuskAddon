@@ -7,7 +7,8 @@
   "action.rotp_t.tusk_nail_shot": "Nail Shoot",
   "action.rotp_t.tusk_nail_scratch": "Nail Scratch",
   "action.rotp_t.wormhole": "Create the Wormhole",
-  "action.rotp_t.wormhole_with_arm": "Push arm through the Wormhole",
+  "action.rotp_t.wormhole": "Create the Wormhole",
+  "action.rotp_t.wormhole_with_arm": "Push Arm through the Wormhole",
   "action.rotp_t.tusk_charged_nail_shot": "Charged Nail Shoot",
   "action.rotp_t.tusk_select_act": "Select Act",
   "action.rotp_t.tusk_punch": "Punch",
@@ -15,7 +16,8 @@
   "action.rotp_t.tusk_finisher_punch": "Finisher Punch",
   "action.rotp_t.tusk_heavy_punch": "Heavy Punch",
   "action.rotp_t.tusk_block": "Block",
-  "action.rotp_t.move_wormhole_with_arm": "Put your hand into the Wormhole",
+  "action.rotp_t.move_wormhole_with_arm": "Move Wormhole with Arm",
+  "action.rotp_t.remove_wormhole_with_arm": "Put your Arm out of the Wormhole",
   "stand.rotp_t.tusk": "Tusk",
   "item.rotp_t.tea_bottle": "Bottle of Tea"
 }
