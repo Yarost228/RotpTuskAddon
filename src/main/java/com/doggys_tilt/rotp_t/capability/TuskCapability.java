@@ -1,8 +1,13 @@
 package com.doggys_tilt.rotp_t.capability;
 
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.entity.WormholeEntity;
 import com.doggys_tilt.rotp_t.network.AddonPackets;
 import com.doggys_tilt.rotp_t.network.NailDataPacket;
+import com.github.standobyte.jojo.client.InputHandler;
+import com.github.standobyte.jojo.client.ui.actionshud.ActionsOverlayGui;
+import com.github.standobyte.jojo.power.IPower;
+import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -12,12 +17,15 @@ import net.minecraft.util.math.vector.Vector3d;
 public class TuskCapability {
     private final LivingEntity entity;
     private WormholeEntity wormhole = null;
+    private int nextAct = 0;
     private int act = 0;
     private int prevAct = 0;
     private int nailCount = 10;
+    private int nailRegenTimer = 400;
     private boolean hasWormholeWithArm = false;
     private boolean hasWormhole = false;
     private boolean hasInfiniteRotationCharge = false;
+    private boolean shouldChangeAct = false;
     private boolean chargedShot = false;
     private Vector3d infiniteRotationPos;
     public TuskCapability(LivingEntity entity) {
@@ -25,6 +33,30 @@ public class TuskCapability {
         this.infiniteRotationPos = entity.position();
     }
 
+
+    public void tick(){
+        IStandPower standPower = IStandPower.getStandPowerOptional(entity).orElse(null);
+        if (standPower != null && !standPower.isActive() && shouldChangeAct()) {
+            setShouldChangeAct(false);
+            setAct(nextAct);
+            standPower.getType().summon(entity, standPower, false);
+            if (entity.level.isClientSide() && entity instanceof PlayerEntity){
+                ActionsOverlayGui.getInstance().onStandSummon();
+            }
+        }
+        TuskCapability tuskCap = entity.getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
+        if (tuskCap != null && !entity.level.isClientSide()) {
+            if (nailCount < 10) {
+                nailRegenTimer --;
+                RotpTuskAddon.LOGGER.info("nailTimer {}", nailRegenTimer);
+            }
+            if (nailRegenTimer <= 0) {
+                RotpTuskAddon.LOGGER.info(nailCount);
+                setNailCount(Math.min(getNailCount() + 1, 10));
+                nailRegenTimer = (act + 1) * 100;
+            }
+        }
+    }
 
     public void useNail(){
         if (entity instanceof PlayerEntity){
@@ -87,10 +119,16 @@ public class TuskCapability {
     }
 
     public void setAct(int act) {
-        this.setPrevAct(this.act);
-        this.act = act;
-        if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
+        IStandPower standPower = IStandPower.getStandPowerOptional(entity).orElse(null);
+        if (standPower != null && !standPower.isActive()) {
+            this.setPrevAct(this.act);
+            this.act = act;
+            if (!entity.level.isClientSide()) {
+                AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
+            }
+        }
+        else {
+            this.nextAct = act;
         }
     }
 
@@ -99,6 +137,7 @@ public class TuskCapability {
         nbt.putInt("Act", getAct());
         nbt.putInt("PrevAct", getPrevAct());
         nbt.putInt("NailCount", nailCount);
+        nbt.putInt("NailRegenTimer", nailRegenTimer);
         nbt.putBoolean("hasInfiniteRotation", hasInfiniteRotationCharge);
         nbt.putInt("NailWormholeId", wormhole != null ? wormhole.getId() : -1);
         nbt.putDouble("InfRotPosX", getInfiniteRotationPos().x());
@@ -112,6 +151,7 @@ public class TuskCapability {
     public void fromNBT(CompoundNBT nbt) {
         this.setAct(nbt.getInt("Act"));
         prevAct = (nbt.getInt("PrevAct"));
+        nailRegenTimer = nbt.getInt("NailRegenTimer");
         this.setNailCount(nbt.getInt("NailCount"));
         wormhole = (WormholeEntity) entity.level.getEntity(nbt.getInt("NailWormholeId"));
         this.setHasInfiniteRotationCharge(nbt.getBoolean("hasInfiniteRotation"));
@@ -151,6 +191,12 @@ public class TuskCapability {
         if (!entity.level.isClientSide()) {
             AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
         }
+    }
+    public boolean shouldChangeAct() {
+        return shouldChangeAct;
+    }
+    public void setShouldChangeAct(boolean shouldChangeAct) {
+        this.shouldChangeAct = shouldChangeAct;
     }
 }
 

@@ -119,6 +119,7 @@ public class TuskInfiniteRotation extends StandEntityHeavyAttack {
             TuskCapability tuskCapability = userPower.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
             if (tuskCapability != null){
                 tuskCapability.setHasInfiniteRotationCharge(false);
+                tuskCapability.setNailCount(10);
             }
 
         }

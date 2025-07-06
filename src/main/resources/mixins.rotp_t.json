@@ -11,6 +11,7 @@
     "TimeStopHandlerMixin"
   ],
   "client": [
+    "PlayerModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -31,9 +31,10 @@ public class SActSyncPacket {
         public void handle(SActSyncPacket msg, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayerEntity player = ctx.get().getSender();
             player.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
-                nailCapability.setAct(msg.act);
                 IStandPower power = IStandPower.getPlayerStandPower(player);
                 power.getType().unsummon(player, power);
+                nailCapability.setShouldChangeAct(true);
+                nailCapability.setAct(msg.act);
             });
         }
         @Override

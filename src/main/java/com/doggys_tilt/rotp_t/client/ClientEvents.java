@@ -1,5 +1,6 @@
 package com.doggys_tilt.rotp_t.client;
 
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayer;
 import com.doggys_tilt.rotp_t.client.render.layers.ArmWormholeLayerModel;
@@ -11,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -58,6 +60,13 @@ public class ClientEvents {
                     }
                 });
             }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void clientTick(TickEvent.ClientTickEvent event){
+        if (mc.player != null){
+            mc.player.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(TuskCapability::tick);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.doggys_tilt.rotp_t.action;
 
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.NailEntity;
@@ -22,19 +23,24 @@ public class TuskNailShot extends StandAction {
     @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
         Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
-        if (cap.isPresent() && cap.get().getNailCount() > 0 || (user instanceof PlayerEntity && ((PlayerEntity)user).abilities.instabuild)){
+        if ((cap.isPresent()
+                && ((MCUtil.isHandFree(user, Hand.MAIN_HAND) && cap.get().getNailCount() > 5)
+                || (MCUtil.isHandFree(user, Hand.OFF_HAND) && cap.get().getNailCount() > 0 && cap.get().getNailCount() <= 5)))
+                || (user instanceof PlayerEntity && ((PlayerEntity)user).abilities.instabuild)
+
+        ){
             return ActionConditionResult.POSITIVE;
         }
         return ActionConditionResult.NEGATIVE;
     }
 
-    @Override
-    protected ActionConditionResult checkHeldItems(LivingEntity user, IStandPower power) {
-        if (!(MCUtil.isHandFree(user, Hand.MAIN_HAND) && MCUtil.isHandFree(user, Hand.OFF_HAND))) {
-            return conditionMessage("hands");
-        }
-        return ActionConditionResult.POSITIVE;
-    }
+//    @Override
+//    protected ActionConditionResult checkHeldItems(LivingEntity user, IStandPower power) {
+//        if (!(MCUtil.isHandFree(user, Hand.MAIN_HAND) && MCUtil.isHandFree(user, Hand.OFF_HAND))) {
+//            return conditionMessage("hands");
+//        }
+//        return ActionConditionResult.POSITIVE;
+//    }
 
     @Override
     protected void holdTick(World world, LivingEntity user, IStandPower power, int ticksHeld, ActionTarget target, boolean requirementsFulfilled) {

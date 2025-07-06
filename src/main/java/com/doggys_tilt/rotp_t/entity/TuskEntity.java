@@ -27,8 +27,10 @@ public class TuskEntity extends StandEntity {
         LivingEntity user = getUser();
         if (user != null) {
             updateStatsFromAct(user);
+
         }
     }
+
     @Override
     public void modifiersFromResolveLevel(float ratio) {}
 
@@ -90,7 +92,7 @@ public class TuskEntity extends StandEntity {
 
     public StandRelativeOffset getDefaultOffsetFromUser() {
         TuskCapability capability = this.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
-        if (capability != null && capability.getAct() == 3){
+        if (capability != null && capability.getAct() == 3) {
             return offsetAct4;
         }
         else {

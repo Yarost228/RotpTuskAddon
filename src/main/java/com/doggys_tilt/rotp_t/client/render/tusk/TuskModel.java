@@ -3,8 +3,11 @@ package com.doggys_tilt.rotp_t.client.render.tusk;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.TuskEntity;
 import com.github.standobyte.jojo.client.render.entity.model.stand.HumanoidStandModel;
+import com.github.standobyte.jojo.entity.stand.StandRelativeOffset;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
+
+import java.util.Objects;
 
 public class TuskModel extends HumanoidStandModel<TuskEntity> {
     private ModelRenderer tusk_act_1;
@@ -82,9 +85,9 @@ public class TuskModel extends HumanoidStandModel<TuskEntity> {
     }
 
     @Override
-    public void setupAnim(TuskEntity entity, float walkAnimPos, float walkAnimSpeed, float ticks, float yRotationOffset, float xRotation) {
-        super.setupAnim(entity, walkAnimPos, walkAnimSpeed, ticks, yRotationOffset, xRotation);
-        LivingEntity user = entity.getUser();
+    public void setupAnim(TuskEntity tusk, float walkAnimPos, float walkAnimSpeed, float ticks, float yRotationOffset, float xRotation) {
+        super.setupAnim(tusk, walkAnimPos, walkAnimSpeed, ticks, yRotationOffset, xRotation);
+        LivingEntity user = tusk.getUser();
         Tusk_act_1_Head.xRot = head.xRot;
         Tusk_act_1_Head.yRot = head.yRot;
         Tusk_act_1_Head.zRot = head.zRot;
@@ -98,35 +101,37 @@ public class TuskModel extends HumanoidStandModel<TuskEntity> {
         Tusk_act_4_Head.xRot = Math.max(Math.min(head.xRot, 27.5F*f), -27.5F*f);
         Tusk_act_4_Head.yRot = Math.max(Math.min(head.yRot, 22.5F*f), -22.5F*f);
         Tusk_act_4_Head.zRot = head.zRot;
-        if (user != null && entity.overlayTickCount <= 10.0F){
+        if (user != null){
             user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
-                switch (nailCap.getAct()){
-                    case 0:
-                        tusk_act_1.visible = true;
-                        tusk_act_2.visible = false;
-                        tusk_act_3.visible = false;
-                        tusk_act_4.visible = false;
-                        break;
-                    case 1:
-                        tusk_act_1.visible = false;
-                        tusk_act_2.visible = true;
-                        tusk_act_3.visible = false;
-                        tusk_act_4.visible = false;
-                        break;
-                    case 2:
-                        tusk_act_1.visible = false;
-                        tusk_act_2.visible = false;
-                        tusk_act_3.visible = true;
-                        tusk_act_4.visible = false;
-                        break;
-                    case 3:
-                        tusk_act_1.visible = false;
-                        tusk_act_2.visible = false;
-                        tusk_act_3.visible = false;
-                        tusk_act_4.visible = true;
-                    default:
-                        break;
-                }
+//                if (tusk.summonLockTicks > 0){
+                    switch (nailCap.getAct()){
+                        case 0:
+                            tusk_act_1.visible = true;
+                            tusk_act_2.visible = false;
+                            tusk_act_3.visible = false;
+                            tusk_act_4.visible = false;
+                            break;
+                        case 1:
+                            tusk_act_1.visible = false;
+                            tusk_act_2.visible = true;
+                            tusk_act_3.visible = false;
+                            tusk_act_4.visible = false;
+                            break;
+                        case 2:
+                            tusk_act_1.visible = false;
+                            tusk_act_2.visible = false;
+                            tusk_act_3.visible = true;
+                            tusk_act_4.visible = false;
+                            break;
+                        case 3:
+                            tusk_act_1.visible = false;
+                            tusk_act_2.visible = false;
+                            tusk_act_3.visible = false;
+                            tusk_act_4.visible = true;
+                        default:
+                            break;
+                    }
+//                }
             });
         }
     }

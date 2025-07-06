@@ -2,14 +2,11 @@ package com.doggys_tilt.rotp_t.action;
 
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
-import com.doggys_tilt.rotp_t.init.InitStands;
 import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
 import com.github.standobyte.jojo.action.stand.StandEntityHeavyAttack;
-import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import net.minecraft.entity.LivingEntity;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -26,20 +23,5 @@ public class TuskHeavyPunch extends StandEntityHeavyAttack {
             }
         }
         return ActionConditionResult.NEGATIVE;
-    }
-    @Override
-    public StandEntityHeavyAttack getFinisherVariationIfPresent(IStandPower power, @Nullable StandEntity standEntity) {
-        if (power.getUser() != null){
-            TuskCapability tuskCapability = power.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
-            if (tuskCapability != null
-                    && tuskCapability.getAct() >= 3
-                    && tuskCapability.isHasInfiniteRotationCharge()
-                    && standEntity != null
-                    && standEntity.getFinisherMeter() >= 0.75F
-            ){
-                return InitStands.TUSK_INFINITE_ROTATION.get();
-            }
-        }
-        return super.getFinisherVariationIfPresent(power, standEntity);
     }
 }

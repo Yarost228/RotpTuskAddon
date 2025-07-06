@@ -1,5 +1,7 @@
 package com.doggys_tilt.rotp_t.client.render.nail;
 
+import com.doggys_tilt.rotp_t.capability.TuskCapability;
+import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.NailEntity;
 import com.github.standobyte.jojo.client.ClientUtil;
 import com.github.standobyte.jojo.util.general.MathUtil;
@@ -35,10 +37,16 @@ public class NailRenderer extends EntityRenderer<NailEntity> {
         super(renderManager);
     }
 
-    private static final ResourceLocation TRAIL_TEX = new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/entity/nail_trace.png");
     @Override
     public ResourceLocation getTextureLocation(NailEntity entity) {
-        return TRAIL_TEX;
+        int act = 1;
+        if (entity.getOwner() != null){
+            TuskCapability capability = entity.getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
+            if (capability != null){
+                act = capability.getAct()+1;
+            }
+        }
+        return new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/entity/nail_trace" + act + ".png");
     }
 
     @Override
