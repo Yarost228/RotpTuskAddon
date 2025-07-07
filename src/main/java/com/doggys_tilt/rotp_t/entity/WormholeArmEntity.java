@@ -1,6 +1,7 @@
 package com.doggys_tilt.rotp_t.entity;
 
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
+import com.doggys_tilt.rotp_t.init.InitSounds;
 import com.doggys_tilt.rotp_t.util.TuskUtil;
 import com.github.standobyte.jojo.action.Action;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
@@ -38,9 +39,11 @@ public class WormholeArmEntity extends AbstractWormholeEntity {
                     getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
                     Action heldAction = stand.getHeldAction();
                     if (nailCapability.getNailCount() == 0 || heldAction == InitStands.REMOVE_WORMHOLE_WITH_ARM.get()){
+                        level.playSound(null, this.getX(), this.getEyeY(), this.getZ(), InitSounds.WORMHOLE_CLOSE.get(), this.getSoundSource(), 1.0F, 1.0F);
                         this.remove();
                     }
                     else if (nailCapability.getNailCount() - nailsShot == 0 && nailsShot > 0){
+                        level.playSound(null, this.getX(), this.getEyeY(), this.getZ(), InitSounds.WORMHOLE_CLOSE.get(), this.getSoundSource(), 1.0F, 1.0F);
                         this.remove();
                     }
                         LivingEntity user = getOwner();
@@ -50,6 +53,7 @@ public class WormholeArmEntity extends AbstractWormholeEntity {
                             NailEntity nail = new NailEntity(user, world, 0);
                             float velocity = 2.0F + (float)this.getDeltaMovement().length();
                             nail.shootFromRotation(this, velocity, 1.0F);
+                            world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), InitSounds.NAIL_SHOT.get(), user.getSoundSource(), 1.0F, 1.0F);
                             nail.moveTo(this.position().add(0, 0.5F, 0));
                             world.addFreshEntity(nail);
                             this.nailsShot ++;
@@ -69,6 +73,7 @@ public class WormholeArmEntity extends AbstractWormholeEntity {
                             NailEntity nail = new NailEntity(user, world, ticksHeld/5);
                             float velocity = 2.0F + (float)this.getDeltaMovement().length() + ticksHeld/5F;
                             nail.shootFromRotation(this, velocity, 1.0F);
+                            world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), InitSounds.NAIL_SHOT.get(), user.getSoundSource(), 1.0F, 1.0F);
                             nail.moveTo(this.position().add(0, 0.5F, 0));
                             world.addFreshEntity(nail);
                             this.nailsShot ++;

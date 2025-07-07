@@ -101,7 +101,7 @@ public class TuskModel extends HumanoidStandModel<TuskEntity> {
         Tusk_act_4_Head.xRot = Math.max(Math.min(head.xRot, 27.5F*f), -27.5F*f);
         Tusk_act_4_Head.yRot = Math.max(Math.min(head.yRot, 22.5F*f), -22.5F*f);
         Tusk_act_4_Head.zRot = head.zRot;
-        if (user != null){
+        if (user != null && user.isAlive()){
             user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
 //                if (tusk.summonLockTicks > 0){
                     switch (nailCap.getAct()){

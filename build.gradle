@@ -18,7 +18,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 
 version = "${addon_version}"
-group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = 'com.doggys_tilt.rotp_t' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'RotP-Tusk'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.

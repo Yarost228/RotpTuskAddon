@@ -1,5 +1,6 @@
 package com.doggys_tilt.rotp_t.action;
 
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitStands;
@@ -25,13 +26,11 @@ public class TuskUppercut extends StandEntityHeavyAttack {
     @Nullable
     @Override
     public Action<IStandPower> replaceAction(IStandPower power, ActionTarget target) {
-        if (power.getUser() != null){
-            TuskCapability tuskCapability = power.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
-            if (tuskCapability != null
-                    && tuskCapability.getAct() >= 3
-                    && tuskCapability.isHasInfiniteRotationCharge()){
-                return InitStands.TUSK_INFINITE_ROTATION.get();
-            }
+        TuskCapability tuskCapability = power.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
+        if (tuskCapability != null
+                && tuskCapability.getAct() >= 3
+                && tuskCapability.isHasInfiniteRotationCharge()) {
+            return InitStands.TUSK_INFINITE_ROTATION.get();
         }
         return this;
     }

@@ -30,7 +30,7 @@ public class ArmWormholeLayer<T extends LivingEntity, M extends BipedModel<T> & 
 
     public boolean shouldRender(T entity){
         Optional<TuskCapability> cap = entity.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
-        return cap.map(TuskCapability::hasWormholeWithArm).orElse(false);
+        return entity.isAlive() && cap.map(TuskCapability::hasWormholeWithArm).orElse(false);
     }
 
     private ArmWormholeLayerModel wmodel = new ArmWormholeLayerModel(1F);

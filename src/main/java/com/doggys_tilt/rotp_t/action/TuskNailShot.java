@@ -4,6 +4,7 @@ import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.NailEntity;
+import com.doggys_tilt.rotp_t.init.InitSounds;
 import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
 import com.github.standobyte.jojo.action.stand.StandAction;
@@ -58,6 +59,7 @@ public class TuskNailShot extends StandAction {
                             NailEntity nail = new NailEntity(user, world, 0);
                             float velocity = 2.0F + (float)user.getDeltaMovement().length();
                             nail.shootFromRotation(user, velocity, 1.0F);
+                            world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), InitSounds.NAIL_SHOT.get(), user.getSoundSource(), 1.0F, 1.0F);
                             world.addFreshEntity(nail);
                         }
                             nailCapability.useNail();

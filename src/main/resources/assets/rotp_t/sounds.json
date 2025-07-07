@@ -5,11 +5,35 @@
       "rotp_t:stand/chimimi"
     ]
   },
+  "wormhole_close": {
+    "subtitle": "rotp_t.wormhole_close",
+    "sounds": [
+      "rotp_t:stand/wormhole_close"
+    ]
+  },
+  "wormhole_open": {
+    "subtitle": "rotp_t.wormhole_open",
+    "sounds": [
+      "rotp_t:stand/wormhole_open"
+    ]
+  },
+  "wormhole_teleport": {
+    "subtitle": "rotp_t.wormhole_teleport",
+    "sounds": [
+      "rotp_t:stand/wormhole_teleport"
+    ]
+  },
   "scratch": {
     "subtitle": "rotp_t.scratch",
     "sounds": [
       "rotp_t:stand/scratch1",
       "rotp_t:stand/scratch2"
+    ]
+  },
+  "nail_shot": {
+    "subtitle": "rotp_t.nail_shot",
+    "sounds": [
+      "rotp_t:stand/nail_shot"
     ]
   },
   "johnny_act_1_summon": {

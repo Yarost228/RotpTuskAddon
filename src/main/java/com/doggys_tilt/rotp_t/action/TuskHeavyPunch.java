@@ -1,5 +1,6 @@
 package com.doggys_tilt.rotp_t.action;
 
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.github.standobyte.jojo.action.ActionConditionResult;
@@ -24,4 +25,5 @@ public class TuskHeavyPunch extends StandEntityHeavyAttack {
         }
         return ActionConditionResult.NEGATIVE;
     }
+
 }

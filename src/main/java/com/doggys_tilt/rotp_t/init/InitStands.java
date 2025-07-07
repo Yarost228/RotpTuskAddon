@@ -45,6 +45,7 @@ public class InitStands {
             () -> new TuskInfiniteRotation(new TuskInfiniteRotation.Builder()
                     .staminaCost(425)
                     .shout(InitSounds.JOHNNY_HEAVY_ATTACK)
+                    .standSound(InitSounds.TUSK_CHIMIMIN)
                     .standPose(TuskInfiniteRotation.INFINITE_ROTATION_ANIM)
                     .punchSound(InitSounds.TUSK_PUNCH_HEAVY).standOffsetFromUser(0, 1, 0.5)
                     .partsRequired(StandPart.MAIN_BODY)));

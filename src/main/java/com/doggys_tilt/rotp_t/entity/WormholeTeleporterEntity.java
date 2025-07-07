@@ -3,6 +3,7 @@ package com.doggys_tilt.rotp_t.entity;
 import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitEntities;
+import com.doggys_tilt.rotp_t.init.InitSounds;
 import com.doggys_tilt.rotp_t.init.InitStands;
 import com.doggys_tilt.rotp_t.util.TuskUtil;
 import com.github.standobyte.jojo.action.Action;
@@ -52,6 +53,7 @@ public class WormholeTeleporterEntity extends AbstractWormholeEntity {
                     IStandPower.getStandPowerOptional(user).ifPresent(stand -> {
                     Action heldAction = stand.getHeldAction();
                     if (heldAction == InitStands.REMOVE_WORMHOLE.get()){
+                        level.playSound(null, this.getX(), this.getEyeY(), this.getZ(), InitSounds.WORMHOLE_CLOSE.get(), this.getSoundSource(), 1.0F, 1.0F);
                         this.remove();
                     }
                     if (heldAction == InitStands.MOVE_WORMHOLE.get() && isExit()){
@@ -81,6 +83,7 @@ public class WormholeTeleporterEntity extends AbstractWormholeEntity {
                                 connectedTeleporter.position().x,
                                 connectedTeleporter.position().y,
                                 connectedTeleporter.position().z);
+                level.playSound(null, user.getX(), user.getEyeY(), user.getZ(), InitSounds.WORMHOLE_TELEPORT.get(), user.getSoundSource(), 1.0F, 1.0F);
                 if (entity instanceof LivingEntity){
                     IStandPower power = IStandPower.getStandPowerOptional((LivingEntity)entity).orElse(null);
                     if (power != null && power.getType() != InitStands.STAND_TUSK.getStandType()){

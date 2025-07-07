@@ -134,6 +134,7 @@ public class TuskCapability {
 
     public CompoundNBT toNBT() {
         CompoundNBT nbt = new CompoundNBT();
+        nbt.putInt("NextAct", nextAct);
         nbt.putInt("Act", getAct());
         nbt.putInt("PrevAct", getPrevAct());
         nbt.putInt("NailCount", nailCount);
@@ -149,6 +150,7 @@ public class TuskCapability {
 
 
     public void fromNBT(CompoundNBT nbt) {
+        this.nextAct = nbt.getInt("NextAct");
         this.setAct(nbt.getInt("Act"));
         prevAct = (nbt.getInt("PrevAct"));
         nailRegenTimer = nbt.getInt("NailRegenTimer");

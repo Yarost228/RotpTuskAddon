@@ -3,6 +3,7 @@ package com.doggys_tilt.rotp_t.action;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.WormholeArmEntity;
+import com.doggys_tilt.rotp_t.init.InitSounds;
 import com.doggys_tilt.rotp_t.init.InitStands;
 import com.github.standobyte.jojo.action.Action;
 import com.github.standobyte.jojo.action.ActionConditionResult;
@@ -46,6 +47,8 @@ public class TuskCreateWormholeWithArm extends StandAction {
             WormholeArmEntity wormholeArm = new WormholeArmEntity(user, world);
             wormholeArm.moveTo(nailCapability.getWormhole().position());
             world.addFreshEntity(wormholeArm);
+            world.playSound(null, wormholeArm.getX(), wormholeArm.getEyeY(), wormholeArm.getZ(), InitSounds.WORMHOLE_OPEN.get(), user.getSoundSource(), 1.0F, 1.0F);
+            world.playSound(null, user.getX(), user.getEyeY(), user.getZ(), InitSounds.WORMHOLE_TELEPORT.get(), user.getSoundSource(), 1.0F, 1.0F);
             nailCapability.getWormhole().remove();
             nailCapability.setWormhole(null);
         });

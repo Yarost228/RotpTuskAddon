@@ -36,6 +36,18 @@ public class InitSounds {
     public static final RegistryObject<SoundEvent> SCRATCH = SOUNDS.register("scratch",
             () -> new SoundEvent(new ResourceLocation(RotpTuskAddon.MOD_ID, "scratch")));
 
+    public static final RegistryObject<SoundEvent> NAIL_SHOT = SOUNDS.register("nail_shot",
+            () -> new SoundEvent(new ResourceLocation(RotpTuskAddon.MOD_ID, "nail_shot")));
+
+    public static final RegistryObject<SoundEvent> WORMHOLE_OPEN = SOUNDS.register("wormhole_open",
+            () -> new SoundEvent(new ResourceLocation(RotpTuskAddon.MOD_ID, "wormhole_open")));
+
+    public static final RegistryObject<SoundEvent> WORMHOLE_CLOSE = SOUNDS.register("wormhole_close",
+            () -> new SoundEvent(new ResourceLocation(RotpTuskAddon.MOD_ID, "wormhole_close")));
+
+    public static final RegistryObject<SoundEvent> WORMHOLE_TELEPORT = SOUNDS.register("wormhole_teleport",
+            () -> new SoundEvent(new ResourceLocation(RotpTuskAddon.MOD_ID, "wormhole_teleport")));
+
     public static final Supplier<SoundEvent> TUSK_SUMMON_SOUND = SOUNDS.register("tusk_summon",
             () -> new SoundEvent(new ResourceLocation(RotpTuskAddon.MOD_ID, "tusk_summon")));
     

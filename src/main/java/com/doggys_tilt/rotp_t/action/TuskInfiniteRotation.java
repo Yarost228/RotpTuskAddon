@@ -156,6 +156,15 @@ public class TuskInfiniteRotation extends StandEntityHeavyAttack {
     protected boolean canStandTargetEntity(StandEntity standEntity, LivingEntity target, IStandPower power) {
         return super.canStandTargetEntity(standEntity, target, power);
     }
+
+
+
+    @Override
+    public boolean isUnlocked(IStandPower power) {
+        TuskCapability tuskCapability = power.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
+        return tuskCapability != null && tuskCapability.isHasInfiniteRotationCharge() && tuskCapability.getAct() >= 3;
+    }
+
     @Override
     protected boolean standMovesByItself(IStandPower standPower, StandEntity standEntity) {
         return true;

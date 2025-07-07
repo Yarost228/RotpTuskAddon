@@ -44,7 +44,7 @@ public class TuskOpenSpace extends StandEntityAction {
                             world, pos, Blocks.AIR.defaultBlockState(), 200, false, false);
                     swapper.moveTo(Vector3d.atCenterOf(pos));
                     world.addFreshEntity(swapper);
-                    if (!world.getBlockState(pos.relative(result.getFace().getOpposite())).getMaterial().isSolid()){
+                    if (!world.getBlockState(pos.relative(result.getFace().getOpposite())).getMaterial().isSolid() || world.getBlockState(pos.relative(result.getFace().getOpposite())).getBlock() == Blocks.BEDROCK){
                         break;
                     }
                 }

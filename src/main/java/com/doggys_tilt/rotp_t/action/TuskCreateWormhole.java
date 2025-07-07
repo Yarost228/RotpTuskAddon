@@ -4,6 +4,7 @@ import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.WormholeEntity;
 import com.doggys_tilt.rotp_t.entity.WormholeTeleporterEntity;
+import com.doggys_tilt.rotp_t.init.InitSounds;
 import com.doggys_tilt.rotp_t.init.InitStands;
 import com.github.standobyte.jojo.action.Action;
 import com.github.standobyte.jojo.action.ActionConditionResult;
@@ -51,6 +52,8 @@ public class TuskCreateWormhole extends StandAction {
         enter.setExit(false);
         WormholeTeleporterEntity exit = new WormholeTeleporterEntity(world, user);
         exit.setExit(true);
+        world.playSound(null, enter.getX(), enter.getEyeY(), enter.getZ(), InitSounds.WORMHOLE_OPEN.get(), user.getSoundSource(), 1.0F, 1.0F);
+        world.playSound(null, exit.getX(), exit.getEyeY(), exit.getZ(), InitSounds.WORMHOLE_OPEN.get(), user.getSoundSource(), 1.0F, 1.0F);
         exit.setConnectedTeleporter(enter);
         enter.setConnectedTeleporter(exit);
         enter.moveTo(Vector3d.atCenterOf(user.blockPosition().above()));

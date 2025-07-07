@@ -2,7 +2,7 @@
   "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "com.doggys_tilt.rotp_t.mixin",
-  "refmap": "mixins.myrotpaddon.refmap.json",
+  "refmap": "mixins.rotp_t.refmap.json",
   "minVersion": "0.8",
   "mixins": [
     "StandEntityMixin",

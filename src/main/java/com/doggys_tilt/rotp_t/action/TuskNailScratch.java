@@ -4,6 +4,7 @@ import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitParticles;
+import com.doggys_tilt.rotp_t.init.InitSounds;
 import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
 import com.github.standobyte.jojo.action.non_stand.VampirismClawLacerate;
@@ -50,7 +51,7 @@ public class TuskNailScratch extends StandAction {
         user.swinging = false;
         user.swing(Hand.MAIN_HAND);
         if (!world.isClientSide() ) {
-            punchPerform(world, user, power, target, null, 1, 1);
+            punchPerform(world, user, power, target, InitSounds.SCRATCH.get(), 1, 1);
         }
         else {
             if (target.getEntity() != null){
