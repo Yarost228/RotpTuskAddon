@@ -29,7 +29,7 @@ displayName="Tusk RotP Stand Addon" #mandatory
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="icon.png" #optional
 # A text field displayed in the mod UI
-credits="StandoByte, Tilto, DoGGyS" #optional
+credits="StandoByte, Tilto, TheDoGGyS, White Mind" #optional
 # A text field displayed in the mod UI
 authors="Tilto, DoGGyS" #optional
 # The description text for the mod (multi line!) (#mandatory)
