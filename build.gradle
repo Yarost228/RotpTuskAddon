@@ -148,6 +148,14 @@ repositories {
         url 'https://raw.githubusercontent.com/StandoByte/RotP-maven/main'
     }
 }
+repositories {
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+}
 
 dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
@@ -174,6 +182,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 	implementation fg.deobf("standobyte.jojo:JJBA-RipplesOfThePast:${main_mod_version}")
+    implementation fg.deobf("curse.maven:geckolib-388172:4182600")
 	compileOnly 'team.unnamed:mocha:3.0.0'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 

@@ -19,10 +19,5 @@ public class TuskRenderer extends StandEntityRenderer<TuskEntity, StandEntityMod
                 StandModelRegistry.registerModel(new ResourceLocation(RotpTuskAddon.MOD_ID, "tusk"), TuskModel::new),
                 new ResourceLocation(RotpTuskAddon.MOD_ID, "textures/entity/stand/tusk.png"), 0);
     }
-    private static final float OVERLAY_TICKS = 10.0F;
-    @Override
-    protected float getWhiteOverlayProgress(StandEntity entity, float partialTick) {
-        return entity.isArmsOnlyMode() || entity.overlayTickCount > OVERLAY_TICKS ? 0 :
-                (OVERLAY_TICKS - MathHelper.clamp(entity.overlayTickCount + partialTick, 0.0F, OVERLAY_TICKS)) / OVERLAY_TICKS;
-    }
+
 }
