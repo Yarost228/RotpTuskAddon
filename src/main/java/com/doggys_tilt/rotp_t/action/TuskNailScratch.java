@@ -46,6 +46,11 @@ public class TuskNailScratch extends StandAction {
         }
         return ActionConditionResult.POSITIVE;
     }
+
+    @Override
+    public TargetRequirement getTargetRequirement() {
+        return TargetRequirement.ENTITY;
+    }
     @Override
     protected void perform(World world, LivingEntity user, IStandPower power, ActionTarget target) {
         user.swinging = false;
