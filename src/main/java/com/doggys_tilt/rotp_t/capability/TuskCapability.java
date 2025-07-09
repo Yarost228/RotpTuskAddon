@@ -48,10 +48,8 @@ public class TuskCapability {
         if (tuskCap != null && !entity.level.isClientSide()) {
             if (nailCount < 10) {
                 nailRegenTimer --;
-                RotpTuskAddon.LOGGER.info("nailTimer {}", nailRegenTimer);
             }
             if (nailRegenTimer <= 0) {
-                RotpTuskAddon.LOGGER.info(nailCount);
                 setNailCount(Math.min(getNailCount() + 1, 10));
                 nailRegenTimer = (act + 1) * 100;
             }
