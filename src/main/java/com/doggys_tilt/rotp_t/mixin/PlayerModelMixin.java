@@ -4,6 +4,7 @@ import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitStands;
 import com.github.standobyte.jojo.client.ui.actionshud.ActionsOverlayGui;
+import com.github.standobyte.jojo.entity.SoulEntity;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.general.MathUtil;
 import net.minecraft.client.renderer.entity.model.BipedModel;
@@ -29,9 +30,9 @@ public class PlayerModelMixin extends BipedModel<PlayerEntity> {
 
     @Inject(method = "setupAnim(Lnet/minecraft/entity/LivingEntity;FFFFF)V", at = @At(value = "TAIL"))
     public void rotateArmsForNailShot(LivingEntity entity, float walkAnimPos, float walkAnimSpeed, float ticks, float yRotationOffset, float xRotation, CallbackInfo ci){
-        if (entity instanceof PlayerEntity){
+        if (entity instanceof PlayerEntity && entity.isAlive()){
             IStandPower power = IStandPower.getPlayerStandPower((PlayerEntity) entity);
-            if (power.getHeldAction() == InitStands.CHARGED_NAIL_SHOT.get() || ActionsOverlayGui.getInstance().isActionSelectedAndEnabled(InitStands.NAIL_SHOT.get())){
+            if (power.getHeldAction() == InitStands.CHARGED_NAIL_SHOT.get() || power.getHeldAction() == InitStands.NAIL_SHOT.get()){
                 TuskCapability tuskCap = entity.getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
                 if (tuskCap != null){
                     ModelRenderer rotatingArm = head;
