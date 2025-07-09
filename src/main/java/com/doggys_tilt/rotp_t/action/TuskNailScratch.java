@@ -58,7 +58,6 @@ public class TuskNailScratch extends StandAction {
                 Entity targetedEntity = target.getEntity();
                 Vector3d vectorToEntity = (user.getEyePosition(1).vectorTo(targetedEntity.getPosition(targetedEntity.getBbHeight()/2))).scale(0.5F);
                 Vector3d particlePos = user.getPosition(1).add(vectorToEntity);
-                RotpTuskAddon.LOGGER.info(particlePos.toString());
                 world.addParticle(InitParticles.NAIL_SWIPE.get(), particlePos.x(), particlePos.y() + (user.getBbHeight()*1.25F), particlePos.z(),
                         0, 0.0D, 0);
             }
