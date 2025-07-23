@@ -29,7 +29,7 @@ public class PlayerModelMixin extends BipedModel<PlayerEntity> {
 
     @Inject(method = "setupAnim(Lnet/minecraft/entity/LivingEntity;FFFFF)V", at = @At(value = "TAIL"))
     public void rotateArmsForNailShot(LivingEntity entity, float walkAnimPos, float walkAnimSpeed, float ticks, float yRotationOffset, float xRotation, CallbackInfo ci){
-        if (entity instanceof PlayerEntity){
+        if (entity instanceof PlayerEntity && Minecraft.getInstance().player != null && Minecraft.getInstance().player.is(entity)){
             IStandPower power = IStandPower.getPlayerStandPower((PlayerEntity) entity);
             if (power.getHeldAction() == InitStands.CHARGED_NAIL_SHOT.get() || ActionsOverlayGui.getInstance().isActionSelectedAndEnabled(InitStands.NAIL_SHOT.get())){
                 TuskCapability tuskCap = entity.getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
