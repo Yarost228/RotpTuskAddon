@@ -7,10 +7,12 @@ import com.github.standobyte.jojo.capability.world.TimeStopHandler;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = TimeStopHandler.class, remap = false)
 public class TimeStopHandlerMixin {
@@ -26,14 +28,14 @@ public class TimeStopHandlerMixin {
                 });
             }
         }
-//        else if (entity instanceof LivingEntity
-//            && IStandPower.getStandPowerOptional((LivingEntity) entity).isPresent()
-//            && IStandPower.getStandPowerOptional((LivingEntity) entity).resolve().get().getType() == InitStands.STAND_TUSK.getStandType()) {
-//            entity.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
-//                if (nailCapability.getAct() == 3){
-//                    ci.cancel();
-//                }
-//            });
-//        }
+    }
+
+    @Inject(method = "canPlayerSeeInStoppedTime(Lnet/minecraft/entity/player/PlayerEntity;)Z", at = @At("RETURN"), cancellable = true)
+    private static void act4UserCanSee(PlayerEntity player, CallbackInfoReturnable<Boolean> cir){
+        player.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+            if (nailCapability.getAct() == 3){
+                cir.setReturnValue(true);
+            }
+        });
     }
 }
