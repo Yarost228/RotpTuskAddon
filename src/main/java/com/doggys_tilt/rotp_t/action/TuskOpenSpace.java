@@ -23,10 +23,15 @@ public class TuskOpenSpace extends StandEntityAction {
         super(builder);
     }
     @Override
+    public TargetRequirement getTargetRequirement() {
+        return TargetRequirement.BLOCK;
+    }
+    @Override
     public ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
         Optional<TuskCapability> cap = user.getCapability(TuskCapabilityProvider.CAPABILITY).resolve();
-        if (cap.isPresent()){
-            if (cap.get().getAct() >= 3) {
+        StandEntity standEntity = (StandEntity) power.getStandManifestation();
+        if (cap.isPresent() && standEntity != null){
+            if (cap.get().getAct() >= 3 && standEntity.canBreakBlock(target.getBlockPos(), user.level.getBlockState(target.getBlockPos()))) {
                 return ActionConditionResult.POSITIVE;
             }
         }
@@ -40,10 +45,7 @@ public class TuskOpenSpace extends StandEntityAction {
             if (result.getType() == ActionTarget.TargetType.BLOCK){
                 for (int i = 0; i < 12; i++) {
                     BlockPos pos = result.getBlockPos().relative(result.getFace().getOpposite(), i);
-                    EntityBlockSwapper swapper = new EntityBlockSwapper(InitEntities.BLOCK_SWAPPER.get(),
-                            world, pos, Blocks.AIR.defaultBlockState(), 200, false, false);
-                    swapper.moveTo(Vector3d.atCenterOf(pos));
-                    world.addFreshEntity(swapper);
+                    EntityBlockSwapper.swapBlock(world, pos, Blocks.AIR.defaultBlockState(), 200, false, false);
                     if (!world.getBlockState(pos.relative(result.getFace().getOpposite())).getMaterial().isSolid() || world.getBlockState(pos.relative(result.getFace().getOpposite())).getBlock() == Blocks.BEDROCK){
                         break;
                     }
