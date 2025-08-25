@@ -78,7 +78,7 @@ public class WormholeTeleporterEntity extends AbstractWormholeEntity {
             if (doubleShift){
                 ticksUntilTeleport = 2;
             }
-            if ((ticksUntilTeleport <= 0) && !entities.isEmpty() && entity != null && connectedTeleporter != null){
+            if ((ticksUntilTeleport <= 0) && !entities.isEmpty() && entity != null && connectedTeleporter != null && !(entity instanceof AbstractWormholeEntity)){
                 entity.teleportToWithTicket(
                                 connectedTeleporter.position().x,
                                 connectedTeleporter.position().y,
@@ -108,7 +108,15 @@ public class WormholeTeleporterEntity extends AbstractWormholeEntity {
         super.readAdditionalSaveData(nbt);
     }
 
-
+    @Override
+    public void remove(){
+        if (getOwner() != null){
+            getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+                nailCapability.setHasWormholePortal(false);
+            });
+        }
+        super.remove();
+    }
 
 
     @Override
