@@ -78,8 +78,7 @@ public abstract class StandTypeMixin {
                         break;
                 }
             }
-            JojoModUtil.sayVoiceLine(user, shout);
         }
-
+        JojoModUtil.sayVoiceLine(user, shout);
     }
 }
