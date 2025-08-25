@@ -3,17 +3,24 @@ package com.doggys_tilt.rotp_t.util;
 import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
+import com.doggys_tilt.rotp_t.entity.TuskEntity;
 import com.doggys_tilt.rotp_t.init.InitEffects;
 import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.github.standobyte.jojo.power.impl.nonstand.INonStandPower;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.horse.HorseEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -42,15 +49,22 @@ public class GameplayEventHandler {
     }
 
 
+    @SubscribeEvent
+    public static void onEffectAdded(PotionEvent.PotionAddedEvent event){
+        LivingEntity entity = event.getEntityLiving();
+        entity.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(tuskCapability -> {
+            if (event.getPotionEffect().getEffect() == InitEffects.INFINITE_ROTATION.get()){
+                tuskCapability.setInfiniteRotationPos(entity.position());
+            }
+        });
+    }
+
 
     @SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingUpdateEvent event){
         LivingEntity entity = event.getEntityLiving();
         entity.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(tuskCapability -> {
             tuskCapability.tick();
-            if (!entity.hasEffect(InitEffects.INFINITE_ROTATION.get())){
-                tuskCapability.setInfiniteRotationPos(entity.position());
-            }
             if (IStandPower.getStandPowerOptional(entity).isPresent()){
                 IStandPower power = IStandPower.getStandPowerOptional(entity).resolve().get();
                 if (entity.getVehicle() instanceof HorseEntity
