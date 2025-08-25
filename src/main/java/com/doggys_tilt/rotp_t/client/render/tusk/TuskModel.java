@@ -102,37 +102,33 @@ public class TuskModel extends HumanoidStandModel<TuskEntity> {
         Tusk_act_4_Head.yRot = Math.max(Math.min(head.yRot, 22.5F*f), -22.5F*f);
         Tusk_act_4_Head.zRot = head.zRot;
         if (user != null && user.isAlive()){
-            user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCap -> {
-//                if (tusk.summonLockTicks > 0){
-                    switch (nailCap.getAct()){
-                        case 0:
-                            tusk_act_1.visible = true;
-                            tusk_act_2.visible = false;
-                            tusk_act_3.visible = false;
-                            tusk_act_4.visible = false;
-                            break;
-                        case 1:
-                            tusk_act_1.visible = false;
-                            tusk_act_2.visible = true;
-                            tusk_act_3.visible = false;
-                            tusk_act_4.visible = false;
-                            break;
-                        case 2:
-                            tusk_act_1.visible = false;
-                            tusk_act_2.visible = false;
-                            tusk_act_3.visible = true;
-                            tusk_act_4.visible = false;
-                            break;
-                        case 3:
-                            tusk_act_1.visible = false;
-                            tusk_act_2.visible = false;
-                            tusk_act_3.visible = false;
-                            tusk_act_4.visible = true;
-                        default:
-                            break;
-                    }
-//                }
-            });
+            switch (tusk.getAct()){
+                case 0:
+                    tusk_act_1.visible = true;
+                    tusk_act_2.visible = false;
+                    tusk_act_3.visible = false;
+                    tusk_act_4.visible = false;
+                    break;
+                case 1:
+                    tusk_act_1.visible = false;
+                    tusk_act_2.visible = true;
+                    tusk_act_3.visible = false;
+                    tusk_act_4.visible = false;
+                    break;
+                case 2:
+                    tusk_act_1.visible = false;
+                    tusk_act_2.visible = false;
+                    tusk_act_3.visible = true;
+                    tusk_act_4.visible = false;
+                    break;
+                case 3:
+                    tusk_act_1.visible = false;
+                    tusk_act_2.visible = false;
+                    tusk_act_3.visible = false;
+                    tusk_act_4.visible = true;
+                default:
+                    break;
+            }
         }
     }
 
