@@ -4,13 +4,13 @@
   "gui.rotp_t.third": "ACT 3",
   "gui.rotp_t.fourth": "ACT 4",
   "action.rotp_t.random": "Выбрать Акт",
-  "action.rotp_t.tusk_nail_shot": "Выстрел Ногтем",
+  "action.rotp_t.tusk_nail_shot": "Выстрел Ногтем (%s/%s)",
   "action.rotp_t.tusk_nail_scratch": "Царапание Ногтем",
   "action.rotp_t.wormhole": "Создать Червоточину",
   "action.rotp_t.move_wormhole": "Переместить Червоточину",
   "action.rotp_t.remove_wormhole": "Убрать Червоточину",
   "action.rotp_t.wormhole_with_arm": "Просунуть руку в Червоточину",
-  "action.rotp_t.tusk_charged_nail_shot": "Заряженный Выстрел Ногтем",
+  "action.rotp_t.tusk_charged_nail_shot": "Заряженный Выстрел Ногтем (%s/%s)",
   "action.rotp_t.tusk_select_act": "Выбрать Акт",
   "action.rotp_t.tusk_punch": "Удар",
   "action.rotp_t.tusk_barrage": "Шквал Ударов",
@@ -22,6 +22,7 @@
   "action.rotp_t.remove_wormhole_with_arm": "Убрать руку из Червоточины",
   "action.rotp_t.tusk_open_space": "Раздвинуть Пространство",
   "stand.rotp_t.tusk": "Tusk",
+  "entity.rotp_t.tusk": "Tusk",
   "item.rotp_t.tea_bottle": "Бутылочка с Чаем",
   "effect.rotp_t.infinite_rotation": "Бесконечное Вращение"
 }

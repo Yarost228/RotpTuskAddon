@@ -4,13 +4,13 @@
   "gui.rotp_t.third": "牙 3",
   "gui.rotp_t.fourth": "牙 4",
   "action.rotp_t.random": "选择形态",
-  "action.rotp_t.tusk_nail_shot": "爪弹射击",
+  "action.rotp_t.tusk_nail_shot": "爪弹射击 (%s/%s)",
   "action.rotp_t.tusk_nail_scratch": "指甲锯",
   "action.rotp_t.wormhole": "制造虫洞",
   "action.rotp_t.move_wormhole": "移动虫洞",
   "action.rotp_t.remove_wormhole": "移除虫洞",
   "action.rotp_t.wormhole_with_arm": "把手臂伸进虫洞",
-  "action.rotp_t.tusk_charged_nail_shot": "蓄力爪弹射击",
+  "action.rotp_t.tusk_charged_nail_shot": "蓄力爪弹射击 (%s/%s)",
   "action.rotp_t.tusk_select_act": "选择形态",
   "action.rotp_t.tusk_punch": "轻击",
   "action.rotp_t.tusk_barrage": "超高速连打(欧拉)",
@@ -22,6 +22,7 @@
   "action.rotp_t.remove_wormhole_with_arm": "收回手臂和虫洞",
   "action.rotp_t.tusk_open_space": "撕开空间",
   "stand.rotp_t.tusk": "牙",
+  "entity.rotp_t.tusk": "牙",
   "item.rotp_t.tea_bottle": "瓶装药茶",
   "effect.rotp_t.infinite_rotation": "无尽的回旋"
 }

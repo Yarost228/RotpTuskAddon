@@ -4,13 +4,13 @@
   "gui.rotp_t.third": "ACT 3",
   "gui.rotp_t.fourth": "ACT 4",
   "action.rotp_t.random": "Select Act",
-  "action.rotp_t.tusk_nail_shot": "Nail Shoot",
+  "action.rotp_t.tusk_nail_shot": "Nail Shoot (%s/%s)",
   "action.rotp_t.tusk_nail_scratch": "Nail Scratch",
   "action.rotp_t.wormhole": "Create the Wormhole",
   "action.rotp_t.move_wormhole": "Move the Wormhole",
   "action.rotp_t.remove_wormhole": "Remove the Wormhole",
   "action.rotp_t.wormhole_with_arm": "Push Arm through the Wormhole",
-  "action.rotp_t.tusk_charged_nail_shot": "Charged Nail Shoot",
+  "action.rotp_t.tusk_charged_nail_shot": "Charged Nail Shoot (%s/%s)",
   "action.rotp_t.tusk_select_act": "Select Act",
   "action.rotp_t.tusk_punch": "Punch",
   "action.rotp_t.tusk_barrage": "Punch Barrage",
@@ -22,6 +22,7 @@
   "action.rotp_t.remove_wormhole_with_arm": "Put your Arm out of the Wormhole",
   "action.rotp_t.tusk_open_space": "Uncurtain Space",
   "stand.rotp_t.tusk": "Tusk",
+  "entity.rotp_t.tusk": "Tusk",
   "item.rotp_t.tea_bottle": "Bottle of Tea",
   "effect.rotp_t.infinite_rotation": "Infinite Rotation"
 }
