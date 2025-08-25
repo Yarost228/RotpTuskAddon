@@ -3,15 +3,20 @@ package com.doggys_tilt.rotp_t.action;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.NailEntity;
+import com.doggys_tilt.rotp_t.entity.TuskEntity;
 import com.doggys_tilt.rotp_t.init.InitSounds;
 import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
 import com.github.standobyte.jojo.action.stand.StandAction;
+import com.github.standobyte.jojo.entity.stand.stands.HierophantGreenEntity;
+import com.github.standobyte.jojo.power.impl.stand.IStandManifestation;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mc.MCUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Optional;
@@ -30,6 +35,13 @@ public class TuskChargedNailShot extends StandAction {
             }
         }
         return ActionConditionResult.NEGATIVE;
+    }
+
+    @Override
+    public IFormattableTextComponent getTranslatedName(IStandPower power, String key) {
+        TuskCapability tuskCap = power.getUser().getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
+        int nails = tuskCap != null ? tuskCap.getNailCount() : 0;
+        return new TranslationTextComponent(key, nails, 10);
     }
 
     @Override
