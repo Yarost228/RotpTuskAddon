@@ -4,9 +4,7 @@ import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.entity.WormholeEntity;
 import com.doggys_tilt.rotp_t.network.AddonPackets;
 import com.doggys_tilt.rotp_t.network.NailDataPacket;
-import com.github.standobyte.jojo.client.InputHandler;
 import com.github.standobyte.jojo.client.ui.actionshud.ActionsOverlayGui;
-import com.github.standobyte.jojo.power.IPower;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,9 +19,9 @@ public class TuskCapability {
     private int act = 0;
     private int prevAct = 0;
     private int nailCount = 10;
-    private int nailRegenTimer = 400;
+    private int nailRegenTimer = 200;
     private boolean hasWormholeWithArm = false;
-    private boolean hasWormhole = false;
+    private boolean hasWormholePortal = false;
     private boolean hasInfiniteRotationCharge = false;
     private boolean shouldChangeAct = false;
     private boolean chargedShot = false;
@@ -44,44 +42,43 @@ public class TuskCapability {
                 ActionsOverlayGui.getInstance().onStandSummon();
             }
         }
-        TuskCapability tuskCap = entity.getCapability(TuskCapabilityProvider.CAPABILITY).orElse(null);
-        if (tuskCap != null && !entity.level.isClientSide()) {
-            if (nailCount < 10) {
+        if (!entity.level.isClientSide()){
+            if (nailCount <= 10) {
                 nailRegenTimer --;
             }
             if (nailRegenTimer <= 0) {
                 setNailCount(Math.min(getNailCount() + 1, 10));
-                nailRegenTimer = (act + 1) * 100;
+                nailRegenTimer = (act + 1) * 50;
             }
         }
     }
 
     public void useNail(){
-        if (entity instanceof PlayerEntity){
-            PlayerEntity player = (PlayerEntity) entity;
-            if (player.abilities.instabuild) return;
-        }
-        if (this.getNailCount() > 0) {
-            this.setNailCount(this.getNailCount()-1);
+        if (!entity.level.isClientSide()){
+            if (entity instanceof PlayerEntity){
+                PlayerEntity player = (PlayerEntity) entity;
+                if (player.abilities.instabuild) return;
+            }
+            if (this.getNailCount() >= 0) {
+                nailRegenTimer = (act + 1) * 50;
+                setNailCount(Math.max(this.getNailCount()-1, 0));
+            }
         }
     }
     public int getNailCount(){
         return this.nailCount;
     }
+
     public void setNailCount(int nailCount){
         this.nailCount = nailCount;
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(this, entity.getId()), entity);
         }
     }
 
-    public void addToNailWormholes(WormholeEntity entity){
-        this.wormhole = entity;
-    }
-    
 
     public void syncWithClient(ServerPlayerEntity entityAsPlayer) {
-        AddonPackets.sendToClient(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entityAsPlayer);
+        AddonPackets.sendToClient(new NailDataPacket(this, entity.getId()), entityAsPlayer);
     }
     public boolean hasWormholeWithArm() {
         return hasWormholeWithArm;
@@ -96,7 +93,7 @@ public class TuskCapability {
     public void hasWormholeWithArm(boolean hasWormholeWithArm) {
         this.hasWormholeWithArm = hasWormholeWithArm;
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(this, entity.getId()), entity);
         }
     }
     public boolean chargedShot() {
@@ -108,7 +105,7 @@ public class TuskCapability {
             this.useNail();
         }
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(this, entity.getId()), entity);
         }
     }
 
@@ -122,7 +119,7 @@ public class TuskCapability {
             this.setPrevAct(this.act);
             this.act = act;
             if (!entity.level.isClientSide()) {
-                AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
+                AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(this, entity.getId()), entity);
             }
         }
         else {
@@ -135,7 +132,7 @@ public class TuskCapability {
         nbt.putInt("NextAct", nextAct);
         nbt.putInt("Act", getAct());
         nbt.putInt("PrevAct", getPrevAct());
-        nbt.putInt("NailCount", nailCount);
+        nbt.putInt("NailCount", getNailCount());
         nbt.putInt("NailRegenTimer", nailRegenTimer);
         nbt.putBoolean("hasInfiniteRotation", hasInfiniteRotationCharge);
         nbt.putInt("NailWormholeId", wormhole != null ? wormhole.getId() : -1);
@@ -165,16 +162,19 @@ public class TuskCapability {
     }
     public void setWormhole(WormholeEntity wormhole){
         this.wormhole = wormhole;
+        if (!entity.level.isClientSide()) {
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(this, entity.getId()), entity);
+        }
     }
 
     public boolean hasWormhole() {
-        return hasWormhole;
+        return hasWormholePortal;
     }
 
-    public void setHasWormhole(boolean hasWormhole) {
-        this.hasWormhole = hasWormhole;
+    public void setHasWormholePortal(boolean hasWormholePortal) {
+        this.hasWormholePortal = hasWormholePortal;
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(this, entity.getId()), entity);
         }
     }
     public Vector3d getInfiniteRotationPos() {
@@ -189,7 +189,7 @@ public class TuskCapability {
     public void setHasInfiniteRotationCharge(boolean hasInfiniteRotationCharge) {
         this.hasInfiniteRotationCharge = hasInfiniteRotationCharge;
         if (!entity.level.isClientSide()) {
-            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(entity.getId(), nailCount, hasWormholeWithArm, hasWormhole, chargedShot, act, hasInfiniteRotationCharge), entity);
+            AddonPackets.sendToClientsTrackingAndSelf(new NailDataPacket(this, entity.getId()), entity);
         }
     }
     public boolean shouldChangeAct() {
