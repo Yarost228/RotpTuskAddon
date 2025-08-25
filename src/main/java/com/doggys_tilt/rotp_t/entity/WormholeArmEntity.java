@@ -49,7 +49,7 @@ public class WormholeArmEntity extends AbstractWormholeEntity {
                         LivingEntity user = getOwner();
                         int ticksHeld = stand.getHeldActionTicks();
 
-                        if (heldAction == InitStands.NAIL_SHOT.get() && ticksHeld % 5 == 0){
+                        if (heldAction == InitStands.NAIL_SHOT.get() && ticksHeld % 5 == 0 && ticksHeld > 0){
                             NailEntity nail = new NailEntity(user, world, 0);
                             float velocity = 2.0F + (float)this.getDeltaMovement().length();
                             nail.shootFromRotation(this, velocity, 1.0F);
@@ -83,5 +83,12 @@ public class WormholeArmEntity extends AbstractWormholeEntity {
                 );
             }
         }
+    }
+    @Override
+    public void remove(){
+        if (getOwner() != null){
+            getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> nailCapability.hasWormholeWithArm(false));
+        }
+        super.remove();
     }
 }

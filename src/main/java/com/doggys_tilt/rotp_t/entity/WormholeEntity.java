@@ -1,5 +1,6 @@
 package com.doggys_tilt.rotp_t.entity;
 
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitEntities;
 import net.minecraft.entity.Entity;
@@ -26,7 +27,10 @@ public class WormholeEntity extends AbstractWormholeEntity {
         super.tick();
         if (getOwner() != null){
             getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
-                nailCapability.addToNailWormholes(this);
+                nailCapability.setWormhole(this);
+                if (!this.isAlive()){
+                    nailCapability.setWormhole(null);
+                }
             });
             Entity closestEntity = target;
             if (closestEntity != null){
@@ -37,12 +41,14 @@ public class WormholeEntity extends AbstractWormholeEntity {
                 }
             }
         }
-        else {
-            remove();
-        }
     }
     @Override
     public void remove(){
-        this.remove(false);
+        if (getOwner() != null){
+            getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
+                nailCapability.setWormhole(null);
+            });
+        }
+        super.remove();
     }
 }

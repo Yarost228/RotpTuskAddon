@@ -8,10 +8,12 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -59,8 +61,7 @@ public class AbstractWormholeEntity extends Entity {
     public void remove(){
         if (getOwner() != null){
             getOwner().getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
-                nailCapability.hasWormholeWithArm(false);
-                nailCapability.setHasWormhole(false);
+                nailCapability.setWormhole(null);
             });
         }
         super.remove();
@@ -80,7 +81,7 @@ public class AbstractWormholeEntity extends Entity {
         entityData.define(LIFETIME, 0);
     }
     @Override
-    protected void readAdditionalSaveData (CompoundNBT nbt){
+    protected void readAdditionalSaveData(CompoundNBT nbt){
         UUID ownerId = nbt.hasUUID("Owner") ? nbt.getUUID("Owner") : null;
         if (ownerId != null) {
             setOwnerUUID(ownerId);
@@ -88,16 +89,18 @@ public class AbstractWormholeEntity extends Entity {
         setLifetime(nbt.getInt("Lifetime"));
     }
     @Override
-    protected void addAdditionalSaveData (CompoundNBT nbt){
+    protected void addAdditionalSaveData(CompoundNBT nbt){
         if (getOwnerUUID() != null) {
             nbt.putUUID("Owner", getOwnerUUID());
         }
         nbt.putInt("Lifetime", getLifetime());
     }
+
     @Override
     public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
+
     @Nullable
     public LivingEntity getOwner() {
         try {
