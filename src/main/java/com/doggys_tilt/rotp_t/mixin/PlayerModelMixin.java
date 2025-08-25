@@ -3,8 +3,6 @@ package com.doggys_tilt.rotp_t.mixin;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitStands;
-import com.github.standobyte.jojo.client.ui.actionshud.ActionsOverlayGui;
-import com.github.standobyte.jojo.entity.SoulEntity;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.general.MathUtil;
 import net.minecraft.client.renderer.entity.model.BipedModel;
