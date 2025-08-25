@@ -1,5 +1,6 @@
 package com.doggys_tilt.rotp_t.action;
 
+import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.entity.WormholeEntity;
@@ -12,6 +13,7 @@ import com.github.standobyte.jojo.action.ActionTarget;
 import com.github.standobyte.jojo.action.stand.StandAction;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 
+import com.github.standobyte.jojo.util.general.ObjectWrapper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -59,7 +61,7 @@ public class TuskCreateWormhole extends StandAction {
         enter.moveTo(Vector3d.atCenterOf(user.blockPosition().above()));
         world.addFreshEntity(enter);
         user.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
-            nailCapability.setHasWormhole(true);
+            nailCapability.setHasWormholePortal(true);
             WormholeEntity wormholeToReplace = nailCapability.getWormhole();
             BlockPos endBlockPos = new BlockPos(wormholeToReplace.position());
             exit.moveTo(Vector3d.atBottomCenterOf(endBlockPos));
