@@ -1,13 +1,11 @@
 package com.doggys_tilt.rotp_t.action;
 
-import com.doggys_tilt.rotp_t.RotpTuskAddon;
 import com.doggys_tilt.rotp_t.capability.TuskCapability;
 import com.doggys_tilt.rotp_t.capability.TuskCapabilityProvider;
 import com.doggys_tilt.rotp_t.init.InitParticles;
 import com.doggys_tilt.rotp_t.init.InitSounds;
 import com.github.standobyte.jojo.action.ActionConditionResult;
 import com.github.standobyte.jojo.action.ActionTarget;
-import com.github.standobyte.jojo.action.non_stand.VampirismClawLacerate;
 import com.github.standobyte.jojo.action.stand.StandAction;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mc.MCUtil;
@@ -15,7 +13,7 @@ import com.github.standobyte.jojo.util.mc.damage.DamageUtil;
 import com.github.standobyte.jojo.util.mc.damage.KnockbackCollisionImpact;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
@@ -74,8 +72,7 @@ public class TuskNailScratch extends StandAction {
             Entity entity = target.getEntity();
             if (entity instanceof LivingEntity) {
                 LivingEntity targetEntity = (LivingEntity) entity;
-                PlayerEntity pEntity = (PlayerEntity) user;
-                if (entity.hurt(EntityDamageSource.playerAttack(pEntity), DamageUtil.addArmorPiercing(VampirismClawLacerate.getDamage(world, user) - 3f, 4F, targetEntity))) {
+                if (entity.hurt(EntityDamageSource.mobAttack(user), DamageUtil.addArmorPiercing((float) (user.getAttribute(Attributes.ATTACK_DAMAGE).getValue() + 1F), 2F, targetEntity))) {
                     world.playSound(null, targetEntity.getX(), targetEntity.getEyeY(), targetEntity.getZ(), sound, targetEntity.getSoundSource(), volume, pitch);
                     targetEntity.knockback(0.75F, user.getX() - targetEntity.getX(), user.getZ() - targetEntity.getZ());
                     KnockbackCollisionImpact.getHandler(targetEntity).ifPresent(cap -> cap
