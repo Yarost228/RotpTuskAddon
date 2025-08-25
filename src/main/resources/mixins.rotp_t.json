@@ -8,7 +8,8 @@
     "StandEntityMixin",
     "StandPowerMixin",
     "StandTypeMixin",
-    "TimeStopHandlerMixin"
+    "TimeStopHandlerMixin",
+    "client.ClDoubleShiftPressPacketMixin"
   ],
   "client": [
     "PlayerModelMixin"
