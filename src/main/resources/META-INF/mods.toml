@@ -31,7 +31,7 @@ logoFile="icon.png" #optional
 # A text field displayed in the mod UI
 credits="StandoByte, Tilto, TheDoGGyS, White Mind" #optional
 # A text field displayed in the mod UI
-authors="Tilto, DoGGyS" #optional
+authors="HK47bot, TheDoGGyS" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 An addon that adds Tusk with all its acts to RotP!
