@@ -13,6 +13,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
@@ -25,14 +27,20 @@ import java.util.Collections;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = RotpTuskAddon.MOD_ID)
-public class InfiniteRotationEffect extends UncurableEffect {
+public class InfiniteRotationEffect extends Effect {
     public InfiniteRotationEffect(EffectType type, int liquidColor) {
         super(type, liquidColor);
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int level) {
-        return true;
+    public boolean isDurationEffectTick(int duration, int amplifier) {
+        int k = 10 >> amplifier;
+        if (k > 0) {
+            return duration % k == 0;
+        }
+        else {
+            return true;
+        }
     }
 
     @Override
@@ -49,6 +57,10 @@ public class InfiniteRotationEffect extends UncurableEffect {
             }
             else {
                 livingEntity.setInvulnerable(false);
+            }
+            if (livingEntity.getVehicle() != null && livingEntity.getVehicle() instanceof LivingEntity){
+                LivingEntity vehicle = (LivingEntity) livingEntity.getVehicle();
+                vehicle.addEffect(new EffectInstance(this));
             }
 
 //            if (IStandPower.getStandPowerOptional(livingEntity).isPresent()) {
