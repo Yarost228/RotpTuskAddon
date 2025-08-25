@@ -18,7 +18,7 @@ public class TeaItem extends Item {
         super.finishUsingItem(pStack, pLevel, pEntityLiving);
         PlayerEntity playerentity = pEntityLiving instanceof PlayerEntity ? (PlayerEntity)pEntityLiving : null;
         playerentity.getCapability(TuskCapabilityProvider.CAPABILITY).ifPresent(nailCapability -> {
-            if (nailCapability.getNailCount() <= 10){
+            if (nailCapability.getNailCount() < 10){
                 nailCapability.setNailCount(nailCapability.getNailCount() + 1);
             }
         });
