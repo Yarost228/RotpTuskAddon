@@ -120,7 +120,9 @@ public class InitStands {
             () -> new TuskSelectAct(new StandAction.Builder().resolveLevelToUnlock(1)));
 
     public static final RegistryObject<StandAction> TUSK_OPEN_SPACE = ACTIONS.register("tusk_open_space",
-            () -> new TuskOpenSpace(new StandEntityAction.Builder().resolveLevelToUnlock(3).staminaCost(225)));
+            () -> new TuskOpenSpace(new StandEntityAction.Builder()
+                    .resolveLevelToUnlock(3)
+                    .staminaCost(225)));
 
 
 
@@ -171,7 +173,7 @@ public class InitStands {
                     .build(),
                     
                     InitEntities.ENTITIES,
-                    () -> new StandEntityType<TuskEntity>(TuskEntity::new, 0.7F, 2.1F)
+                    () -> new StandEntityType<TuskEntity>(TuskEntity::new, 0.7F, 1.95F)
                     .summonSound(InitSounds.TUSK_SUMMON_SOUND)
                     .unsummonSound(InitSounds.TUSK_UNSUMMON_SOUND))
             .withDefaultStandAttributes();
